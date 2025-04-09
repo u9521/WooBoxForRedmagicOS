@@ -55,7 +55,7 @@
     <string name="media_volume_steps_switch">媒体音量阶数</string>
     <string name="menu">菜单</string>
     <string name="none">无</string>
-    <string name="not_support">您似乎正在使用过时的 LSPosed 版本或 LSPosed 未激活，请更新 LSPosed 或者激活后再试。</string>
+    <string name="not_support">您似乎正在使用过时的 LSPosed 版本(API版本低于93)或 LSPosed 未激活，请更新 LSPosed 或者激活后再试。</string>
     <string name="notification">通知</string>
     <string name="opensource">开源仓库</string>
     <string name="other">其他</string>
@@ -124,10 +124,10 @@
     <string name="fast_reboot">快速重启系统</string>
     <string name="are_you_sure_fast_reboot">确定快速重启系统？</string>
     <string name="package_installer">软件包安装器</string>
-    <string name="use_aosp_installer">使用 AOSP 安装器</string>
+    <string name="installer_hide_store_hint">隐藏从商店安装提示</string>
     <string name="skip_apk_scan">跳过Apk扫描</string>
-    <string name="allow_replace_install">允许替换安装</string>
-    <string name="allow_replace_install_summer">搭配\"允许降级安装应用\"使用</string>
+    <string name="hide_purify_switch">隐藏净化模式开关</string>
+    <string name="hide_purify_switch_summery">还可以隐藏风险提示</string>
     <string name="ignore">忽略</string>
     <string name="lsposed_inactive_wraning">Lsposed未激活，所有功能不会生效</string>
     <string name="lsposed_inactive_tips">虽然功能不会生效，但你可以四处看看有哪些功能</string>

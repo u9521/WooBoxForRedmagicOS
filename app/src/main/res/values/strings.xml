@@ -87,7 +87,7 @@
 
     <string name="none">None</string>
 
-    <string name="not_support">You seem to be using an outdated version of LSPosed or LSPosed is not active, please update LSPosed or activate it and try again.</string>
+    <string name="not_support">You seem to be using an outdated version of LSPosed(API version less than 93) or LSPosed is not active, please update LSPosed or activate it and try again.</string>
 
     <string name="notification">Notification</string>
 
@@ -176,7 +176,7 @@
     <string name="fast_reboot">Fast Reboot System</string>
     <string name="are_you_sure_fast_reboot">Are you sure to fast reboot?</string>
     <string name="package_installer">Package Installer</string>
-    <string name="use_aosp_installer">Use AOSP installer</string>
+    <string name="installer_hide_store_hint">Hide install from store hint</string>
     <string name="features">Features</string>
     <string name="enable_charging_ripple">Enable Charging Ripple</string>
     <string name="lockscreen">Lock Screen</string>
@@ -184,9 +184,9 @@
     <string name="remove_oppo_default_app">Unrestrict some default applications</string>
     <string name="remove_oppo_default_app_summary">Unlock OPPO\'s restrictions on some default apps</string>
     <string name="skip_apk_scan">Skip Apk Scan</string>
-    <string name="allow_replace_install">Allow Replace Install</string>
-    <string name="allow_replace_install_summer">Use with \"Allow downgrade\"</string>
-    <string name="ignore">忽略</string>
+    <string name="hide_purify_switch">Hide Purify Switch</string>
+    <string name="hide_purify_switch_summery">it also can hide risk hint</string>
+    <string name="ignore">ignore</string>
     <string name="lsposed_inactive_wraning">Lsposed未激活，所有功能不会生效</string>
     <string name="lsposed_inactive_tips">虽然功能不会生效，但你可以四处看看有哪些功能</string>
 </resources>

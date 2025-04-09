@@ -77,7 +77,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     //API
     compileOnly("de.robv.android.xposed:api:82")
-    implementation("com.github.kyuubiran:EzXHelper:0.8.6")
+    implementation("com.github.kyuubiran:EzXHelper:2.2.1")
     //UI
     implementation(project(":blockmiui"))
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")

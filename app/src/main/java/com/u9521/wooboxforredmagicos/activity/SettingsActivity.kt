@@ -43,13 +43,17 @@ class SettingsActivity : MIUIActivity() {
     }
 
     //检测LSPosed是否激活
+    @Suppress("DEPRECATION")
     @SuppressLint("WorldReadableFiles")
     private fun checkLSPosed() {
         try {
-            setSP(getSharedPreferences("config", MODE_WORLD_READABLE))
+            setSP(getSharedPreferences("WooboxConfig", MODE_WORLD_READABLE))
         } catch (exception: SecurityException) {
+            val viewonlySP = getSharedPreferences("viewonly", MODE_PRIVATE)
+//            reset onstart
+            viewonlySP.edit().clear().apply()
             lsposedLoaded = false
-            setSP(getSharedPreferences("viewonly", MODE_PRIVATE))
+            setSP(viewonlySP)
             MIUIDialog(this) {
                 setTitle(R.string.Tips)
                 setMessage(R.string.not_support)
@@ -70,7 +74,7 @@ class SettingsActivity : MIUIActivity() {
             val keyList = arrayOf("PackageInstallCommit", "AlarmClockCommit")
             val packageList = arrayOf("com.android.packageinstaller", "com.android.htmlviewer")
             for ((index, value) in keyList.withIndex()) {
-                var appcommit = getAppCommit(packageList[index]) ?: "null"
+                val appcommit = getAppCommit(packageList[index]) ?: "null"
                 safeSP.putAny(value, appcommit)
             }
         }
@@ -96,29 +100,29 @@ class SettingsActivity : MIUIActivity() {
     ): View {
         val cardview = ComposeView(this).apply {
             setContent {
-                    var ccolor = color
-                    if (ccolor == null) {
-                        ccolor = MaterialTheme.colorScheme.error
-                    }
-                    ElevatedCard(
-                        colors = CardDefaults.elevatedCardColors(
-                            containerColor = ccolor
-                        )
+                var ccolor = color
+                if (ccolor == null) {
+                    ccolor = MaterialTheme.colorScheme.error
+                }
+                ElevatedCard(
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = ccolor
                     )
-                    {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .then(onClick?.let { Modifier.clickable { it() } } ?: Modifier)
-                                .padding(24.dp)
-                        ) {
-                            Text(
-                                text = message, style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
+                )
+                {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .then(onClick?.let { Modifier.clickable { it() } } ?: Modifier)
+                            .padding(24.dp)
+                    ) {
+                        Text(
+                            text = message, style = MaterialTheme.typography.bodyMedium
+                        )
                     }
                 }
             }
+        }
         return cardview
     }
 
@@ -138,7 +142,7 @@ class SettingsActivity : MIUIActivity() {
                         }
                     }.show()
                 })
-        }else{
+        } else {
             return null
         }
     }
@@ -637,14 +641,14 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.allow_replace_install,
-                        tipsId = R.string.allow_replace_install_summer
+                        textId = R.string.hide_purify_switch,
+                        tipsId = R.string.hide_purify_switch_summery
                     ),
-                    SwitchV("allow_replace_install")
+                    SwitchV("hide_purify_switch")
                 )
                 TextSummaryWithSwitch(
-                    TextSummaryV(textId = R.string.use_aosp_installer),
-                    SwitchV("use_aosp_installer")
+                    TextSummaryV(textId = R.string.installer_hide_store_hint),
+                    SwitchV("installer_hide_store_hint")
                 )
             }
             register("about_module", getString(R.string.about_module), true) {

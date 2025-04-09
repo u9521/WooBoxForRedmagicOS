@@ -4,7 +4,7 @@ import com.u9521.wooboxforredmagicos.BuildConfig
 import de.robv.android.xposed.XSharedPreferences
 
 object XSPUtils {
-    private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "config")
+    private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "WooboxConfig")
 
     fun getBoolean(key: String, defValue: Boolean): Boolean {
         if (prefs.hasFileChanged()) {

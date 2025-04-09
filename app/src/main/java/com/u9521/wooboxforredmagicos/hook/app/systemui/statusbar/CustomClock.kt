@@ -7,10 +7,6 @@ import android.provider.Settings
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.utils.findConstructor
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookAfter
-import com.github.kyuubiran.ezxhelper.utils.paramCount
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
@@ -37,79 +33,80 @@ object CustomClock : HookRegister() {
     private var str = ""
 
     override fun init() = hasEnable("custom_clock_switch") {
-        var c: Context? = null
-        findConstructor("com.android.systemui.statusbar.policy.Clock") {
-            paramCount == 3
-        }.hookAfter {
-            c = it.args[0] as Context
-            val textV = it.thisObject as TextView
-            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@hookAfter
-            textV.isSingleLine = false
-            if (isDoubleLine) {
-                str = "\n"
-                var clockDoubleLineSize = 7F
-                if (getClockDoubleSize != 0) {
-                    clockDoubleLineSize = getClockDoubleSize.toFloat()
-                }
-                textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockDoubleLineSize)
-                textV.setLineSpacing(0F, 0.8F)
-            } else {
-                if (getClockSize != 0) {
-                    val clockSize = getClockSize.toFloat()
-                    textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
-                }
-            }
-            if (isCenterAlign) textV.gravity = Gravity.CENTER
-
-            val d: Method = textV.javaClass.superclass.getDeclaredMethod("updateClock")
-            val r = Runnable {
-                d.isAccessible = true
-                d.invoke(textV)
-            }
-
-            class T : TimerTask() {
-                override fun run() {
-                    Handler(textV.context.mainLooper).post(r)
-                }
-            }
-            Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
-
-        }
-
-        findMethod("com.android.systemui.statusbar.policy.Clock") {
-            name == "getSmallTime"
-        }.hookAfter {
-            val textV = it.thisObject as TextView
-            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@hookAfter
-            val t = Settings.System.getString(
-                c!!.contentResolver,
-                Settings.System.TIME_12_24
-            )
-            val is24 = t == "24"
-            nowTime = Calendar.getInstance().time
-            it.result = getDate(c!!) + str + getTime(c!!, is24)
-        }
-
-
-        findMethod("com.oplusos.systemui.statusbar.widget.StatClock") {
-            name == "onConfigurationChanged"
-        }.hookAfter {
-            val textV = it.thisObject as TextView
-            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@hookAfter
-            if (isDoubleLine) {
-                var clockDoubleLineSize = 7F
-                if (getClockDoubleSize != 0) {
-                    clockDoubleLineSize = getClockDoubleSize.toFloat()
-                }
-                textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockDoubleLineSize)
-                textV.setLineSpacing(0F, 0.8F)
-            } else {
-                if (getClockSize != 0) {
-                    val clockSize = getClockSize.toFloat()
-                    textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
-                }
-            }
-        }
+        return@hasEnable
+//        var c: Context? = null
+//        findConstructor("com.android.systemui.statusbar.policy.Clock") {
+//            paramCount == 3
+//        }.hookAfter {
+//            c = it.args[0] as Context
+//            val textV = it.thisObject as TextView
+//            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@hookAfter
+//            textV.isSingleLine = false
+//            if (isDoubleLine) {
+//                str = "\n"
+//                var clockDoubleLineSize = 7F
+//                if (getClockDoubleSize != 0) {
+//                    clockDoubleLineSize = getClockDoubleSize.toFloat()
+//                }
+//                textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockDoubleLineSize)
+//                textV.setLineSpacing(0F, 0.8F)
+//            } else {
+//                if (getClockSize != 0) {
+//                    val clockSize = getClockSize.toFloat()
+//                    textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
+//                }
+//            }
+//            if (isCenterAlign) textV.gravity = Gravity.CENTER
+//
+//            val d: Method = textV.javaClass.superclass.getDeclaredMethod("updateClock")
+//            val r = Runnable {
+//                d.isAccessible = true
+//                d.invoke(textV)
+//            }
+//
+//            class T : TimerTask() {
+//                override fun run() {
+//                    Handler(textV.context.mainLooper).post(r)
+//                }
+//            }
+//            Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
+//
+//        }
+//
+//        findMethod("com.android.systemui.statusbar.policy.Clock") {
+//            name == "getSmallTime"
+//        }.hookAfter {
+//            val textV = it.thisObject as TextView
+//            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@hookAfter
+//            val t = Settings.System.getString(
+//                c!!.contentResolver,
+//                Settings.System.TIME_12_24
+//            )
+//            val is24 = t == "24"
+//            nowTime = Calendar.getInstance().time
+//            it.result = getDate(c!!) + str + getTime(c!!, is24)
+//        }
+//
+//
+//        findMethod("com.oplusos.systemui.statusbar.widget.StatClock") {
+//            name == "onConfigurationChanged"
+//        }.hookAfter {
+//            val textV = it.thisObject as TextView
+//            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@hookAfter
+//            if (isDoubleLine) {
+//                var clockDoubleLineSize = 7F
+//                if (getClockDoubleSize != 0) {
+//                    clockDoubleLineSize = getClockDoubleSize.toFloat()
+//                }
+//                textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockDoubleLineSize)
+//                textV.setLineSpacing(0F, 0.8F)
+//            } else {
+//                if (getClockSize != 0) {
+//                    val clockSize = getClockSize.toFloat()
+//                    textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
+//                }
+//            }
+//        }
     }
 
 

@@ -10,7 +10,7 @@ import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class XposedEntry : EasyXposedInit() {
-    private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "config")
+    private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "WooboxConfig")
 
     override val registeredApp: List<AppRegister> = listOf(
         Android, //Android
