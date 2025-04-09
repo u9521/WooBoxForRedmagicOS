@@ -27,7 +27,7 @@
     public void *(de.robv.android.xposed.IXposedHookZygoteInit$StartupParam);
 }
 
--keep class * extends com.lt2333.wooboxforcoloros.util.xposed.EasyXposedInit
+-keep class * extends com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
     public static void check*(...);

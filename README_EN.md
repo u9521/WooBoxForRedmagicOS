@@ -4,7 +4,7 @@
    <p>
        <b>English  丨 <a href="https://github.com/Simplicity-Team/WooBoxForColorOS/blob/main/README.md">简体中文</a></b>
     </p>
-   <a href="https://github.com/Xposed-Modules-Repo/com.lt2333.wooboxforcoloros/releases"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/Xposed-Modules-Repo/com.lt2333.wooboxforcoloros/total?label=Downloads"></a>
+   <a href="https://github.com/Xposed-Modules-Repo/wooboxforredmagicos/releases"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/Xposed-Modules-Repo/wooboxforredmagicos/total?label=Downloads"></a>
    <a href="https://github.com/Simplicity-Team/WooBoxForColorOS/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Simplicity-Team/WooBoxForColorOS"></a>
    <a href="https://github.com/Simplicity-Team/WooBoxForColorOS/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/Simplicity-Team/WooBoxForColorOS"></a>
    <a href="https://github.com/Simplicity-Team/WooBoxForColorOS/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/Simplicity-Team/WooBoxForColorOS"></a>
@@ -26,7 +26,7 @@ Only ColorOS12 (Android12) is supported. The rest of the versions not be valid.
 
 ### Download
 
-Xposed Repo：[Click here to download the latest release](https://github.com/Xposed-Modules-Repo/com.lt2333.wooboxforcoloros/releases)  
+Xposed Repo：[Click here to download the latest release](https://github.com/Xposed-Modules-Repo/wooboxforredmagicos/releases)  
 
 
 ---

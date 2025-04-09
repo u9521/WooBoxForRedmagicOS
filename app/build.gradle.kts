@@ -1,36 +1,49 @@
+import com.android.aaptcompiler.Macro
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
+    namespace = "com.u9521.wooboxforredmagicos"
     signingConfigs {
-        create("release") {
-        }
+        create("release") {}
     }
-    compileSdk = 32
-    buildToolsVersion = "32.0.0"
+    compileSdk = 34
+//    buildToolsVersion = "32.0.0"
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
     defaultConfig {
-        applicationId = "com.lt2333.wooboxforcoloros"
+        applicationId = "com.u9521.wooboxforredmagicos"
         minSdk = 31
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 5
         versionName = "1.0.4"
     }
 
     buildTypes {
-        all{
-            signingConfig =
-                signingConfigs.getByName("debug")
+        all {
+            signingConfig = signingConfigs.getByName("debug")
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            setProguardFiles(listOf("proguard-rules.pro")
+            setProguardFiles(
+                listOf("proguard-rules.pro")
             )
         }
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -59,14 +72,17 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.runtime:runtime-android:1.7.8")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     //API
     compileOnly("de.robv.android.xposed:api:82")
     implementation("com.github.kyuubiran:EzXHelper:0.8.6")
     //UI
     implementation(project(":blockmiui"))
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     //APP Center
-    val appCenterSdkVersion = "4.4.3"
-    implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
-    implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
+//    val appCenterSdkVersion = "5.0.6"
+//    implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
+//    implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 }

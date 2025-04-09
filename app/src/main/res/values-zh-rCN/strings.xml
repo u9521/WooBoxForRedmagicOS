@@ -106,7 +106,7 @@
     <string name="unlock_recent_task_locks_quantity">解锁最近任务锁数量限制</string>
     <string name="unlock_self_start_quantity">解锁自启动数量限制</string>
     <string name="remove_clock_widget_redone">移除桌面时钟组件红一</string>
-    <string name="xposeddescription">基于 ColorOS12(Android 12) 适配的自定义工具</string>
+    <string name="xposeddescription">基于  RedmagicOS9(Android 14) 适配的自定义工具</string>
     <string name="status_bar_clock_format">状态栏时钟格式</string>
     <string name="custom_clock_switch">自定义时钟-总开关</string>
     <string name="status_bar_time_year">显示年份</string>
@@ -128,4 +128,7 @@
     <string name="skip_apk_scan">跳过Apk扫描</string>
     <string name="allow_replace_install">允许替换安装</string>
     <string name="allow_replace_install_summer">搭配\"允许降级安装应用\"使用</string>
+    <string name="ignore">忽略</string>
+    <string name="lsposed_inactive_wraning">Lsposed未激活，所有功能不会生效</string>
+    <string name="lsposed_inactive_tips">虽然功能不会生效，但你可以四处看看有哪些功能</string>
 </resources>

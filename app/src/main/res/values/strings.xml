@@ -18,7 +18,7 @@
 
     <string name="app_coolapk_url">Come and give us five-star review</string>
     <string name="app_coolapk_url_summary">This can make us more discoverable</string>
-    <string name="app_name" translatable="false">WooBox For ColorOS</string>
+    <string name="app_name" translatable="false">WooBox For RedMagicOS</string>
 
     <string name="are_you_sure_reboot">Are you sure to reboot?</string>
     <string name="are_you_sure_reboot_scope">Are you sure to reboot all scope?</string>
@@ -158,7 +158,7 @@
     <string name="unlock_self_start_quantity">Unlock self start quantity</string>
     <string name="remove_clock_widget_redone">Remove desktop clock component RedOne</string>
 
-    <string name="xposeddescription">Customization tool for ColorOS12(Android 12)</string>
+    <string name="xposeddescription">Customization tool for RedmagicOS9(Android 14)</string>
     <string name="status_bar_clock_format">Status bar clock format</string>
     <string name="custom_clock_switch">Custom Clock Switch</string>
     <string name="status_bar_time_year">Display year</string>
@@ -186,4 +186,7 @@
     <string name="skip_apk_scan">Skip Apk Scan</string>
     <string name="allow_replace_install">Allow Replace Install</string>
     <string name="allow_replace_install_summer">Use with \"Allow downgrade\"</string>
+    <string name="ignore">忽略</string>
+    <string name="lsposed_inactive_wraning">Lsposed未激活，所有功能不会生效</string>
+    <string name="lsposed_inactive_tips">虽然功能不会生效，但你可以四处看看有哪些功能</string>
 </resources>
