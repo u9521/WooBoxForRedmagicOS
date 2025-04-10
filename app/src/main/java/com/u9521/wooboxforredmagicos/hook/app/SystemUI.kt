@@ -7,8 +7,7 @@ import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSCustom
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.RemoveFooterSecurityWarn
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.*
 import com.u9521.wooboxforredmagicos.hook.app.systemui.features.*
-import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.AllowAdjustVolume
-import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.RemoveRedOne
+import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.*
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage

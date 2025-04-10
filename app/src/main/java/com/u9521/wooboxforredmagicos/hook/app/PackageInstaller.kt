@@ -1,9 +1,6 @@
 package com.u9521.wooboxforredmagicos.hook.app
 
-import com.u9521.wooboxforredmagicos.hook.app.packageinstaller.HidePurifySwitch
-import com.u9521.wooboxforredmagicos.hook.app.packageinstaller.SkipApkScan
-import com.u9521.wooboxforredmagicos.hook.app.packageinstaller.HideStoreHint
-import com.u9521.wooboxforredmagicos.hook.app.packageinstaller.UseCtsActivity
+import com.u9521.wooboxforredmagicos.hook.app.packageinstaller.*
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage

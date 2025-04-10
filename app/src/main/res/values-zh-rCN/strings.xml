@@ -144,4 +144,6 @@
     <string name="no_vibrate_volKey_Long_press">禁用长按调节音量的振动</string>
     <string name="no_vibrate_volKey_Long_press_tips">不喜欢振动？试试这个</string>
     <string name="scope_packageinstaller">软件包安装器</string>
+    <string name="launcher_Force_Support_ResizeActivity_tips">就是在最近任务界面显示小窗，要配合系统框架hook使用</string>
+    <string name="launcher_Force_Support_ResizeActivity">所有activity允许调整大小</string>
 </resources>

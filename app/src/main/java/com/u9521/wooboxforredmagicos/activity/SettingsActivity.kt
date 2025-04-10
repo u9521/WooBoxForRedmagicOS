@@ -655,6 +655,14 @@ class SettingsActivity : MIUIActivity() {
                     ),
                     SwitchV("launcher_rm_zvoice_uninstall_dialog")
                 )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.launcher_Force_Support_ResizeActivity,
+                        tipsId = R.string.launcher_Force_Support_ResizeActivity_tips
+                    ),
+                    SwitchV("launcher_Force_Support_ResizeActivity")
+                )
+
             }
             register("scope_other", getString(R.string.scope_other), false) {
                 getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
