@@ -16,7 +16,7 @@ object HidePurifySwitch : HookRegister() {
             ClassUtils.loadClass("com.android.packageinstaller.PackageInstallerActivity")
         MethodFinder.fromClass(packageInstallerActivityclzz)
             .filterByName("getCookUI").filterByReturnType(uICookToolClzz).first()
-            .createAfterHook(block = {
+            .createAfterHook {
                 Log.i("[packageinstaller]: trying to HidePurifySwitch")
                 val uICookToolOBJ = it.result
                 uICookToolOBJ.objectHelper().setObject("cleanBgColor", true)
@@ -29,6 +29,6 @@ object HidePurifySwitch : HookRegister() {
                 uICookToolOBJ.objectHelper().setObject("warningTitle", "彩蛋")
                 uICookToolOBJ.objectHelper().setObject("warningUnknownText", "这是一条提醒")
                 it.result = uICookToolOBJ
-            })
+            }
     }
 }

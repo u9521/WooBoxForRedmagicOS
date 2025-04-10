@@ -8,9 +8,10 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 
 object AllowUntrustedTouches : HookRegister() {
     override fun init() = hasEnable("allow_untrusted_touches") {
-        val hooks = MethodFinder.fromClass("android.hardware.input.InputManager")
-            .filterByName("getBlockUntrustedTouchesMode")
-            .filterByParamTypes { paramTypes -> paramTypes[0] == Context::class.java }
-            .first().createBeforeHook(block = { it.result = 0 })
+        MethodFinder.fromClass("android.hardware.input.InputManager")
+            .filterByName("getBlockUntrustedTouchesMode").filterByParamTypes(Context::class.java)
+            .first().createBeforeHook {
+                it.result = 0
+            }
     }
 }

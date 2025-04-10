@@ -131,4 +131,17 @@
     <string name="ignore">忽略</string>
     <string name="lsposed_inactive_wraning">Lsposed未激活，所有功能不会生效</string>
     <string name="lsposed_inactive_tips">虽然功能不会生效，但你可以四处看看有哪些功能</string>
+    <string name="installer_cts_mode">使用cts测试的安装界面</string>
+    <string name="installer_cts_mode_tips">没有权限提示和商店推广，给cts测试用的</string>
+    <string name="hide_vpn_icon">隐藏 VPN 图标</string>
+    <string name="hide_vpn_icon_tips">新版本已经可以在系统设置隐藏图标了</string>
+    <string name="lockscreen_allow_adjust_volume_tips">即使没有音乐在播放</string>
+    <string name="status_bar_bluetooth_icon_acts_global">未使用蓝牙设备时隐藏蓝牙图标</string>
+    <string name="status_bar_bluetooth_icon_acts_global_tips">和国际版系统行为相同</string>
+    <string name="gesture_use_default_digital_assist">手势打开默认数字助理</string>
+    <string name="gesture_use_default_digital_assist_tips">手势打开自带语音助手替换为打开默认数字助理</string>
+    <string name="rm_zvoice_uninstalled_popupwindow">取消智慧语言已卸载弹窗</string>
+    <string name="no_vibrate_volKey_Long_press">禁用长按调节音量的振动</string>
+    <string name="no_vibrate_volKey_Long_press_tips">不喜欢振动？试试这个</string>
+    <string name="scope_packageinstaller">软件包安装器</string>
 </resources>

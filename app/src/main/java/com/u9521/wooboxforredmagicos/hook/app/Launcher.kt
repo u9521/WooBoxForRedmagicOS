@@ -6,7 +6,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object Launcher : AppRegister() {
-    override val packageName: List<String> = listOf("com.oppo.launcher","com.android.launcher")
+    override val packageName: List<String> = listOf("com.zte.mifavor.launcher")
     override val processName: List<String> = emptyList()
     override val logTag: String = "WooBox"
 
@@ -16,6 +16,7 @@ object Launcher : AppRegister() {
             lpparam,
             UnlockRecentLocks, //解除后台锁上限
             RemoveUpdateDot, //移除更新小蓝点
+            RMzvoiceUninstalDialog,//移除智慧语音已卸载弹窗
         )
     }
 }

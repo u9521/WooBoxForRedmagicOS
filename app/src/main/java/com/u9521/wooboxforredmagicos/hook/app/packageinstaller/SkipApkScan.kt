@@ -6,7 +6,6 @@ import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
-import de.robv.android.xposed.XposedBridge
 
 object SkipApkScan : HookRegister() {
     override fun init() = hasEnable("skip_apk_scan") {
@@ -14,10 +13,10 @@ object SkipApkScan : HookRegister() {
         // ZTE_FEATURE_ODM_VERTU
         MethodFinder.fromClass("com.android.packageinstaller.InstallStaging\$StagingAsyncTask")
             .filterByName("onPostExecute").filterByParamTypes(java.lang.Object::class.java).first()
-            .createBeforeHook(block = {
+            .createBeforeHook {
                 Log.i("[packageinstaller] package is about to scan")
-                var vertuclzz = ClassUtils.loadClass("com.android.packageinstaller.PackageUtil")
+                val vertuclzz = ClassUtils.loadClass("com.android.packageinstaller.PackageUtil")
                 ClassUtils.setStaticObject(vertuclzz, "ZTE_FEATURE_ODM_VERTU", true)
-            })
+            }
     }
 }

@@ -9,6 +9,6 @@ object ChargingRipple : HookRegister() {
     override fun init() = hasEnable("enable_charging_ripple") {
         MethodFinder.fromClass("com.android.systemui.statusbar.FeatureFlags")
             .filterByName("isChargingRippleEnabled")
-            .first().createBeforeHook(block = {it.result =true})
+            .first().createBeforeHook { it.result = true }
     }
 }

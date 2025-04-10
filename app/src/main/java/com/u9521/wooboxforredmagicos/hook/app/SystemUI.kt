@@ -6,7 +6,8 @@ import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveUSBDeb
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSCustom
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.RemoveFooterSecurityWarn
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.*
-import com.u9521.wooboxforredmagicos.hook.app.systemui.features.ChargingRipple
+import com.u9521.wooboxforredmagicos.hook.app.systemui.features.*
+import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.AllowAdjustVolume
 import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.RemoveRedOne
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.XposedBridge
@@ -37,6 +38,8 @@ object SystemUI : AppRegister() {
             CustomClock, //自定义时钟
             StatusBarClock, //下拉状态栏时钟显秒
             StatusBarClockRedOne, //移除下拉状态栏时钟红一
+            HideVpnIcon,//老版本隐藏VPN图标
+            BTiconUseGlobalacts,//未连接设备时隐藏蓝牙图标
 
             //通知类
             RemoveUSBDebugging, //移除USB调试已开启通知
@@ -45,9 +48,12 @@ object SystemUI : AppRegister() {
 
             //特性
             ChargingRipple, //打开安卓12原生充电开始动画
+            GestureStartDefaultDigitalAssist,//手势打开默认数字助理
+            NoVibrateForvolKeyLongpress,//禁用长按调音量振动
 
             //锁屏界面
             RemoveRedOne, //移除锁屏时钟的红色数字1
+            AllowAdjustVolume,//锁屏允许调整音量
         )
     }
 }

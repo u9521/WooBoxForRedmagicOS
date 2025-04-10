@@ -6,6 +6,6 @@ dependencyResolutionManagement {
         maven("https://api.xposed.info")
     }
 }
-rootProject.name = "WooBoxForColorOS"
+rootProject.name = "WooBoxForRedmagicOS"
 include(":app")
 include(":blockmiui")

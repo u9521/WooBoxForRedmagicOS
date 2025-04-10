@@ -9,18 +9,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Switch
 import android.widget.Toast
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import cn.fkj233.ui.activity.MIUIActivity
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
@@ -92,41 +80,8 @@ class SettingsActivity : MIUIActivity() {
         }
     }
 
-    //copose test
-    private fun getWarncardView(
-        message: String,
-        color: Color? = null,
-        onClick: (() -> Unit)? = null,
-    ): View {
-        val cardview = ComposeView(this).apply {
-            setContent {
-                var ccolor = color
-                if (ccolor == null) {
-                    ccolor = MaterialTheme.colorScheme.error
-                }
-                ElevatedCard(
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = ccolor
-                    )
-                )
-                {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .then(onClick?.let { Modifier.clickable { it() } } ?: Modifier)
-                            .padding(24.dp)
-                    ) {
-                        Text(
-                            text = message, style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                }
-            }
-        }
-        return cardview
-    }
 
-    private fun getInactiveTip(): TextSummaryV? {
+    private fun getLsposedInactiveTip(): TextSummaryV? {
         if (!lsposedLoaded) {
             return TextSummaryV(
                 textId = R.string.lsposed_inactive_wraning,
@@ -150,8 +105,7 @@ class SettingsActivity : MIUIActivity() {
     init {
         initView {
             registerMain(getString(R.string.app_name), false) {
-                getInactiveTip()?.let { TextSummaryArrow(it) }
-//                CustomView(getWarncardView("test"))
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
                 TextSummaryWithSwitch(
                     TextSummaryV(textId = R.string.main_switch, colorId = R.color.purple_700),
                     SwitchV("main_switch", true)
@@ -204,6 +158,18 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryArrow(
                     TextSummaryV(
+                        textId = R.string.scope_packageinstaller,
+                        onClickListener = { showFragment("scope_packageinstaller") }
+                    )
+                )
+                TextSummaryArrow(
+                    TextSummaryV(
+                        textId = R.string.scope_launcher,
+                        onClickListener = { showFragment("scope_launcher") }
+                    )
+                )
+                TextSummaryArrow(
+                    TextSummaryV(
                         textId = R.string.scope_other,
                         tipsId = R.string.scope_other_summary,
                         onClickListener = { showFragment("scope_other") }
@@ -221,7 +187,7 @@ class SettingsActivity : MIUIActivity() {
 
             }
             register("scope_systemui", getString(R.string.scope_systemui), false) {
-                getInactiveTip()?.let { TextSummaryArrow(it) }
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
                 TitleText(textId = R.string.statusbar)
                 TextSummaryWithSwitch(
                     TextSummaryV(
@@ -343,6 +309,20 @@ class SettingsActivity : MIUIActivity() {
                     TextV(textId = R.string.hide_mobile_activity_icon),
                     SwitchV("hide_mobile_activity_icon")
                 )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.hide_vpn_icon,
+                        tipsId = R.string.hide_vpn_icon_tips
+                    ),
+                    SwitchV("hide_vpn_icon")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.status_bar_bluetooth_icon_acts_global,
+                        tipsId = R.string.status_bar_bluetooth_icon_acts_global_tips
+                    ),
+                    SwitchV("status_bar_bluetooth_icon_acts_global")
+                )
                 Line()
                 TitleText(textId = R.string.status_bar_network_speed)
                 TextSummaryWithSwitch(
@@ -421,6 +401,20 @@ class SettingsActivity : MIUIActivity() {
                     ),
                     SwitchV("enable_charging_ripple")
                 )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.gesture_use_default_digital_assist,
+                        tipsId = R.string.gesture_use_default_digital_assist_tips
+                    ),
+                    SwitchV("gesture_use_default_digital_assist")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.no_vibrate_volKey_Long_press,
+                        tipsId = R.string.no_vibrate_volKey_Long_press_tips
+                    ),
+                    SwitchV("no_vibrate_volKey_Long_press")
+                )
                 Line()
                 TitleText(textId = R.string.lockscreen)
                 TextSummaryWithSwitch(
@@ -428,6 +422,13 @@ class SettingsActivity : MIUIActivity() {
                         textId = R.string.remove_red_one,
                     ),
                     SwitchV("remove_red_one")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.lockscreen_allow_adjust_volume,
+                        tipsId = R.string.lockscreen_allow_adjust_volume_tips
+                    ),
+                    SwitchV("lockscreen_allow_adjust_volume")
                 )
                 Line()
                 TitleText(textId = R.string.quick_settings_panel)
@@ -503,7 +504,7 @@ class SettingsActivity : MIUIActivity() {
                 )
             }
             register("scope_android", getString(R.string.scope_android), false) {
-                getInactiveTip()?.let { TextSummaryArrow(it) }
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
                 TitleText(textId = R.string.corepacth)
                 TextSummaryWithSwitch(
                     TextSummaryV(
@@ -607,34 +608,9 @@ class SettingsActivity : MIUIActivity() {
                     30, dataBindingRecv = mediaVolumeStepsSwitchBinding.binding.getRecv(2)
                 )
             }
-            register("scope_other", getString(R.string.scope_other), false) {
-                getInactiveTip()?.let { TextSummaryArrow(it) }
-                TitleText(textId = R.string.scope_security_center)
-                TextSummaryWithSwitch(
-                    TextSummaryV(textId = R.string.unlock_self_start_quantity),
-                    SwitchV("unlock_self_start_quantity")
-                )
-                Line()
-                TitleText(textId = R.string.scope_alarmclock)
-                TextSummaryWithSwitch(
-                    TextSummaryV(textId = R.string.remove_clock_widget_redone),
-                    SwitchV("remove_clock_widget_redone")
-                )
-                Line()
-                TitleText(textId = R.string.scope_launcher)
-                TextSummaryWithSwitch(
-                    TextSummaryV(textId = R.string.unlock_recent_task_locks_quantity),
-                    SwitchV("unlock_recent_task_locks_quantity")
-                )
-                TextSummaryWithSwitch(
-                    TextSummaryV(
-                        textId = R.string.launcher_remove_update_dot,
-                        tipsId = R.string.launcher_remove_update_dot_summary
-                    ),
-                    SwitchV("launcher_remove_update_dot")
-                )
-                Line()
-                TitleText(textId = R.string.package_installer)
+            register("scope_packageinstaller",getString(R.string.scope_packageinstaller),false){
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
+                TitleText (textId = R.string.scope_packageinstaller)
                 TextSummaryWithSwitch(
                     TextSummaryV(textId = R.string.skip_apk_scan),
                     SwitchV("skip_apk_scan")
@@ -650,6 +626,50 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(textId = R.string.installer_hide_store_hint),
                     SwitchV("installer_hide_store_hint")
                 )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.installer_cts_mode,
+                        tipsId = R.string.installer_cts_mode_tips
+                    ),
+                    SwitchV("installer_cts_mode")
+                )
+            }
+            register("scope_launcher", getString(R.string.scope_launcher), false) {
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
+                TitleText(textId = R.string.scope_launcher)
+                TextSummaryWithSwitch(
+                    TextSummaryV(textId = R.string.unlock_recent_task_locks_quantity),
+                    SwitchV("unlock_recent_task_locks_quantity")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.launcher_remove_update_dot,
+                        tipsId = R.string.launcher_remove_update_dot_summary
+                    ),
+                    SwitchV("launcher_remove_update_dot")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.rm_zvoice_uninstalled_popupwindow,
+                        tipsId = R.string.rm_zvoice_uninstalled_popupwindow_tips
+                    ),
+                    SwitchV("launcher_rm_zvoice_uninstall_dialog")
+                )
+            }
+            register("scope_other", getString(R.string.scope_other), false) {
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
+                TitleText(textId = R.string.scope_security_center)
+                TextSummaryWithSwitch(
+                    TextSummaryV(textId = R.string.unlock_self_start_quantity),
+                    SwitchV("unlock_self_start_quantity")
+                )
+                Line()
+                TitleText(textId = R.string.scope_alarmclock)
+                TextSummaryWithSwitch(
+                    TextSummaryV(textId = R.string.remove_clock_widget_redone),
+                    SwitchV("remove_clock_widget_redone")
+                )
+
             }
             register("about_module", getString(R.string.about_module), true) {
                 Author(

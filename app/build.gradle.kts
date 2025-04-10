@@ -1,10 +1,8 @@
-import com.android.aaptcompiler.Macro
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -16,7 +14,6 @@ android {
 //    buildToolsVersion = "32.0.0"
     buildFeatures {
         buildConfig = true
-        compose = true
     }
     defaultConfig {
         applicationId = "com.u9521.wooboxforredmagicos"
@@ -41,9 +38,6 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
         }
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -72,9 +66,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.material3:material3:1.3.1")
-    implementation("androidx.compose.runtime:runtime-android:1.7.8")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     //API
     compileOnly("de.robv.android.xposed:api:82")
     implementation("com.github.kyuubiran:EzXHelper:2.2.1")
