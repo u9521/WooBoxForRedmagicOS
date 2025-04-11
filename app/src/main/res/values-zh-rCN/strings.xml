@@ -151,4 +151,10 @@
     <string name="setting_Froce_Display_ZvioceSwitch">强制显示手势打开智慧语言开关</string>
     <string name="setting_Froce_Display_WakeupGoogleAssistSwitch">强制显示语音唤醒google助理开关</string>
     <string name="setting_Froce_Display_WakeupGoogleAssistSwitch_tips">配合系统框架hook可以达成启动自定义数字助理</string>
+    <string name="setting_Fun_override_maxyear_tips">娱乐功能，能超过2099年限制，太远的时间在设置时会失败</string>
+    <string name="setting_Fun_override_maxyear">覆盖时间设置最大年份</string>
+    <string name="format_error">格式错误</string>
+    <string name="format_int_error">请输入有效整数</string>
+    <string name="Fun_options">娱乐功能</string>
+    <string name="setting_Fun_override_maxyear_switch">修改时间设置最大年份</string>
 </resources>

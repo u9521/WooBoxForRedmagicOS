@@ -18,6 +18,7 @@ object Settings : AppRegister() {
             UsbInstallNoVerify, //取消usb安装账号验证
             FroceDisplayZvioceSwitch,//强制在手势设置中显示手势打开智慧语言
             FroceDisplayWakeupGoogleAssistantSwitch,//强制显示长按电源建打开Google助理
+            FunSettingoverrideMAXyear,//调整时间设置的最大年份
         )
     }
 

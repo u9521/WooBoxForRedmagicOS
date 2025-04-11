@@ -12,11 +12,13 @@ import android.widget.Toast
 import cn.fkj233.ui.activity.MIUIActivity
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
+import cn.fkj233.ui.activity.view.TextSummaryWithArrowV
 import cn.fkj233.ui.activity.view.TextV
 import cn.fkj233.ui.dialog.MIUIDialog
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.R
 import com.u9521.wooboxforredmagicos.util.ShellUtils
+import com.u9521.wooboxforredmagicos.util.XSPUtils
 
 import kotlin.system.exitProcess
 
@@ -72,8 +74,7 @@ class SettingsActivity : MIUIActivity() {
         return try {
             val packageManager = this.packageManager
             packageManager.getApplicationInfo(
-                packageName,
-                PackageManager.GET_META_DATA
+                packageName, PackageManager.GET_META_DATA
             ).metaData.getString("versionCommit")
         } catch (exception: java.lang.Exception) {
             null
@@ -146,40 +147,34 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.scope_systemui,
                         tipsId = R.string.scope_systemui_summary,
-                        onClickListener = { showFragment("scope_systemui") }
-                    )
+                        onClickListener = { showFragment("scope_systemui") })
                 )
                 TextSummaryArrow(
                     TextSummaryV(
                         textId = R.string.scope_android,
                         tipsId = R.string.scope_android_summary,
-                        onClickListener = { showFragment("scope_android") }
-                    )
+                        onClickListener = { showFragment("scope_android") })
                 )
                 TextSummaryArrow(
                     TextSummaryV(
                         textId = R.string.scope_packageinstaller,
-                        onClickListener = { showFragment("scope_packageinstaller") }
-                    )
+                        onClickListener = { showFragment("scope_packageinstaller") })
                 )
                 TextSummaryArrow(
                     TextSummaryV(
                         textId = R.string.scope_launcher,
-                        onClickListener = { showFragment("scope_launcher") }
-                    )
+                        onClickListener = { showFragment("scope_launcher") })
                 )
                 TextSummaryArrow(
                     TextSummaryV(
                         textId = R.string.scope_systemSettings,
-                        onClickListener = { showFragment("scope_systemSettings") }
-                    )
+                        onClickListener = { showFragment("scope_systemSettings") })
                 )
                 TextSummaryArrow(
                     TextSummaryV(
                         textId = R.string.scope_other,
                         tipsId = R.string.scope_other_summary,
-                        onClickListener = { showFragment("scope_other") }
-                    )
+                        onClickListener = { showFragment("scope_other") })
                 )
                 Line()
                 TitleText(textId = R.string.about)
@@ -187,8 +182,7 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.about_module,
                         tips = getString(R.string.about_module_summary),
-                        onClickListener = { showFragment("about_module") }
-                    )
+                        onClickListener = { showFragment("about_module") })
                 )
 
             }
@@ -214,8 +208,7 @@ class SettingsActivity : MIUIActivity() {
                 TextWithSwitch(
                     TextV(textId = R.string.custom_clock_switch, colorId = R.color.purple_700),
                     SwitchV(
-                        "custom_clock_switch",
-                        dataBindingSend = customClockBinding.bindingSend
+                        "custom_clock_switch", dataBindingSend = customClockBinding.bindingSend
                     )
                 )
                 TextWithSwitch(
@@ -273,7 +266,10 @@ class SettingsActivity : MIUIActivity() {
                     dataBindingRecv = customClockBinding.binding.getRecv(2)
                 )
                 SeekBarWithText(
-                    "status_bar_clock_size", 0, 18, 0,
+                    "status_bar_clock_size",
+                    0,
+                    18,
+                    0,
                     dataBindingRecv = customClockBinding.binding.getRecv(2)
                 )
                 Text(
@@ -281,7 +277,10 @@ class SettingsActivity : MIUIActivity() {
                     dataBindingRecv = customClockBinding.binding.getRecv(2)
                 )
                 SeekBarWithText(
-                    "status_bar_clock_double_line_size", 0, 9, 0,
+                    "status_bar_clock_double_line_size",
+                    0,
+                    9,
+                    0,
                     dataBindingRecv = customClockBinding.binding.getRecv(2)
                 )
                 TextWithSwitch(
@@ -304,8 +303,7 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.hide_battery_percentage_icon,
                         tipsId = R.string.hide_battery_percentage_icon_summary
-                    ),
-                    SwitchV("hide_battery_percentage_icon")
+                    ), SwitchV("hide_battery_percentage_icon")
                 )
                 TextWithSwitch(
                     TextV(textId = R.string.hide_wifi_activity_icon),
@@ -317,17 +315,14 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.hide_vpn_icon,
-                        tipsId = R.string.hide_vpn_icon_tips
-                    ),
-                    SwitchV("hide_vpn_icon")
+                        textId = R.string.hide_vpn_icon, tipsId = R.string.hide_vpn_icon_tips
+                    ), SwitchV("hide_vpn_icon")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.status_bar_bluetooth_icon_acts_global,
                         tipsId = R.string.status_bar_bluetooth_icon_acts_global_tips
-                    ),
-                    SwitchV("status_bar_bluetooth_icon_acts_global")
+                    ), SwitchV("status_bar_bluetooth_icon_acts_global")
                 )
                 Line()
                 TitleText(textId = R.string.status_bar_network_speed)
@@ -335,8 +330,7 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.status_bar_network_speed_refresh_speed,
                         tipsId = R.string.status_bar_network_speed_refresh_speed_summary
-                    ),
-                    SwitchV("status_bar_network_speed_refresh_speed")
+                    ), SwitchV("status_bar_network_speed_refresh_speed")
                 )
                 val statusBarDualRowNetworkSpeedBinding = GetDataBinding(
                     defValue = { getSP()!!.getBoolean("status_bar_dual_row_network_speed", false) }
@@ -351,8 +345,7 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.status_bar_dual_row_network_speed,
                         tipsId = R.string.status_bar_dual_row_network_speed_summary
-                    ),
-                    SwitchV(
+                    ), SwitchV(
                         "status_bar_dual_row_network_speed",
                         dataBindingSend = statusBarDualRowNetworkSpeedBinding.bindingSend
                     )
@@ -384,65 +377,56 @@ class SettingsActivity : MIUIActivity() {
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_finished_charging,
-                    ),
-                    SwitchV("remove_finished_charging")
+                    ), SwitchV("remove_finished_charging")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_usb_debugging,
-                    ),
-                    SwitchV("remove_usb_debugging")
+                    ), SwitchV("remove_usb_debugging")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_dev_mode_is_on,
-                    ),
-                    SwitchV("remove_dev_mode_is_on")
+                    ), SwitchV("remove_dev_mode_is_on")
                 )
                 Line()
                 TitleText(textId = R.string.features)
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.enable_charging_ripple,
-                    ),
-                    SwitchV("enable_charging_ripple")
+                    ), SwitchV("enable_charging_ripple")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.gesture_use_default_digital_assist,
                         tipsId = R.string.gesture_use_default_digital_assist_tips
-                    ),
-                    SwitchV("gesture_use_default_digital_assist")
+                    ), SwitchV("gesture_use_default_digital_assist")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.no_vibrate_volKey_Long_press,
                         tipsId = R.string.no_vibrate_volKey_Long_press_tips
-                    ),
-                    SwitchV("no_vibrate_volKey_Long_press")
+                    ), SwitchV("no_vibrate_volKey_Long_press")
                 )
                 Line()
                 TitleText(textId = R.string.lockscreen)
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_red_one,
-                    ),
-                    SwitchV("remove_red_one")
+                    ), SwitchV("remove_red_one")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.lockscreen_allow_adjust_volume,
                         tipsId = R.string.lockscreen_allow_adjust_volume_tips
-                    ),
-                    SwitchV("lockscreen_allow_adjust_volume")
+                    ), SwitchV("lockscreen_allow_adjust_volume")
                 )
                 Line()
                 TitleText(textId = R.string.quick_settings_panel)
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_footer_security_warn,
-                    ),
-                    SwitchV("remove_footer_security_warn")
+                    ), SwitchV("remove_footer_security_warn")
                 )
                 val oldQSCustomSwitchBinding = GetDataBinding(
                     defValue = { getSP()!!.getBoolean("qs_custom_switch", false) }
@@ -458,10 +442,8 @@ class SettingsActivity : MIUIActivity() {
                         textId = R.string.qs_custom_switch,
                         tipsId = R.string.qs_custom_switch_summary,
                         colorId = R.color.purple_700
-                    ),
-                    SwitchV(
-                        "qs_custom_switch",
-                        dataBindingSend = oldQSCustomSwitchBinding.bindingSend
+                    ), SwitchV(
+                        "qs_custom_switch", dataBindingSend = oldQSCustomSwitchBinding.bindingSend
                     )
                 )
                 Text(
@@ -514,75 +496,60 @@ class SettingsActivity : MIUIActivity() {
                 TitleText(textId = R.string.corepacth)
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.downgr,
-                        tipsId = R.string.downgr_summary
-                    ),
-                    SwitchV("downgrade")
+                        textId = R.string.downgr, tipsId = R.string.downgr_summary
+                    ), SwitchV("downgrade")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.authcreak,
-                        tipsId = R.string.authcreak_summary
-                    ),
-                    SwitchV("authcreak")
+                        textId = R.string.authcreak, tipsId = R.string.authcreak_summary
+                    ), SwitchV("authcreak")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.digestCreak,
-                        tipsId = R.string.digestCreak_summary
-                    ),
-                    SwitchV("digestCreak")
+                        textId = R.string.digestCreak, tipsId = R.string.digestCreak_summary
+                    ), SwitchV("digestCreak")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.UsePreSig,
-                        tipsId = R.string.UsePreSig_summary
-                    ),
-                    SwitchV("UsePreSig")
+                        textId = R.string.UsePreSig, tipsId = R.string.UsePreSig_summary
+                    ), SwitchV("UsePreSig")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
-                        textId = R.string.enhancedMode,
-                        tipsId = R.string.enhancedMode_summary
-                    ),
-                    SwitchV("enhancedMode")
+                        textId = R.string.enhancedMode, tipsId = R.string.enhancedMode_summary
+                    ), SwitchV("enhancedMode")
                 )
                 Line()
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.disable_flag_secure,
                         tipsId = R.string.disable_flag_secure_summary
-                    ),
-                    SwitchV("disable_flag_secure")
+                    ), SwitchV("disable_flag_secure")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_oppo_default_app,
                         tipsId = R.string.remove_oppo_default_app_summary
-                    ),
-                    SwitchV("remove_oppo_default_app")
+                    ), SwitchV("remove_oppo_default_app")
                 )
                 Line()
                 TitleText(textId = R.string.notification)
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.remove_vpn_activated,
-                    ),
-                    SwitchV("remove_vpn_activated")
+                    ), SwitchV("remove_vpn_activated")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.delete_on_post_notification,
                         tipsId = R.string.delete_on_post_notification_summary
-                    ),
-                    SwitchV("delete_on_post_notification")
+                    ), SwitchV("delete_on_post_notification")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.allow_untrusted_touches,
                         tipsId = R.string.take_effect_after_reboot
-                    ),
-                    SwitchV("allow_untrusted_touches")
+                    ), SwitchV("allow_untrusted_touches")
                 )
                 Line()
                 TitleText(textId = R.string.sound)
@@ -601,8 +568,7 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.media_volume_steps_switch,
                         tips = "${getString(R.string.take_effect_after_reboot)}\n${getString(R.string.media_volume_steps_summary)}"
-                    ),
-                    SwitchV(
+                    ), SwitchV(
                         "media_volume_steps_switch",
                         dataBindingSend = mediaVolumeStepsSwitchBinding.bindingSend
                     )
@@ -611,22 +577,21 @@ class SettingsActivity : MIUIActivity() {
                     "media_volume_steps",
                     15,
                     30,
-                    30, dataBindingRecv = mediaVolumeStepsSwitchBinding.binding.getRecv(2)
+                    30,
+                    dataBindingRecv = mediaVolumeStepsSwitchBinding.binding.getRecv(2)
                 )
             }
-            register("scope_packageinstaller",getString(R.string.scope_packageinstaller),false){
+            register("scope_packageinstaller", getString(R.string.scope_packageinstaller), false) {
                 getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
-                TitleText (textId = R.string.scope_packageinstaller)
+                TitleText(textId = R.string.scope_packageinstaller)
                 TextSummaryWithSwitch(
-                    TextSummaryV(textId = R.string.skip_apk_scan),
-                    SwitchV("skip_apk_scan")
+                    TextSummaryV(textId = R.string.skip_apk_scan), SwitchV("skip_apk_scan")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.hide_purify_switch,
                         tipsId = R.string.hide_purify_switch_summery
-                    ),
-                    SwitchV("hide_purify_switch")
+                    ), SwitchV("hide_purify_switch")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(textId = R.string.installer_hide_store_hint),
@@ -636,8 +601,7 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.installer_cts_mode,
                         tipsId = R.string.installer_cts_mode_tips
-                    ),
-                    SwitchV("installer_cts_mode")
+                    ), SwitchV("installer_cts_mode")
                 )
             }
             register("scope_launcher", getString(R.string.scope_launcher), false) {
@@ -651,26 +615,23 @@ class SettingsActivity : MIUIActivity() {
                     TextSummaryV(
                         textId = R.string.launcher_remove_update_dot,
                         tipsId = R.string.launcher_remove_update_dot_summary
-                    ),
-                    SwitchV("launcher_remove_update_dot")
+                    ), SwitchV("launcher_remove_update_dot")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.rm_zvoice_uninstalled_popupwindow,
                         tipsId = R.string.rm_zvoice_uninstalled_popupwindow_tips
-                    ),
-                    SwitchV("launcher_rm_zvoice_uninstall_dialog")
+                    ), SwitchV("launcher_rm_zvoice_uninstall_dialog")
                 )
                 TextSummaryWithSwitch(
                     TextSummaryV(
                         textId = R.string.launcher_Force_Support_ResizeActivity,
                         tipsId = R.string.launcher_Force_Support_ResizeActivity_tips
-                    ),
-                    SwitchV("launcher_Force_Support_ResizeActivity")
+                    ), SwitchV("launcher_Force_Support_ResizeActivity")
                 )
 
             }
-            register("scope_systemSettings",getString(R.string.scope_systemSettings),false){
+            register("scope_systemSettings", getString(R.string.scope_systemSettings), false) {
                 getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
                 TitleText(textId = R.string.scope_systemSettings)
                 TextSummaryWithSwitch(
@@ -682,9 +643,66 @@ class SettingsActivity : MIUIActivity() {
                     SwitchV("setting_Froce_Display_ZvioceSwitch")
                 )
                 TextSummaryWithSwitch(
-                    TextSummaryV(textId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch
-                    , tipsId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch_tips),
-                    SwitchV("setting_Froce_Display_WakeupGoogleAssistSwitch")
+                    TextSummaryV(
+                        textId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch,
+                        tipsId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch_tips
+                    ), SwitchV("setting_Froce_Display_WakeupGoogleAssistSwitch")
+                )
+                Line()
+                TitleText(textId = R.string.Fun_options)
+                val customMaxyearBinding = GetDataBinding(
+                    defValue = {
+                        getSP()!!.getBoolean("setting_Fun_override_maxyear_switch", false)
+                    }) { view, flags, data ->
+                    when (flags) {
+                        1 -> (view as Switch).isEnabled = data as Boolean
+                        2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
+                    }
+                }
+                TextSummaryWithSwitch(
+                    TextSummaryV(
+                        textId = R.string.setting_Fun_override_maxyear_switch,
+                        tipsId = R.string.setting_Fun_override_maxyear_tips
+                    ), SwitchV(
+                        "setting_Fun_override_maxyear_switch",
+                        dataBindingSend = customMaxyearBinding.bindingSend
+                    )
+                )
+                TextSummaryArrow(
+                    dataBindingRecv = customMaxyearBinding.getRecv(2),
+                    textSummaryV = TextSummaryV(
+                        textId = R.string.setting_Fun_override_maxyear,
+                        onClickListener = {
+                            MIUIDialog(activity) {
+                                setTitle(R.string.setting_Fun_override_maxyear)
+                                setMessage(R.string.setting_Fun_override_maxyear_tips)
+                                var maxyear =
+                                    getSP()!!.getInt("fun_override_max_year", 2099).toString()
+                                setEditText(maxyear, "最大年份数字", editCallBacks = {
+                                    maxyear = it
+                                })
+                                setLButton(R.string.cancel) {
+                                    dismiss()
+                                }
+                                setRButton(R.string.Done) {
+                                    var maxyearInt = maxyear.toIntOrNull()
+                                    if (maxyearInt == null) {
+                                        MIUIDialog(activity) {
+                                            setCancelable(false)
+                                            setTitle(R.string.format_error)
+                                            setMessage(R.string.format_int_error)
+                                            setRButton(R.string.Done) {
+                                                dismiss()
+                                            }
+                                        }.show()
+                                        dismiss()
+                                        return@setRButton
+                                    }
+                                    getSP()!!.edit().putInt("fun_override_max_year",maxyearInt).apply()
+                                    dismiss()
+                                }
+                            }.show()
+                        }),
                 )
 
             }
@@ -717,11 +735,8 @@ class SettingsActivity : MIUIActivity() {
                                 )
                             )
                             Toast.makeText(
-                                activity,
-                                "恳求一个五星好评，Thanks♪(･ω･)ﾉ",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
+                                activity, "恳求一个五星好评，Thanks♪(･ω･)ﾉ", Toast.LENGTH_LONG
+                            ).show()
                         } catch (e: Exception) {
                             val uri =
                                 Uri.parse("https://github.com/Xposed-Modules-Repo/com.lt2333.wooboxforcoloros/releases")
@@ -739,16 +754,12 @@ class SettingsActivity : MIUIActivity() {
                         try {
                             startActivity(
                                 Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse("coolmarket://u/883441")
+                                    Intent.ACTION_VIEW, Uri.parse("coolmarket://u/883441")
                                 )
                             )
                             Toast.makeText(
-                                activity,
-                                "乌堆小透明：靓仔，点个关注吧！",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                                activity, "乌堆小透明：靓仔，点个关注吧！", Toast.LENGTH_SHORT
+                            ).show()
                         } catch (e: Exception) {
                             Toast.makeText(activity, "本机未安装酷安应用", Toast.LENGTH_SHORT)
                                 .show()
@@ -761,8 +772,7 @@ class SettingsActivity : MIUIActivity() {
                 TitleText(text = getString(R.string.thank_list))
                 TextSummaryArrow(
                     TextSummaryV(
-                        textId = R.string.contributor_list,
-                        onClickListener = {
+                        textId = R.string.contributor_list, onClickListener = {
                             try {
                                 val uri =
                                     Uri.parse("https://github.com/Simplicity-Team/WooBoxForColorOS/graphs/contributors")
@@ -775,8 +785,7 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryArrow(
                     TextSummaryV(
-                        textId = R.string.third_party_open_source_statement,
-                        onClickListener = {
+                        textId = R.string.third_party_open_source_statement, onClickListener = {
                             try {
                                 val uri =
                                     Uri.parse("https://github.com/Simplicity-Team/WooBoxForColorOS#%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BC%80%E6%BA%90%E5%BC%95%E7%94%A8")
@@ -813,13 +822,9 @@ class SettingsActivity : MIUIActivity() {
                                 )
                             } catch (e: Exception) {
                                 Toast.makeText(
-                                    activity,
-                                    "本机未安装Telegram应用",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                val uri =
-                                    Uri.parse("https://t.me/simplicityrom")
+                                    activity, "本机未安装Telegram应用", Toast.LENGTH_SHORT
+                                ).show()
+                                val uri = Uri.parse("https://t.me/simplicityrom")
                                 val intent = Intent(Intent.ACTION_VIEW, uri)
                                 startActivity(intent)
                             }
@@ -827,9 +832,7 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryArrow(
                     TextSummaryV(
-                        textId = R.string.issues,
-                        tipsId = R.string.issues_url,
-                        onClickListener = {
+                        textId = R.string.issues, tipsId = R.string.issues_url, onClickListener = {
                             try {
                                 val uri =
                                     Uri.parse("https://github.com/Simplicity-Team/WooBoxForColorOS/issues")
@@ -855,9 +858,7 @@ class SettingsActivity : MIUIActivity() {
                                     )
                                 )
                                 Toast.makeText(
-                                    activity,
-                                    "恳求一个五星好评，Thanks♪(･ω･)ﾉ",
-                                    Toast.LENGTH_LONG
+                                    activity, "恳求一个五星好评，Thanks♪(･ω･)ﾉ", Toast.LENGTH_LONG
                                 ).show()
                             } catch (e: Exception) {
                                 Toast.makeText(activity, "本机未安装酷安应用", Toast.LENGTH_SHORT)
@@ -886,8 +887,7 @@ class SettingsActivity : MIUIActivity() {
                         tipsId = R.string.participate_in_translation_summary,
                         onClickListener = {
                             try {
-                                val uri =
-                                    Uri.parse("https://crowdin.com/project/wooboxforcoloros")
+                                val uri = Uri.parse("https://crowdin.com/project/wooboxforcoloros")
                                 val intent = Intent(Intent.ACTION_VIEW, uri)
                                 startActivity(intent)
                             } catch (e: Exception) {
