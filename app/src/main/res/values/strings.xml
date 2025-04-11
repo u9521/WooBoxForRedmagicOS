@@ -206,4 +206,9 @@
     <string name="scope_packageinstaller">软件包安装器</string>
     <string name="launcher_Force_Support_ResizeActivity_tips">就是在最近任务界面显示小窗，要配合系统框架hook使用</string>
     <string name="launcher_Force_Support_ResizeActivity">所有activity允许调整大小</string>
+    <string name="scope_systemSettings">系统设置</string>
+    <string name="usb_install_switch_skip_verify">禁用USB安装开关账号验证</string>
+    <string name="setting_Froce_Display_ZvioceSwitch">强制显示手势打开智慧语言开关</string>
+    <string name="setting_Froce_Display_WakeupGoogleAssistSwitch">强制显示语音唤醒google助理开关</string>
+    <string name="setting_Froce_Display_WakeupGoogleAssistSwitch_tips">配合系统框架hook可以达成启动自定义数字助理</string>
 </resources>

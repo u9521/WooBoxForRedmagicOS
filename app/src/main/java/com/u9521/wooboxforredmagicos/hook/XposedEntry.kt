@@ -19,6 +19,7 @@ class XposedEntry : EasyXposedInit() {
         AlarmClock, //时钟
         SecurityCenter, //安全中心
         PackageInstaller,//应用包安装程序
+        Settings,//系统设置
     )
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {

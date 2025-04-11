@@ -170,6 +170,12 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryArrow(
                     TextSummaryV(
+                        textId = R.string.scope_systemSettings,
+                        onClickListener = { showFragment("scope_systemSettings") }
+                    )
+                )
+                TextSummaryArrow(
+                    TextSummaryV(
                         textId = R.string.scope_other,
                         tipsId = R.string.scope_other_summary,
                         onClickListener = { showFragment("scope_other") }
@@ -661,6 +667,24 @@ class SettingsActivity : MIUIActivity() {
                         tipsId = R.string.launcher_Force_Support_ResizeActivity_tips
                     ),
                     SwitchV("launcher_Force_Support_ResizeActivity")
+                )
+
+            }
+            register("scope_systemSettings",getString(R.string.scope_systemSettings),false){
+                getLsposedInactiveTip()?.let { TextSummaryArrow(it) }
+                TitleText(textId = R.string.scope_systemSettings)
+                TextSummaryWithSwitch(
+                    TextSummaryV(textId = R.string.usb_install_switch_skip_verify),
+                    SwitchV("usb_install_switch_skip_verify")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(textId = R.string.setting_Froce_Display_ZvioceSwitch),
+                    SwitchV("setting_Froce_Display_ZvioceSwitch")
+                )
+                TextSummaryWithSwitch(
+                    TextSummaryV(textId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch
+                    , tipsId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch_tips),
+                    SwitchV("setting_Froce_Display_WakeupGoogleAssistSwitch")
                 )
 
             }
