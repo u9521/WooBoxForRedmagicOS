@@ -14,8 +14,6 @@ object Launcher : AppRegister() {
         XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
         autoInitHooks(
             lpparam,
-            UnlockRecentLocks, //解除后台锁上限
-            RemoveUpdateDot, //移除更新小蓝点
             RMzvoiceUninstalDialog,//移除智慧语音已卸载弹窗
             ForceSupportResizeActivity,//强制活动可调大小，在最近任务显示小窗
         )

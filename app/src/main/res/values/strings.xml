@@ -32,8 +32,8 @@
 
     <string name="corepacth">Remove restrictions</string>
 
-    <string name="delete_on_post_notification">Remove display over notification</string>
-    <string name="delete_on_post_notification_summary">Remove \"This app is displaying over other apps\" notification</string>
+    <string name="remove_alert_windows_notification">Remove display over notification</string>
+    <string name="remove_alert_windows_notification_tips">Remove \"This app is displaying over other apps\" notification</string>
 
     <string name="developer">Developer</string>
 
@@ -217,4 +217,8 @@
     <string name="format_int_error">请输入有效整数</string>
     <string name="Fun_options">娱乐功能</string>
     <string name="setting_Fun_override_maxyear_switch">修改时间设置最大年份</string>
+    <string name="alarm_volume_steps_switch">闹钟音量阶数</string>
+    <string name="notify_volume_steps_switch">通知音量阶数</string>
+    <string name="ring_volume_steps_switch">铃声音量阶数</string>
+    <string name="vc_call_volume_steps_switch">语言通话音量阶数</string>
 </resources>
