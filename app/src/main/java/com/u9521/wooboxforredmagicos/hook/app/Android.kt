@@ -15,10 +15,9 @@ object Android : AppRegister() {
         XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
         //核心破解
         CorePatch().handleLoadPackage(lpparam)
-
+        DisableFlagSecure().handleLoadPackage(lpparam) //允许截图
         autoInitHooks(
             lpparam,
-            DisableFlagSecure, //允许截图
             RemoveAlertWindowsNotification, //上层显示通知
             VolumeStepHook, //音量阶数Hook
             AllowUntrustedTouches, //允许不受信任的触摸

@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 
 import com.u9521.wooboxforredmagicos.BuildConfig;
+import com.u9521.wooboxforredmagicos.util.XSPUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -32,7 +33,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatch extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "config");
+    XSharedPreferences prefs = XSPUtils.INSTANCE.getprefs();
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -237,5 +238,26 @@ public class CorePatch extends XposedHelper implements IXposedHookLoadPackage, I
                 }
             }
         });
+    }
+
+    public static class ReturnConstant extends XC_MethodHook {
+        private final XSharedPreferences prefs;
+        private final String prefsKey;
+        private final Object value;
+
+        public ReturnConstant(XSharedPreferences prefs, String prefsKey, Object value) {
+            this.prefs = prefs;
+            this.prefsKey = prefsKey;
+            this.value = value;
+        }
+
+        @Override
+        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            super.beforeHookedMethod(param);
+            prefs.reload();
+            if (prefs.getBoolean(prefsKey, false)) {
+                param.setResult(value);
+            }
+        }
     }
 }

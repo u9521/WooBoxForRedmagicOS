@@ -5,6 +5,9 @@ import de.robv.android.xposed.XSharedPreferences
 
 object XSPUtils {
     private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "WooboxConfig")
+    fun getprefs(): XSharedPreferences {
+        return prefs
+    }
 
     fun getBoolean(key: String, defValue: Boolean): Boolean {
         if (prefs.hasFileChanged()) {
@@ -12,6 +15,7 @@ object XSPUtils {
         }
         return prefs.getBoolean(key, defValue)
     }
+
     fun getInt(key: String, defValue: Int): Int {
         if (prefs.hasFileChanged()) {
             prefs.reload()
@@ -34,7 +38,12 @@ object XSPUtils {
     }
 }
 
-inline fun hasEnable(key: String, default: Boolean = false, noinline extraCondition: (() -> Boolean)? = null, crossinline block: () -> Unit) {
+inline fun hasEnable(
+    key: String,
+    default: Boolean = false,
+    noinline extraCondition: (() -> Boolean)? = null,
+    crossinline block: () -> Unit
+) {
     val conditionResult = if (extraCondition != null) extraCondition() else true
     if (XSPUtils.getBoolean(key, default) && conditionResult) {
         block()

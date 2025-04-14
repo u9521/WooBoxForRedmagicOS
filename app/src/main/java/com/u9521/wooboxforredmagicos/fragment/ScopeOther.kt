@@ -21,6 +21,5 @@ object ScopeOther : MyFragment() {
             TextSummaryV(textId = R.string.remove_clock_widget_redone),
             SwitchV("remove_clock_widget_redone")
         )
-        TitleText("testme!!!!!lol")
     }
 }

@@ -10,7 +10,7 @@ android {
     signingConfigs {
         create("release") {}
     }
-    compileSdk = 34
+    compileSdk = 35
 //    buildToolsVersion = "32.0.0"
     buildFeatures {
         buildConfig = true
@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId = "com.u9521.wooboxforredmagicos"
         minSdk = 31
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 5
         versionName = "1.0.4"
     }
@@ -42,6 +42,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        encoding ="UTF-8"
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.majorVersion
@@ -66,6 +67,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.annotation:annotation-jvm:1.9.1")
     //API
     compileOnly("de.robv.android.xposed:api:82")
     implementation("com.github.kyuubiran:EzXHelper:2.2.1")

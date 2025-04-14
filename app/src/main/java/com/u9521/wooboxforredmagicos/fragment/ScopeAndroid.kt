@@ -12,6 +12,13 @@ object ScopeAndroid : MyFragment() {
     override val regKey: String = "scope_android"
     override val IData: InitView.ItemData.() -> Unit = {
         LsposedInactiveTip.getTextSumV(mactivity!!)?.let { TextSummaryArrow(it) }
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.disable_flag_secure,
+                tipsId = R.string.disable_flag_secure_summary
+            ), SwitchV("disable_flag_secure")
+        )
+        Line()
         TitleText(textId = R.string.corepacth)
         TextSummaryWithSwitch(
             TextSummaryV(
@@ -39,13 +46,7 @@ object ScopeAndroid : MyFragment() {
             ), SwitchV("enhancedMode")
         )
         Line()
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.disable_flag_secure,
-                tipsId = R.string.disable_flag_secure_summary
-            ), SwitchV("disable_flag_secure")
-        )
-        Line()
+
         TitleText(textId = R.string.notification)
         TextSummaryWithSwitch(
             TextSummaryV(

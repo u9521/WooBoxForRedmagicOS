@@ -25,7 +25,7 @@
     <string name="digestCreak">禁用APK签名验证</string>
     <string name="digestCreak_summary">允许直接覆盖安装同包名不同签名的应用</string>
     <string name="disable_flag_secure">允许截图</string>
-    <string name="disable_flag_secure_summary">开启后允许在不允许截图的软件中截图\n支持添加下拉控制中心快速开关，保障安全</string>
+    <string name="disable_flag_secure_summary">开启后允许在不允许截图的软件中截图\n立即生效，<b>无需重启</b></string>
     <string name="discussions">讨论</string>
     <string name="double_tap_to_sleep">双击锁定屏幕</string>
     <string name="downgr">允许降级安装应用</string>
@@ -79,7 +79,7 @@
     <string name="right">右边</string>
     <string name="scope">作用域</string>
     <string name="scope_android">系统框架</string>
-    <string name="scope_android_summary">首次激活模块 或 模块更新后，\n此处的功能需重启系统后才能生效</string>
+    <string name="scope_android_summary">首次激活模块 或 模块更新后，\n此处的功能需重启系统后才能生效\n无特殊说明的功能要重启系统后生效</string>
     <string name="scope_launcher">启动器</string>
     <string name="scope_other">其他</string>
     <string name="scope_other_summary">手机管家、电池与性能等</string>
