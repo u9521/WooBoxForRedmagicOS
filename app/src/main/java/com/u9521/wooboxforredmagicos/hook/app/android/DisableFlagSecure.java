@@ -12,9 +12,11 @@ import android.os.Build;
 import android.view.SurfaceControl;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.u9521.wooboxforredmagicos.util.XSPUtils;
+import com.u9521.wooboxforredmagicos.util.xposed.DebugUtils;
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit;
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister;
 
@@ -24,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
@@ -35,6 +38,12 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressLint({"PrivateApi", "BlockedPrivateApi"})
 public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+
+    @NonNull
+    @Override
+    public List<AppRegister> getRegisteredApp() {
+        return Collections.emptyList();
+    }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
@@ -149,6 +158,22 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 //        }
     }
 
+    @Override
+    public void initZygote(StartupParam startupParam) {
+        if (startupParam == null){
+            return;
+        }
+        // Enhanced hook for hidden api, the app **must in** lsposed scope
+        try {
+            // Screenshot
+            hookSurfaceControl(Objects.requireNonNull(startupParam.getClass().getClassLoader()));
+            log("hook hookSurfaceControl succeed");
+        } catch (Throwable t) {
+            log("hook hookSurfaceControl failed");
+            log(t);
+        }
+
+    }
 
     private void deoptimizeSystemServer(ClassLoader classLoader) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
 
@@ -159,6 +184,12 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
         deoptimizeMethod(
                 classLoader.loadClass("com.android.server.wm.WindowManagerService"),
                 "relayoutWindow");
+        deoptimizeMethod(
+                classLoader.loadClass("android.view.SurfaceControl$Transaction"),
+                "setSkipScreenshot");
+        deoptimizeMethod(
+                classLoader.loadClass("android.view.SurfaceControl"),
+                "-$$Nest$smnativeSetFlags");
 
         for (int i = 0; i < 20; i++) {
             try {
@@ -185,6 +216,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
     }
 
     private static Field captureSecureLayersField;
+    private static Field AllowProtectedField;
 
     private void hookScreenCapture(ClassLoader classLoader) throws ClassNotFoundException, NoSuchFieldException {
         var screenCaptureClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
@@ -195,6 +227,9 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
                 "android.view.SurfaceControl$CaptureArgs");
         captureSecureLayersField = captureArgsClazz.getDeclaredField("mCaptureSecureLayers");
         captureSecureLayersField.setAccessible(true);
+        // allow DRM screenshot,may not work
+        AllowProtectedField = captureArgsClazz.getDeclaredField("mAllowProtected");
+        AllowProtectedField.setAccessible(true);
         hookMethods(screenCaptureClazz, ScreenCaptureHooker, "nativeCaptureDisplay", "nativeCaptureLayers");
     }
 
@@ -246,14 +281,15 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
         XposedBridge.hookMethod(method, ReturnFalseHooker);
     }
 
-    @NonNull
-    @Override
-    public List<AppRegister> getRegisteredApp() {
-        return Collections.emptyList();
+    @SuppressLint("SoonBlockedPrivateApi")
+    private void hookSurfaceControl(ClassLoader classLoader) throws ClassNotFoundException, NoSuchMethodException {
+        var SurfaceControlClazz = classLoader.loadClass("android.view.SurfaceControl");
+        var method = SurfaceControlClazz.getDeclaredMethod("nativeSetFlags", long.class, long.class, int.class, int.class);
+        XposedBridge.hookMethod(method, SurfaceControlHooker);
+
     }
 
     XC_MethodHook CreateDisplayHooker = new XC_MethodHook() {
-        @Override
         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
             if (enableHook()) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -287,6 +323,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
             if (enableHook()) {
                 try {
                     captureSecureLayersField.set(captureArgs, true);
+                    AllowProtectedField.set(captureArgs, true);
                 } catch (IllegalAccessException t) {
                     XposedBridge.log("ScreenCaptureHooker failed");
                     XposedBridge.log(t);
@@ -343,7 +380,23 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
             }
         }
     };
-
+    XC_MethodHook SurfaceControlHooker = new XC_MethodHook() {
+        /**
+         * Surface creation flag: Skip this layer and its children when taking a screenshot. This
+         * also includes mirroring and screen recording, so the layers with flag SKIP_SCREENSHOT
+         * will not be included on non primary displays.
+         * @hide
+         */
+//        public static final int SKIP_SCREENSHOT = 0x00000040;
+        @Override
+        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            if ((int) param.args[3] == 64) {
+                if (enableHook() && enableEnhancedHook()) {
+                    param.args[2] = 0;
+                }
+            }
+        }
+    };
     XC_MethodHook ReturnFalseHooker = new XC_MethodHook() {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -371,6 +424,10 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     private boolean enableHook() {
         return XSPUtils.INSTANCE.getBoolean("disable_flag_secure", false);
+    }
+
+    private boolean enableEnhancedHook() {
+        return XSPUtils.INSTANCE.getBoolean("disable_flag_secure_enhanced", false);
     }
 
 }

@@ -9,7 +9,7 @@ import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
 object ScopeOther : MyFragment() {
     override val regKey = "scope_other"
     override val IData: InitView.ItemData.() -> Unit = {
-        LsposedInactiveTip.getTextSumV(mactivity!!)?.let { TextSummaryArrow(it) }
+        LsposedInactiveTip(this, mactivity!!).setViews()
         TitleText(textId = R.string.scope_security_center)
         TextSummaryWithSwitch(
             TextSummaryV(textId = R.string.unlock_self_start_quantity),

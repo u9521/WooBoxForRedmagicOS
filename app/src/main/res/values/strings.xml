@@ -178,11 +178,7 @@
     <string name="package_installer">Package Installer</string>
     <string name="installer_hide_store_hint">Hide install from store hint</string>
     <string name="features">Features</string>
-    <string name="enable_charging_ripple">Enable Charging Ripple</string>
     <string name="lockscreen">Lock Screen</string>
-    <string name="remove_red_one">Remove the red one</string>
-    <string name="remove_oppo_default_app">Unrestrict some default applications</string>
-    <string name="remove_oppo_default_app_summary">Unlock OPPO\'s restrictions on some default apps</string>
     <string name="skip_apk_scan">Skip Apk Scan</string>
     <string name="hide_purify_switch">Hide Purify Switch</string>
     <string name="hide_purify_switch_summery">it also can hide risk hint</string>
@@ -200,7 +196,6 @@
     <string name="gesture_use_default_digital_assist">手势打开默认数字助理</string>
     <string name="gesture_use_default_digital_assist_tips">手势打开自带语音助手替换为打开默认数字助理</string>
     <string name="rm_zvoice_uninstalled_popupwindow">取消智慧语言已卸载弹窗</string>
-    <string name="rm_zvoice_uninstalled_popupwindow_tips">配合 系统界面->手势打开默认数字助理 使用</string>
     <string name="no_vibrate_volKey_Long_press">禁用长按调节音量的振动</string>
     <string name="no_vibrate_volKey_Long_press_tips">不喜欢振动？试试这个</string>
     <string name="scope_packageinstaller">软件包安装器</string>
@@ -213,7 +208,7 @@
     <string name="setting_Froce_Display_WakeupGoogleAssistSwitch_tips">配合系统框架hook可以达成启动自定义数字助理</string>
     <string name="setting_Fun_override_maxyear_tips">娱乐功能，能超过2099年限制，太远的时间在设置时会失败</string>
     <string name="setting_Fun_override_maxyear">覆盖时间设置最大年份</string>
-    <string name="format_error">格式错误</string>
+    <string name="input_format_error">格式错误</string>
     <string name="format_int_error">请输入有效整数</string>
     <string name="Fun_options">娱乐功能</string>
     <string name="setting_Fun_override_maxyear_switch">修改时间设置最大年份</string>
@@ -221,4 +216,11 @@
     <string name="notify_volume_steps_switch">通知音量阶数</string>
     <string name="ring_volume_steps_switch">铃声音量阶数</string>
     <string name="vc_call_volume_steps_switch">语言通话音量阶数</string>
+    <string name="disable_flag_secure_enhanced">允许截图增强模式</string>
+    <string name="disable_flag_secure_enhanced_tips">阻止应用通过隐藏api(skipscreenshot)禁止截屏</string>
+    <string name="invalid_format">输入格式无效</string>
+    <string name="use_apps_notify_icon">使用原生通知图标</string>
+    <string name="aosp_notify_tips">状态栏通知也会变成原生样式，滑块调节状态栏图标大小</string>
+    <string name="rm_zvoice_uninstalled_popupwindow_tips">配合 系统界面->手势打开默认数字助理 使用</string>
+    <string name="warn_scope">Woobox:模块注入非推荐应用，请调整作用域</string>
 </resources>

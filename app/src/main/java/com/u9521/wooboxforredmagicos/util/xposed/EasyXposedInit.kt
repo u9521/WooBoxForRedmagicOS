@@ -17,6 +17,8 @@ abstract class EasyXposedInit : IXposedHookLoadPackage, IXposedHookZygoteInit {
     private lateinit var packageParam: XC_LoadPackage.LoadPackageParam
     abstract val registeredApp: List<AppRegister>
 
+
+
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {
         packageParam = lpparam!!
         registeredApp.forEach { app ->
@@ -40,10 +42,10 @@ abstract class EasyXposedInit : IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     companion object {
         @JvmStatic
-        var m: Method? = null;
+        var m: Method? = null
 
         @JvmStatic
-        var deoptimizeMethod = m;
+        var deoptimizeMethod = m
 
         init {
             try {
@@ -53,9 +55,9 @@ abstract class EasyXposedInit : IXposedHookLoadPackage, IXposedHookZygoteInit {
                     Member::class.java
                 )
             } catch (t: Throwable) {
-                XposedBridge.log(t);
+                XposedBridge.log(t)
             }
-            deoptimizeMethod = m;
+            deoptimizeMethod = m
         }
     }
 

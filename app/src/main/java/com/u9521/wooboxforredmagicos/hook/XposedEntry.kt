@@ -1,8 +1,14 @@
 package com.u9521.wooboxforredmagicos.hook
 
+import android.app.Activity
+import android.widget.Toast
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
+import com.github.kyuubiran.ezxhelper.Log
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.hook.app.*
-import com.u9521.wooboxforredmagicos.hook.app.android.corepatch.CorePatch
+import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.IXposedHookZygoteInit
@@ -26,11 +32,35 @@ class XposedEntry : EasyXposedInit() {
         if (prefs.getBoolean("main_switch", true)) {
             super.handleLoadPackage(lpparam)
         }
+        EzXHelper.initHandleLoadPackage(lpparam!!)
+        Log.i("hooked " + lpparam!!.packageName)
+        if (!matchPackagename(registeredApp, lpparam!!.packageName)) {
+            MethodFinder.fromClass(Activity::class.java).filterByName("onCreate").first()
+                .createBeforeHook {
+                    Toast.makeText(
+                        it.thisObject as Activity,
+                        "注意:Woobox注入了非推荐应用",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
     }
 
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam?) {
         super.initZygote(startupParam)
-        CorePatch().initZygote(startupParam)
+//        CorePatch().initZygote(startupParam)
+        DisableFlagSecure().initZygote(startupParam)
     }
 
+    fun matchPackagename(arr: List<AppRegister>, target: String): Boolean {
+        if (BuildConfig.APPLICATION_ID == target) {
+            return true
+        }
+        for (subList in arr) {
+            for (element in subList.packageName) {
+                if (element == target) return true
+            }
+        }
+        return false
+    }
 }

@@ -6,18 +6,43 @@ import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import com.u9521.wooboxforredmagicos.R
+import com.u9521.wooboxforredmagicos.compose.DataConfig
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
+import com.u9521.wooboxforredmagicos.compose.SwitchWithSeekbar
 
 object ScopeAndroid : MyFragment() {
     override val regKey: String = "scope_android"
     override val IData: InitView.ItemData.() -> Unit = {
-        LsposedInactiveTip.getTextSumV(mactivity!!)?.let { TextSummaryArrow(it) }
+        LsposedInactiveTip(this, mactivity!!).setViews()
+        val disableFlagSecureSwitchBinding = GetDataBinding(
+            defValue = {
+                mactivity!!.getSP()!!.getBoolean("disable_flag_secure", false)
+            }
+        ) { view, flags, data ->
+            when (flags) {
+                1 -> (view as Switch).isEnabled = data as Boolean
+                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
+            }
+        }
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.disable_flag_secure,
                 tipsId = R.string.disable_flag_secure_summary
-            ), SwitchV("disable_flag_secure")
+            ),
+            SwitchV(
+                "disable_flag_secure",
+                dataBindingSend = disableFlagSecureSwitchBinding.bindingSend
+            )
         )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.disable_flag_secure_enhanced,
+                tipsId = R.string.disable_flag_secure_enhanced_tips
+            ),
+            SwitchV("disable_flag_secure_enhanced"),
+            dataBindingRecv = disableFlagSecureSwitchBinding.getRecv(2)
+        )
+
         Line()
         TitleText(textId = R.string.corepacth)
         TextSummaryWithSwitch(
@@ -46,7 +71,6 @@ object ScopeAndroid : MyFragment() {
             ), SwitchV("enhancedMode")
         )
         Line()
-
         TitleText(textId = R.string.notification)
         TextSummaryWithSwitch(
             TextSummaryV(
@@ -61,164 +85,72 @@ object ScopeAndroid : MyFragment() {
             ), SwitchV("allow_untrusted_touches")
         )
         Line()
+        //音量阶数
         TitleText(textId = R.string.sound)
         // alarm
-        val alarmVolumeStepsSwitchBinding = GetDataBinding(
-            defValue = {
-                mactivity!!.getSP()!!.getBoolean("alarm_volume_steps_switch", false)
-            }
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.alarm_volume_steps_switch,
-                tips = "${mactivity!!.getString(R.string.take_effect_after_reboot)}\n${
-                    mactivity!!.getString(
-                        R.string.media_volume_steps_summary
-                    )
-                }"
-            ), SwitchV(
+        SwitchWithSeekbar(
+            this, mactivity!!,
+            DataConfig(
                 "alarm_volume_steps_switch",
-                dataBindingSend = alarmVolumeStepsSwitchBinding.bindingSend
+                "alarm_volume_steps",
+                R.string.alarm_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                3,
+                50,
+                15
             )
-        )
-        SeekBarWithText(
-            "alarm_volume_steps",
-            3,
-            50,
-            15,
-            dataBindingRecv = alarmVolumeStepsSwitchBinding.binding.getRecv(2)
-        )
+        ).build()
         // media
-        val mediaVolumeStepsSwitchBinding = GetDataBinding(
-            defValue = {
-                mactivity!!.getSP()!!.getBoolean("media_volume_steps_switch", false)
-            }
-
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.media_volume_steps_switch,
-                tips = "${mactivity!!.getString(R.string.take_effect_after_reboot)}\n${
-                    mactivity!!.getString(
-                        R.string.media_volume_steps_summary
-                    )
-                }"
-            ), SwitchV(
+        SwitchWithSeekbar(
+            this, mactivity!!,
+            DataConfig(
                 "media_volume_steps_switch",
-                dataBindingSend = mediaVolumeStepsSwitchBinding.bindingSend
+                "media_volume_steps",
+                R.string.media_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                3,
+                50,
+                15
             )
-        )
-        SeekBarWithText(
-            "media_volume_steps",
-            3,
-            50,
-            15,
-            dataBindingRecv = mediaVolumeStepsSwitchBinding.binding.getRecv(2)
-        )
+        ).build()
         // notify
-        val notifyVolumeStepsSwitchBinding = GetDataBinding(
-            defValue = {
-                mactivity!!.getSP()!!.getBoolean("notify_volume_steps_switch", false)
-            }
-
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.notify_volume_steps_switch,
-                tips = "${mactivity!!.getString(R.string.take_effect_after_reboot)}\n${
-                    mactivity!!.getString(
-                        R.string.media_volume_steps_summary
-                    )
-                }"
-            ), SwitchV(
+        SwitchWithSeekbar(
+            this, mactivity!!,
+            DataConfig(
                 "notify_volume_steps_switch",
-                dataBindingSend = notifyVolumeStepsSwitchBinding.bindingSend
+                "notify_volume_steps",
+                R.string.notify_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                3,
+                50,
+                15
             )
-        )
-        SeekBarWithText(
-            "notify_volume_steps",
-            3,
-            50,
-            15,
-            dataBindingRecv = notifyVolumeStepsSwitchBinding.binding.getRecv(2)
-        )
+        ).build()
         // ring
-        val ringVolumeStepsSwitchBinding = GetDataBinding(
-            defValue = {
-                mactivity!!.getSP()!!.getBoolean("ring_volume_steps_switch", false)
-            }
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.ring_volume_steps_switch,
-                tips = "${mactivity!!.getString(R.string.take_effect_after_reboot)}\n${
-                    mactivity!!.getString(
-                        R.string.media_volume_steps_summary
-                    )
-                }"
-            ), SwitchV(
+        SwitchWithSeekbar(
+            this, mactivity!!,
+            DataConfig(
                 "ring_volume_steps_switch",
-                dataBindingSend = ringVolumeStepsSwitchBinding.bindingSend
+                "ring_volume_steps",
+                R.string.ring_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                3,
+                50,
+                15
             )
-        )
-        SeekBarWithText(
-            "ring_volume_steps",
-            3,
-            50,
-            15,
-            dataBindingRecv = ringVolumeStepsSwitchBinding.binding.getRecv(2)
-        )
+        ).build()
         //voice call
-        val vc_callVolumeStepsSwitchBinding = GetDataBinding(
-            defValue = {
-                mactivity!!.getSP()!!.getBoolean("vc_call_volume_steps_switch", false)
-            }
-
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.vc_call_volume_steps_switch,
-                tips = "${mactivity!!.getString(R.string.take_effect_after_reboot)}\n${
-                    mactivity!!.getString(
-                        R.string.media_volume_steps_summary
-                    )
-                }"
-            ), SwitchV(
+        SwitchWithSeekbar(
+            this, mactivity!!,
+            DataConfig(
                 "vc_call_volume_steps_switch",
-                dataBindingSend = vc_callVolumeStepsSwitchBinding.bindingSend
+                "vc_call_volume_steps",
+                R.string.vc_call_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                3,
+                50,
+                10
             )
-        )
-        SeekBarWithText(
-            "vc_call_volume_steps",
-            3,
-            50,
-            10,
-            dataBindingRecv = vc_callVolumeStepsSwitchBinding.binding.getRecv(2)
-        )
+        ).build()
     }
 }

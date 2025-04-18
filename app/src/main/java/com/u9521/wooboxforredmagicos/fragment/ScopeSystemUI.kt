@@ -7,19 +7,33 @@ import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import cn.fkj233.ui.activity.view.TextV
 import com.u9521.wooboxforredmagicos.R
+import com.u9521.wooboxforredmagicos.compose.DataConfig
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
+import com.u9521.wooboxforredmagicos.compose.SwitchWithSeekbar
 
 object ScopeSystemUI : MyFragment() {
     override val regKey: String = "scope_systemui"
     override val IData: InitView.ItemData.() -> Unit = {
-        LsposedInactiveTip.getTextSumV(mactivity!!)
-            ?.let { TextSummaryArrow(it) }
+        LsposedInactiveTip(this, mactivity!!).setViews()
         TitleText(textId = R.string.statusbar)
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.double_tap_to_sleep
             ), SwitchV("status_bar_double_tap_to_sleep")
         )
+        SwitchWithSeekbar(
+            this, mactivity!!, DataConfig(
+                "use_aosp_notify",
+                "aosp_icon_size_dp",
+                R.string.use_apps_notify_icon,
+                R.string.aosp_notify_tips,
+                0,
+                64,
+                16
+            )
+        ).build()
+
+
         Line()
         TitleText(textId = R.string.status_bar_clock_format)
         val customClockBinding = GetDataBinding(
@@ -113,10 +127,6 @@ object ScopeSystemUI : MyFragment() {
             TextV(textId = R.string.dropdown_status_bar_clock_display_seconds),
             SwitchV("dropdown_status_bar_clock_display_seconds")
         )
-        TextWithSwitch(
-            TextV(textId = R.string.remove_dropdown_status_bar_clock_redone),
-            SwitchV("remove_dropdown_status_bar_clock_redone")
-        )
         Line()
         TitleText(textId = R.string.status_bar_icon)
         TextSummaryWithSwitch(
@@ -204,26 +214,11 @@ object ScopeSystemUI : MyFragment() {
         TitleText(textId = R.string.notification)
         TextSummaryWithSwitch(
             TextSummaryV(
-                textId = R.string.remove_finished_charging,
-            ), SwitchV("remove_finished_charging")
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
                 textId = R.string.remove_usb_debugging,
             ), SwitchV("remove_usb_debugging")
         )
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.remove_dev_mode_is_on,
-            ), SwitchV("remove_dev_mode_is_on")
-        )
         Line()
         TitleText(textId = R.string.features)
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.enable_charging_ripple,
-            ), SwitchV("enable_charging_ripple")
-        )
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.gesture_use_default_digital_assist,
@@ -238,11 +233,6 @@ object ScopeSystemUI : MyFragment() {
         )
         Line()
         TitleText(textId = R.string.lockscreen)
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.remove_red_one,
-            ), SwitchV("remove_red_one")
-        )
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.lockscreen_allow_adjust_volume,

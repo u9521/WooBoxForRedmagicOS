@@ -11,7 +11,7 @@ object ScopeLauncher:MyFragment() {
         get() = "scope_launcher"
     override val IData: InitView.ItemData.() -> Unit
         get() = {
-            LsposedInactiveTip.getTextSumV(mactivity!!)?.let { TextSummaryArrow(it) }
+            LsposedInactiveTip(this, mactivity!!).setViews()
             TitleText(textId = R.string.scope_launcher)
             TextSummaryWithSwitch(
                 TextSummaryV(

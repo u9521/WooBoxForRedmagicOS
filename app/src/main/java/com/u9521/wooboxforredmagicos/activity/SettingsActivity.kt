@@ -81,7 +81,7 @@ class SettingsActivity : MIUIActivity() {
         initView {
             mInitvew = this
             registerMain(getString(R.string.app_name), false) {
-                LsposedInactiveTip.getTextSumV(this@SettingsActivity)?.let { TextSummaryArrow(it) }
+                LsposedInactiveTip(this,this@SettingsActivity).setViews()
                 TextSummaryWithSwitch(
                     TextSummaryV(textId = R.string.main_switch, colorId = R.color.purple_700),
                     SwitchV("main_switch", true)

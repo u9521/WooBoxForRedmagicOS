@@ -11,7 +11,7 @@ object ScopePackageInstaller : MyFragment() {
         get() = "scope_packageinstaller"
     override val IData: InitView.ItemData.() -> Unit
         get() = {
-            LsposedInactiveTip.getTextSumV(mactivity!!)?.let { TextSummaryArrow(it) }
+            LsposedInactiveTip(this,mactivity!!).setViews()
             TitleText(textId = R.string.scope_packageinstaller)
             TextSummaryWithSwitch(
                 TextSummaryV(textId = R.string.skip_apk_scan), SwitchV("skip_apk_scan")

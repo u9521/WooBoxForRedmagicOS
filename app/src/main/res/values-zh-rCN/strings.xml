@@ -135,6 +135,7 @@
     <string name="installer_cts_mode_tips">没有权限提示和商店推广，给cts测试用的</string>
     <string name="hide_vpn_icon">隐藏 VPN 图标</string>
     <string name="hide_vpn_icon_tips">新版本已经可以在系统设置隐藏图标了</string>
+    <string name="lockscreen_allow_adjust_volume">允许在锁屏调整音量</string>
     <string name="lockscreen_allow_adjust_volume_tips">即使没有音乐在播放</string>
     <string name="status_bar_bluetooth_icon_acts_global">未使用蓝牙设备时隐藏蓝牙图标</string>
     <string name="status_bar_bluetooth_icon_acts_global_tips">和国际版系统行为相同</string>
@@ -153,7 +154,7 @@
     <string name="setting_Froce_Display_WakeupGoogleAssistSwitch_tips">配合系统框架hook可以达成启动自定义数字助理</string>
     <string name="setting_Fun_override_maxyear_tips">娱乐功能，能超过2099年限制，太远的时间在设置时会失败</string>
     <string name="setting_Fun_override_maxyear">覆盖时间设置最大年份</string>
-    <string name="format_error">格式错误</string>
+    <string name="input_format_error">格式错误</string>
     <string name="format_int_error">请输入有效整数</string>
     <string name="Fun_options">娱乐功能</string>
     <string name="setting_Fun_override_maxyear_switch">修改时间设置最大年份</string>
@@ -161,4 +162,13 @@
     <string name="notify_volume_steps_switch">通知音量阶数</string>
     <string name="ring_volume_steps_switch">铃声音量阶数</string>
     <string name="vc_call_volume_steps_switch">语言通话音量阶数</string>
+    <string name="disable_flag_secure_enhanced">允许截图增强模式</string>
+    <string name="disable_flag_secure_enhanced_tips">阻止应用通过隐藏api(skipscreenshot)禁止截屏,\n目标应用<b>必须在模块作用域内</b></string>
+    <string name="invalid_format">输入格式无效</string>
+    <string name="use_apps_notify_icon">使用原生通知图标</string>
+    <string name="aosp_notify_tips">状态栏通知也会变成原生样式，滑块调节状态栏应用通知图标大小</string>
+    <string name="features">特色功能</string>
+    <string name="lockscreen">锁屏</string>
+    <string name="warn_scope">Woobox:模块注入非推荐应用，请调整作用域</string>
+    <string name="rm_zvoice_uninstalled_popupwindow_tips">配合 系统界面->手势打开默认数字助理 使用</string>
 </resources>
