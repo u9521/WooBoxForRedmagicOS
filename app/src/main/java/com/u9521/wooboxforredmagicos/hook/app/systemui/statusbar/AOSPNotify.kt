@@ -18,10 +18,12 @@ object AOSPNotify : HookRegister() {
             val adaptClazz = ClassUtils.loadClass("com.zte.base.Adapt")
             var adaptHooker: XC_MethodHook = object : XC_MethodHook() {
                 val enableAdapt = adaptClazz.getDeclaredField("ZTE_STYLE")
+
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     enableAdapt.setBoolean(param.thisObject, false)
                 }
+
                 override fun afterHookedMethod(param: MethodHookParam?) {
                     enableAdapt.setBoolean(param!!.thisObject, true)
                 }
@@ -46,7 +48,8 @@ object AOSPNotify : HookRegister() {
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationHeaderViewWrapperAdapt")
             val NTVWAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationTemplateViewWrapperAdapt")
-
+            val ENRAdapt =
+                ClassUtils.loadClass("com.zte.adapt.mifavor.notification.ExpandableNotificationRowAdapt")
             MethodFinder.fromClass(NHVWAdapt).onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
@@ -54,6 +57,9 @@ object AOSPNotify : HookRegister() {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
             MethodFinder.fromClass(NTVWAdapt).onEach {
+                XposedBridge.hookMethod(it, adaptHooker)
+            }
+            MethodFinder.fromClass(ENRAdapt).onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
             MethodFinder.fromClass(NIACAdapt).onEach { it ->
