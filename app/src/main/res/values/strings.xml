@@ -223,4 +223,10 @@
     <string name="aosp_notify_tips">状态栏通知也会变成原生样式，滑块调节状态栏图标大小</string>
     <string name="rm_zvoice_uninstalled_popupwindow_tips">配合 系统界面->手势打开默认数字助理 使用</string>
     <string name="warn_scope">Woobox:模块注入非推荐应用，请调整作用域</string>
+    <string name="qs_shortcut_redir_calendar">点击日期可跳转第三方日历</string>
+    <string name="qs_show_carrier">快速设置显示运营商</string>
+    <string name="qs_show_search">快速设置显示搜索按钮</string>
+    <string name="qs_shortcut_redir_search">点击搜索打开浏览器</string>
+    <string name="statusbar_font_restore">恢复时钟日期图标字体</string>
+    <string name="allow_untrusted_touches_tips">允许高可见度的view点击传透\n除非你知道你在干什么，否则不要打开</string>
 </resources>

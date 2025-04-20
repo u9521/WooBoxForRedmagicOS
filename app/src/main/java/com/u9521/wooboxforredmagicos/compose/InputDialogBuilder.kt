@@ -62,7 +62,7 @@ class InputDialogBuilder<T>(
 ) {
     private val sp = context.getSP()!!
 
-    fun show(onSuccess: (T) -> Unit = {}) {
+    fun show(onSuccess: (MIUIDialog) -> Unit = {}) {
         val currentValue = when (config.defaultValue) {
             is Int -> sp.getInt(config.spKey, config.defaultValue as Int).toString()
             is Long -> sp.getLong(config.spKey, config.defaultValue as Long).toString()
@@ -90,23 +90,24 @@ class InputDialogBuilder<T>(
             setRButton(R.string.Done) {
                 if (inputStr == "") {
                     if (emptyFlag) {
-//                    restoredefault
-                        Toast.makeText(context, "restore default", Toast.LENGTH_SHORT).show()
+                        //restoredefault
+                        handleInput(config.defaultValue.toString(), {}, this)
+                        Toast.makeText(context, "恢复默认", Toast.LENGTH_SHORT).show()
                     }
                     dismiss()
                     return@setRButton
                 }
-                handleInput(inputStr, onSuccess)
+                handleInput(inputStr, onSuccess, this)
             }
         }.show()
     }
 
-    private fun handleInput(input: String, onSuccess: (T) -> Unit) {
+    private fun handleInput(input: String, onSuccess: (MIUIDialog) -> Unit, view: MIUIDialog) {
         config.typeAdapter.parse(input)?.let { parsedValue ->
             sp.edit().also { editor ->
                 config.typeAdapter.save(editor, config.spKey, parsedValue)
             }.apply()
-            onSuccess(parsedValue)
+            onSuccess(view)
         } ?: showErrorDialog()
     }
 

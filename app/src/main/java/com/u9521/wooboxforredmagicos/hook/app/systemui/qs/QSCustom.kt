@@ -1,7 +1,5 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.qs
 
-import android.content.res.Configuration
-import android.view.ViewGroup
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister

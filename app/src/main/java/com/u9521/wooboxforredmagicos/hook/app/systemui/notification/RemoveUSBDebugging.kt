@@ -1,6 +1,5 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.notification
 
-import android.content.Context
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 

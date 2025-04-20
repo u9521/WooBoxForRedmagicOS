@@ -16,7 +16,7 @@ object AOSPNotify : HookRegister() {
     override fun init() {
         hasEnable("use_aosp_notify") {
             val adaptClazz = ClassUtils.loadClass("com.zte.base.Adapt")
-            var adaptHooker: XC_MethodHook = object : XC_MethodHook() {
+            val adaptHooker: XC_MethodHook = object : XC_MethodHook() {
                 val enableAdapt = adaptClazz.getDeclaredField("ZTE_STYLE")
 
                 @Throws(Throwable::class)

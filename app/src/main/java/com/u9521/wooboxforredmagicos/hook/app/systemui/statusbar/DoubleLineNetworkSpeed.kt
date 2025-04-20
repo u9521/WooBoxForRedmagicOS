@@ -2,13 +2,9 @@ package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 
 import android.content.Context
 import android.net.TrafficStats
-import android.util.TypedValue
-import android.widget.FrameLayout
-import android.widget.TextView
-import cn.fkj233.ui.activity.dp2px
-import com.u9521.wooboxforredmagicos.util.*
+import com.u9521.wooboxforredmagicos.util.XSPUtils
+import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
-import de.robv.android.xposed.XposedHelpers
 import java.text.DecimalFormat
 
 object DoubleLineNetworkSpeed : HookRegister() {

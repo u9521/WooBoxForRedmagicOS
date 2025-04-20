@@ -6,9 +6,10 @@ import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import com.u9521.wooboxforredmagicos.R
-import com.u9521.wooboxforredmagicos.compose.DataConfig
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
-import com.u9521.wooboxforredmagicos.compose.SwitchWithSeekbar
+import com.u9521.wooboxforredmagicos.compose.SubItemConfig
+import com.u9521.wooboxforredmagicos.compose.SwitchGroupBuilder
+import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
 
 object ScopeAndroid : MyFragment() {
     override val regKey: String = "scope_android"
@@ -81,76 +82,75 @@ object ScopeAndroid : MyFragment() {
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.allow_untrusted_touches,
-                tipsId = R.string.take_effect_after_reboot
+                tipsId = R.string.allow_untrusted_touches_tips
             ), SwitchV("allow_untrusted_touches")
         )
         Line()
         //音量阶数
         TitleText(textId = R.string.sound)
         // alarm
-        SwitchWithSeekbar(
-            this, mactivity!!,
-            DataConfig(
-                "alarm_volume_steps_switch",
+        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
+            "alarm_volume_steps_switch",
+            R.string.alarm_volume_steps_switch,
+            R.string.media_volume_steps_summary,
+            SubItemConfig.SeekBar(
                 "alarm_volume_steps",
-                R.string.alarm_volume_steps_switch,
-                R.string.media_volume_steps_summary,
                 3,
                 50,
                 15
             )
-        ).build()
+        )).build()
+
         // media
-        SwitchWithSeekbar(
-            this, mactivity!!,
-            DataConfig(
-                "media_volume_steps_switch",
+        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
+            "media_volume_steps_switch",
+            R.string.media_volume_steps_switch,
+            R.string.media_volume_steps_summary,
+            SubItemConfig.SeekBar(
                 "media_volume_steps",
-                R.string.media_volume_steps_switch,
-                R.string.media_volume_steps_summary,
                 3,
                 50,
                 15
             )
-        ).build()
+        )).build()
+
         // notify
-        SwitchWithSeekbar(
-            this, mactivity!!,
-            DataConfig(
-                "notify_volume_steps_switch",
+        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
+            "notify_volume_steps_switch",
+            R.string.notify_volume_steps_switch,
+            R.string.media_volume_steps_summary,
+            SubItemConfig.SeekBar(
                 "notify_volume_steps",
-                R.string.notify_volume_steps_switch,
-                R.string.media_volume_steps_summary,
                 3,
                 50,
                 15
             )
-        ).build()
+        )).build()
+
         // ring
-        SwitchWithSeekbar(
-            this, mactivity!!,
-            DataConfig(
-                "ring_volume_steps_switch",
+        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
+            "ring_volume_steps_switch",
+            R.string.ring_volume_steps_switch,
+            R.string.media_volume_steps_summary,
+            SubItemConfig.SeekBar(
                 "ring_volume_steps",
-                R.string.ring_volume_steps_switch,
-                R.string.media_volume_steps_summary,
                 3,
                 50,
                 15
             )
-        ).build()
+        )).build()
+
         //voice call
-        SwitchWithSeekbar(
-            this, mactivity!!,
-            DataConfig(
-                "vc_call_volume_steps_switch",
+        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
+            "vc_call_volume_steps_switch",
+            R.string.vc_call_volume_steps_switch,
+            R.string.media_volume_steps_summary,
+            SubItemConfig.SeekBar(
                 "vc_call_volume_steps",
-                R.string.vc_call_volume_steps_switch,
-                R.string.media_volume_steps_summary,
                 3,
                 50,
                 10
             )
-        ).build()
+        )).build()
     }
 }

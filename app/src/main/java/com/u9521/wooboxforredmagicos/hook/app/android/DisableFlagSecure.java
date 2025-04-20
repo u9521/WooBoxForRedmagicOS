@@ -290,7 +290,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
     }
 
     XC_MethodHook CreateDisplayHooker = new XC_MethodHook() {
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     var stackTrace = new Throwable().getStackTrace();
@@ -318,7 +318,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     XC_MethodHook ScreenCaptureHooker = new XC_MethodHook() {
         @Override
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             var captureArgs = param.args[0];
             if (enableHook()) {
                 try {
@@ -334,7 +334,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     XC_MethodHook CreateVirtualDisplayLockedHooker = new XC_MethodHook() {
         @Override
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
                 var caller = (int) param.args[2];
                 if (caller >= 10000 && param.args[1] == null) {
@@ -356,7 +356,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
     };
     XC_MethodHook SecureLockedHooker = new XC_MethodHook() {
         @Override
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     var walker = StackWalker.getInstance();
@@ -389,7 +389,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
          */
 //        public static final int SKIP_SCREENSHOT = 0x00000040;
         @Override
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             if ((int) param.args[3] == 64) {
                 if (enableHook() && enableEnhancedHook()) {
                     param.args[2] = 0;
@@ -399,7 +399,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
     };
     XC_MethodHook ReturnFalseHooker = new XC_MethodHook() {
         @Override
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
                 param.setResult(false);
             }
@@ -408,7 +408,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     XC_MethodHook ReturnNullHooker = new XC_MethodHook() {
         @Override
-        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
                 param.setResult(null);
             }

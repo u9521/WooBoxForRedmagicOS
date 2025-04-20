@@ -51,7 +51,10 @@ object ScopeSystemSettings : MyFragment() {
                                 2099,
                                 PrefsTypeAdapter.INT,
                             )
-                        ).show { Toast.makeText(mactivity, "设置成功", Toast.LENGTH_SHORT).show() }
+                        ).show {
+                            Toast.makeText(mactivity, "设置成功", Toast.LENGTH_SHORT).show()
+                            it.dismiss()
+                        }
                     })
                 )
             ).build()

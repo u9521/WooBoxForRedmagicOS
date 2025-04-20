@@ -16,7 +16,7 @@ object UsbInstallNoVerify : HookRegister() {
         ClassUtils.loadClass("com.android.settingslib.core.AbstractPreferenceController")
     private val ADBinstallSet = "adb_install_enabled"
     private fun systemPutInt(contentResolver: Any, string: String, int: Int) {
-        Log.i(contentResolver.toString() + " " + string.toString() + " " + int.toString())
+        Log.i("$contentResolver $string $int")
         val settingSysclazz = ClassUtils.loadClass("android.provider.Settings\$System")
         MethodFinder.fromClass(settingSysclazz).filterByName("putInt").filterByParamCount(3)
             .first().invoke(null, contentResolver, string, int)
@@ -48,7 +48,7 @@ object UsbInstallNoVerify : HookRegister() {
                     it.result = true
                     return@createBeforeHook
                 } else {
-                    adbiSP!!.objectHelper()
+                    adbiSP.objectHelper()
                         .invokeMethodBestMatch("setChecked", params = arrayOf(false))
                     systemPutInt(adbiCR, ADBinstallSet, 0)
                     it.result = true

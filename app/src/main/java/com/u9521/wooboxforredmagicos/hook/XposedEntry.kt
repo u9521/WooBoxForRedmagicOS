@@ -33,8 +33,8 @@ class XposedEntry : EasyXposedInit() {
             super.handleLoadPackage(lpparam)
         }
         EzXHelper.initHandleLoadPackage(lpparam!!)
-        Log.i("hooked " + lpparam!!.packageName)
-        if (!matchPackagename(registeredApp, lpparam!!.packageName)) {
+        Log.i("hooked " + lpparam.packageName)
+        if (!matchPackagename(registeredApp, lpparam.packageName)) {
             MethodFinder.fromClass(Activity::class.java).filterByName("onCreate").first()
                 .createBeforeHook {
                     Toast.makeText(

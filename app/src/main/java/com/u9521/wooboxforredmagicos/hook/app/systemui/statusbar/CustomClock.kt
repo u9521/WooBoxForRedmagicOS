@@ -2,17 +2,11 @@ package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
-import android.provider.Settings
-import android.util.TypedValue
-import android.view.Gravity
-import android.widget.TextView
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
-import java.lang.reflect.Method
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 object CustomClock : HookRegister() {
 

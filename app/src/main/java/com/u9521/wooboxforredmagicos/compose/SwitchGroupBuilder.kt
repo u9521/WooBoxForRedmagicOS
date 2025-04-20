@@ -12,25 +12,70 @@ import com.u9521.wooboxforredmagicos.R
 
 // 类型安全配置体系
 sealed class SubItemConfig {
-    abstract val textResId: Int
 
     data class Switch(
-        override val textResId: Int,
+        val textResId: Int,
         val switchKey: String
     ) : SubItemConfig()
 
     data class Arrow(
-        override val textResId: Int,
+        val textResId: Int,
         val onClick: () -> Unit
+    ) : SubItemConfig()
+
+    data class SeekBar(
+        val seekbarKey: String,
+        val minSteps: Int = 3,
+        val maxSteps: Int = 50,
+        val defaultSteps: Int = 15
+    ) : SubItemConfig()
+
+    data class Text(
+        val textResId: Int,
     ) : SubItemConfig()
 }
 
 data class SwitchGroupConfig(
     val masterKey: String,
     val masterTextRes: Int,
-    val subItems: List<SubItemConfig>,
+    val masterTipRes: Int?,
+    val subItems: List<SubItemConfig>?,
+    val subItem: SubItemConfig?,
     val masterColorRes: Int = R.color.purple_700,
-)
+) {
+    constructor(
+        masterKey: String,
+        masterTextRes: Int,
+        subItem: SubItemConfig,
+        masterColorRes: Int = R.color.purple_700,
+    ) : this(masterKey, masterTextRes, null, null, subItem, masterColorRes)
+
+    constructor(
+        masterKey: String,
+        masterTextRes: Int,
+        masterTipRes: Int,
+        subItem: SubItemConfig,
+        masterColorRes: Int = R.color.purple_700,
+    ) : this(masterKey, masterTextRes, masterTipRes, null, subItem, masterColorRes)
+
+    constructor(
+        masterKey: String,
+        masterTextRes: Int,
+        subItems: List<SubItemConfig>?,
+        masterColorRes: Int = R.color.purple_700,
+    ) : this(masterKey, masterTextRes, null, subItems, null, masterColorRes)
+
+    constructor(
+        masterKey: String,
+        masterTextRes: Int,
+        masterTipRes: Int,
+        subItems: List<SubItemConfig>?,
+        masterColorRes: Int = R.color.purple_700,
+    ) : this(masterKey, masterTextRes, masterTipRes, subItems, null, masterColorRes)
+
+
+}
+
 
 class SwitchGroupBuilder(
     private val itemData: InitView.ItemData,
@@ -42,6 +87,7 @@ class SwitchGroupBuilder(
         val masterBinding = createMasterBinding()
         addMasterSwitch(masterBinding)
         addSubItems(masterBinding)
+        addSubItem(masterBinding)
     }
 
     private fun createMasterBinding() = itemData.GetDataBinding(
@@ -56,18 +102,35 @@ class SwitchGroupBuilder(
 
     private fun addMasterSwitch(binding: DataBinding.BindingData) {
         itemData.apply {
-            TextWithSwitch(
-                TextV(textId = config.masterTextRes, colorId = config.masterColorRes),
+            TextSummaryWithSwitch(
+                TextSummaryV(
+                    textId = config.masterTextRes,
+                    tipsId = config.masterTipRes,
+                    colorId = config.masterColorRes
+                ),
                 SwitchV(config.masterKey, dataBindingSend = binding.bindingSend)
             )
         }
     }
 
     private fun addSubItems(masterBinding: DataBinding.BindingData) {
-        config.subItems.forEach { sub ->
+        config.subItems?.forEach { sub ->
             when (sub) {
                 is SubItemConfig.Switch -> addSwitchItem(sub, masterBinding)
                 is SubItemConfig.Arrow -> addArrowItem(sub, masterBinding)
+                is SubItemConfig.SeekBar -> addSeekBar(sub, masterBinding)
+                is SubItemConfig.Text -> addText(sub, masterBinding)
+            }
+        }
+    }
+
+    private fun addSubItem(masterBinding: DataBinding.BindingData) {
+        config.subItem?.let {
+            when (it) {
+                is SubItemConfig.Switch -> addSwitchItem(it, masterBinding)
+                is SubItemConfig.Arrow -> addArrowItem(it, masterBinding)
+                is SubItemConfig.SeekBar -> addSeekBar(it, masterBinding)
+                is SubItemConfig.Text -> addText(it, masterBinding)
             }
         }
     }
@@ -99,29 +162,33 @@ class SwitchGroupBuilder(
             )
         }
     }
+
+    private fun addSeekBar(
+        config: SubItemConfig.SeekBar,
+        masterBinding: DataBinding.BindingData
+    ) {
+        itemData.apply {
+            SeekBarWithText(
+                config.seekbarKey,
+                config.minSteps,
+                config.maxSteps,
+                config.defaultSteps,
+                dataBindingRecv = masterBinding.binding.getRecv(2)
+            )
+        }
+    }
+
+    private fun addText(
+        config: SubItemConfig.Text,
+        masterBinding: DataBinding.BindingData
+    ) {
+        itemData.apply {
+            Text(
+                textId = config.textResId,
+                dataBindingRecv = masterBinding.binding.getRecv(2)
+            )
+        }
+    }
 }
 
-// 使用示例
-//InitView.ItemData.() -> Unit = {
-//    SwitchGroupBuilder(this, SwitchGroupConfig(
-//        masterKey = "custom_clock_switch",
-//        masterTextRes = R.string.custom_clock_switch,
-//        subItems = listOf(
-//            SubItemConfig.Switch(
-//                textResId = R.string.status_bar_time_year,
-//                switchKey = "status_bar_time_year"
-//            ),
-//            SubItemConfig.Arrow(
-//                textResId = R.string.setting_Fun_override_maxyear,
-//                onClick = {
-//                    // 自定义点击处理逻辑
-//                    startActivity(Intent(context, YearSettingActivity::class.java))
-//                }
-//            ),
-//            SubItemConfig.Switch(
-//                textResId = R.string.status_bar_time_month,
-//                switchKey = "status_bar_time_month"
-//            )
-//        )
-//    )).build()
-//}
+
