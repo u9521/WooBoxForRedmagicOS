@@ -24,9 +24,9 @@ object VolumeStepHook : HookRegister() {
 
         ConstructorFinder.fromClass("com.android.server.audio.AudioService")
             .first().createHook {
-                var AudioServerHooker: XC_MethodHook.Unhook? = null
+                var audioServerHooker: XC_MethodHook.Unhook? = null
                 before {
-                    AudioServerHooker =
+                    audioServerHooker =
                         MethodFinder.fromClass("android.os.SystemProperties").filterByName("getInt")
                             .filterByReturnType(
                                 Int::class.javaPrimitiveType!!
@@ -50,7 +50,7 @@ object VolumeStepHook : HookRegister() {
                             }
                 }
                 after {
-                    AudioServerHooker!!.unhook()
+                    audioServerHooker!!.unhook()
                 }
             }
     }

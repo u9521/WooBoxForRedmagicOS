@@ -16,7 +16,7 @@ import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
 object ScopeSystemSettings : MyFragment() {
     override val regKey: String
         get() = "scope_systemSettings"
-    override val IData: InitView.ItemData.() -> Unit
+    override val iData: InitView.ItemData.() -> Unit
         get() = {
             LsposedInactiveTip(this, mactivity!!).setViews()
             TitleText(textId = R.string.scope_systemSettings)

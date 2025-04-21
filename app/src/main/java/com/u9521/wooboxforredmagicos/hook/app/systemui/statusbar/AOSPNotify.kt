@@ -29,7 +29,7 @@ object AOSPNotify : HookRegister() {
                 }
             }
 
-            val CBGMethod =
+            val cBGMethod =
                 MethodFinder.fromClass("com.zte.feature.notification.module.NotificationBackground")
                     .filterByName("clearBackground").first()
             MethodFinder.fromClass("com.zte.feature.notification.NotificationUtil")
@@ -38,31 +38,31 @@ object AOSPNotify : HookRegister() {
                 }
             MethodFinder.fromClass("com.zte.feature.notification.module.NotificationBackground")
                 .filterByName("updateNotificationIconBackground").first().createBeforeHook {
-                    CBGMethod.invoke(it.thisObject)
+                    cBGMethod.invoke(it.thisObject)
                 }
-            val NICAdapt =
+            val nICAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationIconContainerAdapt")
-            val NIACAdapt =
+            val nIACAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationIconAreaControllerAdapt")
-            val NHVWAdapt =
+            val nHVWAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationHeaderViewWrapperAdapt")
-            val NTVWAdapt =
+            val nTVWAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationTemplateViewWrapperAdapt")
-            val ENRAdapt =
+            val eNRAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.ExpandableNotificationRowAdapt")
-            MethodFinder.fromClass(NHVWAdapt).onEach {
+            MethodFinder.fromClass(nHVWAdapt).onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(NICAdapt).onEach {
+            MethodFinder.fromClass(nICAdapt).onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(NTVWAdapt).onEach {
+            MethodFinder.fromClass(nTVWAdapt).onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(ENRAdapt).onEach {
+            MethodFinder.fromClass(eNRAdapt).onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(NIACAdapt).onEach { it ->
+            MethodFinder.fromClass(nIACAdapt).onEach { it ->
                 if (it.name == "adjustNotificationIcon") {
                     it.createBeforeHook {
                         var iconSize =

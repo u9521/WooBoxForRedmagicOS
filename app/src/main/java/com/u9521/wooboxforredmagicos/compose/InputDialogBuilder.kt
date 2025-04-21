@@ -79,11 +79,7 @@ class InputDialogBuilder<T>(
                 text = currentValue,
                 hint = config.inputHint,
             ) {
-                emptyFlag = if (it == "") {
-                    true
-                } else {
-                    false
-                }
+                emptyFlag = it == ""
                 inputStr = it
             }
             setLButton(R.string.cancel) { dismiss() }

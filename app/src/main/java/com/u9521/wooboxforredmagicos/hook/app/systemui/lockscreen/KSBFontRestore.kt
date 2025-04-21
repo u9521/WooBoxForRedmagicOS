@@ -11,9 +11,9 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 object KSBFontRestore : HookRegister() {
     override fun init() {
         hasEnable("statusbar_font_restore") {
-            val CCHVClazz =
+            val cCHVClazz =
                 ClassUtils.loadClass("com.android.systemui.statusbar.phone.KeyguardStatusBarView")
-            MethodFinder.fromClass(CCHVClazz).filterByName("onFinishInflate").first()
+            MethodFinder.fromClass(cCHVClazz).filterByName("onFinishInflate").first()
                 .createAfterHook {
                     val carrierTextView =
                         it.thisObject.javaClass.getDeclaredField("mCarrierLabel")

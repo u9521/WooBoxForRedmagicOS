@@ -8,7 +8,7 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 
 object RMzvoiceUninstalDialog : HookRegister() {
     private val uHandle = ClassUtils.loadClass("android.os.UserHandle")
-    private val zviocePackageName = "com.zte.halo.app"
+    private const val zviocePackageName = "com.zte.halo.app"
     override fun init() = hasEnable("launcher_rm_zvoice_uninstall_dialog") {
         MethodFinder.fromClass("android.content.pm.LauncherApps").filterByName("isPackageEnabled")
             .filterByParamTypes(

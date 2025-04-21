@@ -7,7 +7,7 @@ import cn.fkj233.ui.dialog.MIUIDialog
 import com.u9521.wooboxforredmagicos.R
 import com.u9521.wooboxforredmagicos.activity.SettingsActivity
 
-class LsposedInactiveTip(val IData: InitView.ItemData, val activity: SettingsActivity) {
+class LsposedInactiveTip(private val iData: InitView.ItemData, val activity: SettingsActivity) {
     private val mViews: InitView.ItemData.() -> Unit
         get() = {
             TextSummaryArrow(
@@ -32,6 +32,6 @@ class LsposedInactiveTip(val IData: InitView.ItemData, val activity: SettingsAct
         if (activity.lsposedLoaded) {
             return
         }
-        IData.apply(mViews)
+        iData.apply(mViews)
     }
 }

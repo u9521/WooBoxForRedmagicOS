@@ -15,9 +15,9 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 
 object QSHeaderShortcut : HookRegister() {
     override fun init() {
-        val CCHVClazz = ClassUtils.loadClass("com.zte.controlcenter.widget.CCHeaderView")
-        val SAMethod =
-            MethodFinder.fromClass(CCHVClazz).filterByName("postStartActivityDismissingKeyguard")
+        val cCHVClazz = ClassUtils.loadClass("com.zte.controlcenter.widget.CCHeaderView")
+        val sAMethod =
+            MethodFinder.fromClass(cCHVClazz).filterByName("postStartActivityDismissingKeyguard")
                 .first()
         // they not bind clock yet
 //        hasEnable("qs_header_shortcut_redir_clock") {
@@ -28,9 +28,9 @@ object QSHeaderShortcut : HookRegister() {
 //                }
 //        }
         hasEnable("qs_header_shortcut_redir_calendar") {
-            MethodFinder.fromClass(CCHVClazz)
+            MethodFinder.fromClass(cCHVClazz)
                 .filterByName("handleClickDate").first().createBeforeHook {
-                    SAMethod.invoke(
+                    sAMethod.invoke(
                         it.thisObject,
                         Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time"))
                     )
@@ -38,7 +38,7 @@ object QSHeaderShortcut : HookRegister() {
                 }
         }
         hasEnable("qs_header_shortcut_redir_search") {
-            MethodFinder.fromClass(CCHVClazz)
+            MethodFinder.fromClass(cCHVClazz)
                 .filterByName("handleClickSearch").first().createBeforeHook {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://"))
                     val resolveInfo: ResolveInfo? =
@@ -49,7 +49,7 @@ object QSHeaderShortcut : HookRegister() {
                     if (resolveInfo != null) {
                         val packageName = resolveInfo.activityInfo.packageName
                         val className = resolveInfo.activityInfo.name
-                        SAMethod.invoke(
+                        sAMethod.invoke(
                             it.thisObject,
                             Intent().setClassName(packageName, className)
                         )

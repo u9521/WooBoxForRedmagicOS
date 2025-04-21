@@ -14,12 +14,12 @@ object HideMobileActivityIcon : HookRegister() {
         //隐藏移动数据箭头
         MethodFinder.fromClass("com.zte.adapt.mifavor.signal.StatusBarMobileViewAdapt")
             .filterByName("updateActivityType").first().createAfterHook {
-                val CAClazz = ClassUtils.loadClass("com.zte.base.ClassAdaptor")
-                val SBMVClazz =
+                val cAClazz = ClassUtils.loadClass("com.zte.base.ClassAdaptor")
+                val sBMVClazz =
                     ClassUtils.loadClass("com.android.systemui.statusbar.StatusBarMobileView")
-                val adaptobj = CAClazz.getDeclaredField("mOwner").get(it.thisObject)
-                val SbmvObj = SBMVClazz.cast(adaptobj) as FrameLayout
-                SbmvObj.findViewByIdName("data_inout")!!.visibility =
+                val adaptobj = cAClazz.getDeclaredField("mOwner").get(it.thisObject)
+                val sbmvObj = sBMVClazz.cast(adaptobj) as FrameLayout
+                sbmvObj.findViewByIdName("data_inout")!!.visibility =
                     View.GONE
             }
     }

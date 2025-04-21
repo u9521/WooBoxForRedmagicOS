@@ -12,8 +12,8 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 object QSHeaderFontRestore : HookRegister() {
     override fun init() {
         hasEnable("statusbar_font_restore") {
-            val CCHVClazz = ClassUtils.loadClass("com.zte.controlcenter.widget.CCHeaderView")
-            MethodFinder.fromClass(CCHVClazz).filterByName("updateHeaderResources").first()
+            val cCHVClazz = ClassUtils.loadClass("com.zte.controlcenter.widget.CCHeaderView")
+            MethodFinder.fromClass(cCHVClazz).filterByName("updateHeaderResources").first()
                 .createAfterHook {
                     val dateView =
                         it.thisObject.javaClass.getDeclaredField("mDateView")

@@ -11,7 +11,7 @@ import com.u9521.wooboxforredmagicos.R
 object AboutModule : MyFragment() {
     override val regKey: String
         get() = "about_module"
-    override val IData: InitView.ItemData.() -> Unit
+    override val iData: InitView.ItemData.() -> Unit
         get() = {
             Author(
                 authorHead = mactivity!!.getDrawable(R.drawable.app_icon)!!,

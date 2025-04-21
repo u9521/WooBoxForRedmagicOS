@@ -19,23 +19,34 @@ object SBFontRestore : HookRegister() {
                     (it.thisObject as TextView).setTypeface(Typeface.DEFAULT, Typeface.BOLD)
                     (it.thisObject as TextView).fontFeatureSettings = ""
                     val lp = (it.thisObject as TextView).layoutParams
-                    lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    lp.width = LayoutParams.WRAP_CONTENT
 //                    lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
                     (it.thisObject as TextView).layoutParams = lp
                 }
             MethodFinder.fromClass("com.zte.feature.speed.StatusBarNetSpeedMFV")
                 .filterByName("init").first().createAfterHook {
-                    val SpeedText = it.thisObject.javaClass.getDeclaredField("mSpeedText")
+                    val mSpeedText = it.thisObject.javaClass.getDeclaredField("mSpeedText")
                         .get(it.thisObject) as TextView
-                    val SpeedUnit = it.thisObject.javaClass.getDeclaredField("mSpeedUnit")
+                    val mSpeedUnit = it.thisObject.javaClass.getDeclaredField("mSpeedUnit")
                         .get(it.thisObject) as TextView
-                    val SpeedViewGroup = it.thisObject.javaClass.getDeclaredField("mSpeedViewGroup")
+                    val mSpeedViewGroup = it.thisObject.javaClass.getDeclaredField("mSpeedViewGroup")
                         .get(it.thisObject) as ViewGroup
-                    SpeedText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
-                    SpeedText.width =LayoutParams.WRAP_CONTENT
-                    SpeedUnit.width =LayoutParams.WRAP_CONTENT
-                    SpeedUnit.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
-                    SpeedViewGroup.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    mSpeedText.width = LayoutParams.WRAP_CONTENT
+                    mSpeedUnit.width = LayoutParams.WRAP_CONTENT
+                    mSpeedText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+                    mSpeedUnit.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+                    mSpeedViewGroup.layoutParams.width = LayoutParams.WRAP_CONTENT
+                }
+            MethodFinder.fromClass("com.zte.mifavor.views.MFVBatteryViewLayout")
+                .filterByName("onFinishInflate").first().createAfterHook {
+                    val mBatteryLevelInsideView =
+                        it.thisObject.javaClass.getDeclaredField("mBatteryLevelInsideView")
+                            .get(it.thisObject) as TextView
+                    val mBatteryLevelOutsideView =
+                        it.thisObject.javaClass.getDeclaredField("mBatteryLevelOutsideView")
+                            .get(it.thisObject) as TextView
+                    mBatteryLevelInsideView.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+                    mBatteryLevelOutsideView.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
                 }
         }
     }

@@ -14,7 +14,7 @@ import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
 
 object ScopeSystemUI : MyFragment() {
     override val regKey: String = "scope_systemui"
-    override val IData: InitView.ItemData.() -> Unit = {
+    override val iData: InitView.ItemData.() -> Unit = {
         LsposedInactiveTip(this, mactivity!!).setViews()
         TitleText(textId = R.string.statusbar)
         TextSummaryWithSwitch(

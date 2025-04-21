@@ -52,7 +52,7 @@ class XposedEntry : EasyXposedInit() {
         DisableFlagSecure().initZygote(startupParam)
     }
 
-    fun matchPackagename(arr: List<AppRegister>, target: String): Boolean {
+    private fun matchPackagename(arr: List<AppRegister>, target: String): Boolean {
         if (BuildConfig.APPLICATION_ID == target) {
             return true
         }

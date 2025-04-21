@@ -14,7 +14,7 @@ object UsbInstallNoVerify : HookRegister() {
         ClassUtils.loadClass("com.zte.settings.development.EnableAdbInstallPreferenceController")
     private val APCclzz =
         ClassUtils.loadClass("com.android.settingslib.core.AbstractPreferenceController")
-    private val ADBinstallSet = "adb_install_enabled"
+    private const val ADBinstallSet = "adb_install_enabled"
     private fun systemPutInt(contentResolver: Any, string: String, int: Int) {
         Log.i("$contentResolver $string $int")
         val settingSysclazz = ClassUtils.loadClass("android.provider.Settings\$System")

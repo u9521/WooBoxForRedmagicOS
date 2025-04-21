@@ -13,7 +13,7 @@ import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
 
 object ScopeAndroid : MyFragment() {
     override val regKey: String = "scope_android"
-    override val IData: InitView.ItemData.() -> Unit = {
+    override val iData: InitView.ItemData.() -> Unit = {
         LsposedInactiveTip(this, mactivity!!).setViews()
         val disableFlagSecureSwitchBinding = GetDataBinding(
             defValue = {

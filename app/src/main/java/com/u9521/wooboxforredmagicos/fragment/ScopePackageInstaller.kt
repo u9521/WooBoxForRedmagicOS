@@ -9,7 +9,7 @@ import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
 object ScopePackageInstaller : MyFragment() {
     override val regKey: String
         get() = "scope_packageinstaller"
-    override val IData: InitView.ItemData.() -> Unit
+    override val iData: InitView.ItemData.() -> Unit
         get() = {
             LsposedInactiveTip(this,mactivity!!).setViews()
             TitleText(textId = R.string.scope_packageinstaller)
