@@ -32,8 +32,7 @@ class XposedEntry : EasyXposedInit() {
         if (prefs.getBoolean("main_switch", true)) {
             super.handleLoadPackage(lpparam)
         }
-        EzXHelper.initHandleLoadPackage(lpparam!!)
-        Log.i("hooked " + lpparam.packageName)
+        Log.i("hooked " + lpparam!!.packageName)
         if (!matchPackagename(registeredApp, lpparam.packageName)) {
             MethodFinder.fromClass(Activity::class.java).filterByName("onCreate").first()
                 .createBeforeHook {

@@ -11,6 +11,7 @@ abstract class HookRegister {
         lpparam = loadPackageParam
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun getLoadPackageParam(): XC_LoadPackage.LoadPackageParam {
         if (!this::lpparam.isInitialized) {
             throw RuntimeException("lpparam should be initialized")

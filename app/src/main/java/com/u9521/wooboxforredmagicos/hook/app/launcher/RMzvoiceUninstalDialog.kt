@@ -8,14 +8,14 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 
 object RMzvoiceUninstalDialog : HookRegister() {
     private val uHandle = ClassUtils.loadClass("android.os.UserHandle")
-    private const val zviocePackageName = "com.zte.halo.app"
+    private const val ZviocePackageName = "com.zte.halo.app"
     override fun init() = hasEnable("launcher_rm_zvoice_uninstall_dialog") {
         MethodFinder.fromClass("android.content.pm.LauncherApps").filterByName("isPackageEnabled")
             .filterByParamTypes(
                 String::class.java,
                 uHandle
             ).first().createBeforeHook {
-                if (it.args[0].equals(zviocePackageName)) {
+                if (it.args[0].equals(ZviocePackageName)) {
                     it.result = true
                 }
             }

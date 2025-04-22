@@ -27,7 +27,8 @@ object ScopeSystemUI : MyFragment() {
                 textId = R.string.statusbar_font_restore
             ), SwitchV("statusbar_font_restore")
         )
-        SwitchGroupBuilder(this,mactivity!!,
+        SwitchGroupBuilder(
+            this, mactivity!!,
             SwitchGroupConfig(
                 "use_aosp_notify",
                 R.string.use_apps_notify_icon,
@@ -41,42 +42,41 @@ object ScopeSystemUI : MyFragment() {
             )
         ).build()
 
-
         Line()
         TitleText(textId = R.string.status_bar_clock_format)
         SwitchGroupBuilder(
             this, mactivity!!, SwitchGroupConfig(
-                "custom_clock_switch", R.string.custom_clock_switch,  listOf(
+                "custom_clock_switch", R.string.custom_clock_switch, listOf(
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_year, "status_bar_time_year"
+                        "status_bar_time_year", R.string.status_bar_time_year
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_month, "status_bar_time_month"
+                        "status_bar_time_month", R.string.status_bar_time_month
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_day, "status_bar_time_day"
+                        "status_bar_time_day", R.string.status_bar_time_day
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_week, "status_bar_time_week"
+                        "status_bar_time_week", R.string.status_bar_time_week
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_double_hour, "status_bar_time_double_hour"
+                        "status_bar_time_double_hour", R.string.status_bar_time_double_hour
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_period, "status_bar_time_period"
+                        "status_bar_time_period", R.string.status_bar_time_period
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_seconds, "status_bar_time_seconds"
+                        "status_bar_time_seconds", R.string.status_bar_time_seconds
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_hide_space, "status_bar_time_hide_space"
+                        "status_bar_time_hide_space", R.string.status_bar_time_hide_space
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_double_line, "status_bar_time_double_line"
+                        "status_bar_time_double_line", R.string.status_bar_time_double_line
                     ),
                     SubItemConfig.Switch(
-                        R.string.status_bar_time_double_line_center_align,
-                        "status_bar_time_double_line_center_align"
+                        "status_bar_time_double_line_center_align",
+                        R.string.status_bar_time_double_line_center_align
                     ),
                     SubItemConfig.Text(
                         R.string.status_bar_clock_size
@@ -107,17 +107,54 @@ object ScopeSystemUI : MyFragment() {
         TitleText(textId = R.string.status_bar_icon)
         TextSummaryWithSwitch(
             TextSummaryV(
-                textId = R.string.hide_prompt_view, tipsId = R.string.hide_prompt_view_summary
-            ), SwitchV("hide_prompt_view")
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
                 textId = R.string.hide_battery_percentage_icon,
                 tipsId = R.string.hide_battery_percentage_icon_summary
             ), SwitchV("hide_battery_percentage_icon")
         )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.show_charge_indicator_on_power_plugin,
+                tipsId = R.string.show_charge_indicator_on_power_plugin_tips
+            ), SwitchV("show_charge_indicator_on_power_plugin")
+        )
+        SwitchGroupBuilder(
+            this,
+            mactivity!!,
+            SwitchGroupConfig(
+                "battery_icon_fine_tune",
+                R.string.battery_icon_fine_tune,
+                R.string.battery_icon_fine_tune_tips,
+                listOf(
+                    SubItemConfig.Switch(
+                        "show_battery_meter",
+                        R.string.show_battery_meter,
+                        R.string.show_battery_meter_tips
+                    ),
+                    SubItemConfig.Switch(
+                        "show_battery_level_inside",
+                        R.string.show_battery_level_inside,
+                        R.string.show_battery_level_inside_tips,
+
+                    ),
+                    SubItemConfig.Switch(
+                        "show_battery_level_outside",
+                        R.string.show_battery_level_outside,
+                        R.string.show_battery_level_outside_tips
+                    ),
+                    SubItemConfig.Switch(
+                        "show_charge_indicator_inside",
+                        R.string.show_charge_indicator_inside
+                    ),
+                    SubItemConfig.Switch(
+                        "show_charge_indicator_outside",
+                        R.string.show_charge_indicator_outside
+                    ),
+                )
+            )
+        ).build()
         TextWithSwitch(
-            TextV(textId = R.string.hide_wifi_activity_icon), SwitchV("hide_wifi_activity_icon")
+            TextV(textId = R.string.hide_wifi_activity_icon),
+            SwitchV("hide_wifi_activity_icon")
         )
         TextWithSwitch(
             TextV(textId = R.string.hide_mobile_activity_icon), SwitchV("hide_mobile_activity_icon")

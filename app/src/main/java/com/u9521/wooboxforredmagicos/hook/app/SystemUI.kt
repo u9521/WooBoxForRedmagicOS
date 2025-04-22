@@ -34,12 +34,10 @@ object SystemUI : AppRegister() {
 
             //状态栏
             StatusBarDoubleTapToSleep, //双击状态栏锁屏
-            HidePromptView, //隐藏胶囊提示
-            HideBatteryPercentageIcon, //隐藏电量百分比号
-            DoubleLineNetworkSpeed, //双排网速
+            BatteryIconAdjuster,//隐藏电量百分比号,连接电源时显示充电图标
+            NetworkSpeedAdjuster, //双排网速,网速秒刷
             HideWifiActivityIcon, //隐藏WIFI箭头
             HideMobileActivityIcon, //隐藏移动箭头
-            StatusBarNetworkSpeedRefreshSpeed, //网速秒刷
             CustomClock, //自定义时钟
             HideVpnIcon,//老版本隐藏VPN图标
             BTiconUseGlobalacts,//未连接设备时隐藏蓝牙图标

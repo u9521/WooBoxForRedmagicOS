@@ -7,7 +7,7 @@ import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import java.text.DecimalFormat
 
-object DoubleLineNetworkSpeed : HookRegister() {
+object NetworkSpeedAdjuster : HookRegister() {
 
     private var mLastTotalUp: Long = 0
     private var mLastTotalDown: Long = 0
@@ -18,8 +18,9 @@ object DoubleLineNetworkSpeed : HookRegister() {
     private val getDualSize = XSPUtils.getInt("status_bar_network_speed_dual_row_size", 6)
     private val getDualWidth = XSPUtils.getInt("status_bar_network_speed_dual_row_width", 35)
 
-    override fun init() = hasEnable("status_bar_dual_row_network_speed") {
-        return@hasEnable
+    override fun init() {
+        hasEnable("status_bar_dual_row_network_speed") {
+            return@hasEnable
 //        findMethod("com.oplusos.systemui.statusbar.widget.NetworkSpeedView") {
 //            name == "onFinishInflate"
 //        }.hookAfter {
@@ -49,6 +50,15 @@ object DoubleLineNetworkSpeed : HookRegister() {
 //            layoutParams?.width = dp2px(context, getDualWidth.toFloat())
 //            it.result = null
 //        }
+        }
+        hasEnable("status_bar_network_speed_refresh_speed") {
+            return@hasEnable
+//        findMethod("com.oplusos.systemui.statusbar.controller.NetworkSpeedController") {
+//            name == "postUpdateNetworkSpeedDelay" && parameterTypes[0] == Long::class.java
+//        }.hookBefore {
+//            it.args[0] = 1000L
+//        }
+        }
     }
 
     //获取总的上行速度
@@ -116,5 +126,4 @@ object DoubleLineNetworkSpeed : HookRegister() {
         }
 
     }
-
 }

@@ -13,7 +13,6 @@
     <string name="about_module">About Module</string>
     <string name="about_module_summary">View module related information</string>
 
-    <string name="allow_screenshots">Allow screenshot</string>
     <string name="allow_untrusted_touches">"Allow untrusted touches"</string>
 
     <string name="app_coolapk_url">Come and give us five-star review</string>
@@ -51,7 +50,6 @@
     <string name="downgr_summary">Allow downgrade applications.</string>
 
     <string name="dropdown_status_bar_clock_display_seconds">Drop-down status bar clock display seconds</string>
-    <string name="remove_dropdown_status_bar_clock_redone">Remove drop-down status bar clock red one</string>
 
     <string name="enhancedMode">Enhanced Mode</string>
     <string name="enhancedMode_summary">Pass some validation in the application</string>
@@ -61,19 +59,10 @@
     <string name="hide_battery_percentage_icon">Hide battery (%)</string>
     <string name="hide_battery_percentage_icon_summary">Battery percentage display feature must be turned on by yourself</string>
     <string name="hide_mobile_activity_icon">Hide mobile activity icon</string>
-    <string name="hide_prompt_view">Hide Prompt view</string>
-    <string name="hide_prompt_view_summary">When turned on, the hint of the colored capsule shape will be hidden.Such as background recording, background calling, screen casting ...</string>
     <string name="hide_wifi_activity_icon">Hide WIFI activity icon</string>
 
     <string name="issues">Feedback/Proposal</string>
     <string name="issues_url">Click to view GitHub Issues</string>
-
-    <string name="launcher_more_layout">More layout</string>
-    <string name="launcher_more_layout_summary">More layout options(3x5 ~ 6x7).</string>
-    <string name="launcher_remove_update_dot">Remove APP update dot</string>
-    <string name="launcher_remove_update_dot_summary">Undisplay a dot next to the name of updated apps.</string>
-
-    <string name="left">Left</string>
 
     <string name="main_switch">Module main switch</string>
 
@@ -84,8 +73,6 @@
     <string name="media_volume_steps_switch">Media volume steps</string>
 
     <string name="menu">Menu</string>
-
-    <string name="none">None</string>
 
     <string name="not_support">You seem to be using an outdated version of LSPosed(API version less than 93) or LSPosed is not active, please update LSPosed or activate it and try again.</string>
 
@@ -112,21 +99,12 @@
     <string name="reboot">Reboot System</string>
     <string name="reboot_host">Restart all scope</string>
 
-    <string name="remove_dev_mode_is_on">Remove DEV mode is ON</string>
-    <string name="remove_finished_charging">Remove finished charging</string>
-    <string name="remove_footer_security_warn">Remove footer security warn</string>
-    <string name="remove_usb_debugging">Remove USB debugging</string>
-    <string name="remove_vpn_activated">Remove VPN activated</string>
-
-    <string name="right">Right</string>
-
     <string name="scope">Scope</string>
     <string name="scope_android">System Framework</string>
     <string name="scope_android_summary">After enabling the module for the first time or the module is updated, the feature here will take effect after restarting the system</string>
     <string name="scope_launcher">Launcher</string>
     <string name="scope_other">Other</string>
     <string name="scope_other_summary">Phone Manager, Battery and performance, etc.</string>
-    <string name="scope_phone_manager">Phone Manager</string>
     <string name="scope_security_center">Security Center</string>
     <string name="scope_alarmclock">Alaarm Clock</string>
     <string name="scope_systemui">SystemUI</string>
@@ -145,8 +123,6 @@
 
     <string name="statusbar">Status bar</string>
 
-    <string name="take_effect_after_reboot">Take effect after reboot</string>
-
     <string name="tg_channel">Join the official TG channel</string>
     <string name="tg_channel_summary">You can enter the chat group on the channel page</string>
 
@@ -154,7 +130,6 @@
 
     <string name="third_party_open_source_statement">Third Party Open Source Statement</string>
 
-    <string name="unlock_recent_task_locks_quantity">Unlock the limit on the number of recent task locks</string>
     <string name="unlock_self_start_quantity">Unlock self start quantity</string>
     <string name="remove_clock_widget_redone">Remove desktop clock component RedOne</string>
 
@@ -173,9 +148,6 @@
     <string name="status_bar_time_double_line_center_align">Dual row center align</string>
     <string name="status_bar_clock_size">Clock size (0: do not change)</string>
     <string name="status_bar_clock_double_line_size">Dual row size (0: do not change</string>
-    <string name="fast_reboot">Fast Reboot System</string>
-    <string name="are_you_sure_fast_reboot">Are you sure to fast reboot?</string>
-    <string name="package_installer">Package Installer</string>
     <string name="installer_hide_store_hint">Hide install from store hint</string>
     <string name="features">Features</string>
     <string name="lockscreen">Lock Screen</string>
@@ -209,7 +181,6 @@
     <string name="setting_Fun_override_maxyear_tips">娱乐功能，能超过2099年限制，太远的时间在设置时会失败</string>
     <string name="setting_Fun_override_maxyear">覆盖时间设置最大年份</string>
     <string name="input_format_error">格式错误</string>
-    <string name="format_int_error">请输入有效整数</string>
     <string name="Fun_options">娱乐功能</string>
     <string name="setting_Fun_override_maxyear_switch">修改时间设置最大年份</string>
     <string name="alarm_volume_steps_switch">闹钟音量阶数</string>
@@ -222,11 +193,22 @@
     <string name="use_apps_notify_icon">使用原生通知图标</string>
     <string name="aosp_notify_tips">状态栏通知也会变成原生样式，滑块调节状态栏图标大小</string>
     <string name="rm_zvoice_uninstalled_popupwindow_tips">配合 系统界面->手势打开默认数字助理 使用</string>
-    <string name="warn_scope">Woobox:模块注入非推荐应用，请调整作用域</string>
     <string name="qs_shortcut_redir_calendar">点击日期可跳转第三方日历</string>
     <string name="qs_show_carrier">快速设置显示运营商</string>
     <string name="qs_show_search">快速设置显示搜索按钮</string>
     <string name="qs_shortcut_redir_search">点击搜索打开浏览器</string>
     <string name="statusbar_font_restore">恢复时钟日期图标字体</string>
     <string name="allow_untrusted_touches_tips">允许高可见度的view点击传透\n除非你知道你在干什么，否则不要打开</string>
+    <string name="show_charge_indicator_on_power_plugin">连接电源时显示充电图标</string>
+    <string name="show_charge_indicator_on_power_plugin_tips">充电完成或插入低功率适配器时任然显示充电图标</string>
+    <string name="battery_icon_fine_tune">电池显示样式调节</string>
+    <string name="battery_icon_fine_tune_tips">调节电池图标，充电图标显示状态</string>
+    <string name="show_battery_level_outside">显示电池外部电量百分比</string>
+    <string name="show_battery_meter">显示电池图标</string>
+    <string name="show_battery_level_inside">显示电池内部电量百分比</string>
+    <string name="show_charge_indicator_inside">在电池内部显示充电图标</string>
+    <string name="show_charge_indicator_outside">在电池外部显示充电图标</string>
+    <string name="show_battery_meter_tips">关闭后在电池内显示的内容失效</string>
+    <string name="show_battery_level_outside_tips">如果不显示%，请去设置开启电池百分比外显功能</string>
+    <string name="show_battery_level_inside_tips">很遗憾，显示内外电量百分比只能二选一，同时选外百分比优先</string>
 </resources>

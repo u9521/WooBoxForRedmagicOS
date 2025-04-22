@@ -6,7 +6,6 @@ import cn.fkj233.ui.activity.data.DataBinding
 import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
-import cn.fkj233.ui.activity.view.TextV
 import com.u9521.wooboxforredmagicos.activity.SettingsActivity
 import com.u9521.wooboxforredmagicos.R
 
@@ -14,8 +13,9 @@ import com.u9521.wooboxforredmagicos.R
 sealed class SubItemConfig {
 
     data class Switch(
+        val switchKey: String,
         val textResId: Int,
-        val switchKey: String
+        val textTipsResId: Int? = null
     ) : SubItemConfig()
 
     data class Arrow(
@@ -79,7 +79,7 @@ data class SwitchGroupConfig(
 
 class SwitchGroupBuilder(
     private val itemData: InitView.ItemData,
-    private val context: SettingsActivity,
+    context: SettingsActivity,
     private val config: SwitchGroupConfig
 ) {
     private val sp = context.getSP()!!
@@ -140,8 +140,8 @@ class SwitchGroupBuilder(
         masterBinding: DataBinding.BindingData
     ) {
         itemData.apply {
-            TextWithSwitch(
-                TextV(textId = config.textResId),
+            TextSummaryWithSwitch(
+                TextSummaryV(textId = config.textResId, tipsId = config.textTipsResId),
                 SwitchV(config.switchKey),
                 dataBindingRecv = masterBinding.binding.getRecv(2)
             )

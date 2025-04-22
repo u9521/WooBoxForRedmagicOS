@@ -289,7 +289,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     }
 
-    XC_MethodHook CreateDisplayHooker = new XC_MethodHook() {
+    final XC_MethodHook CreateDisplayHooker = new XC_MethodHook() {
         protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -316,7 +316,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 //        }
 //    };
 
-    XC_MethodHook ScreenCaptureHooker = new XC_MethodHook() {
+    final XC_MethodHook ScreenCaptureHooker = new XC_MethodHook() {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) {
             var captureArgs = param.args[0];
@@ -332,7 +332,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
         }
     };
 
-    XC_MethodHook CreateVirtualDisplayLockedHooker = new XC_MethodHook() {
+    final XC_MethodHook CreateVirtualDisplayLockedHooker = new XC_MethodHook() {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
@@ -354,7 +354,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
             }
         }
     };
-    XC_MethodHook SecureLockedHooker = new XC_MethodHook() {
+    final XC_MethodHook SecureLockedHooker = new XC_MethodHook() {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
@@ -380,7 +380,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
             }
         }
     };
-    XC_MethodHook SurfaceControlHooker = new XC_MethodHook() {
+    final XC_MethodHook SurfaceControlHooker = new XC_MethodHook() {
         /**
          * Surface creation flag: Skip this layer and its children when taking a screenshot. This
          * also includes mirroring and screen recording, so the layers with flag SKIP_SCREENSHOT
@@ -397,7 +397,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
             }
         }
     };
-    XC_MethodHook ReturnFalseHooker = new XC_MethodHook() {
+    final XC_MethodHook ReturnFalseHooker = new XC_MethodHook() {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {
@@ -406,7 +406,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
         }
     };
 
-    XC_MethodHook ReturnNullHooker = new XC_MethodHook() {
+    final XC_MethodHook ReturnNullHooker = new XC_MethodHook() {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) {
             if (enableHook()) {

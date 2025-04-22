@@ -15,11 +15,11 @@ object UsbInstallNoVerify : HookRegister() {
     private val APCclzz =
         ClassUtils.loadClass("com.android.settingslib.core.AbstractPreferenceController")
     private const val ADBinstallSet = "adb_install_enabled"
-    private fun systemPutInt(contentResolver: Any, string: String, int: Int) {
-        Log.i("$contentResolver $string $int")
+    private fun systemPutInt(contentResolver: Any, int: Int) {
+        Log.i("$contentResolver $ADBinstallSet $int")
         val settingSysclazz = ClassUtils.loadClass("android.provider.Settings\$System")
         MethodFinder.fromClass(settingSysclazz).filterByName("putInt").filterByParamCount(3)
-            .first().invoke(null, contentResolver, string, int)
+            .first().invoke(null, contentResolver, ADBinstallSet, int)
     }
 
     override fun init() = hasEnable("usb_install_switch_skip_verify") {
@@ -44,13 +44,13 @@ object UsbInstallNoVerify : HookRegister() {
                     .objectHelper()
                     .invokeMethodBestMatch("getContentResolver")!!
                 if (adbiSP!!.objectHelper().invokeMethodBestMatch("isChecked") as Boolean) {
-                    systemPutInt(adbiCR, ADBinstallSet, 1)
+                    systemPutInt(adbiCR, 1)
                     it.result = true
                     return@createBeforeHook
                 } else {
                     adbiSP.objectHelper()
                         .invokeMethodBestMatch("setChecked", params = arrayOf(false))
-                    systemPutInt(adbiCR, ADBinstallSet, 0)
+                    systemPutInt(adbiCR, 0)
                     it.result = true
                     return@createBeforeHook
                 }
