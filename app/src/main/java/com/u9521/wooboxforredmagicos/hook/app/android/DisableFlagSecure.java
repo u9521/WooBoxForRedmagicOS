@@ -12,11 +12,9 @@ import android.os.Build;
 import android.view.SurfaceControl;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.u9521.wooboxforredmagicos.util.XSPUtils;
-import com.u9521.wooboxforredmagicos.util.xposed.DebugUtils;
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit;
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister;
 

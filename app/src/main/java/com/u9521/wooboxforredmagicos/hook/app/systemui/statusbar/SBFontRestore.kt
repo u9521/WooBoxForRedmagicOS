@@ -1,7 +1,6 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 
 import android.graphics.Typeface
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils
@@ -29,13 +28,8 @@ object SBFontRestore : HookRegister() {
                         .get(it.thisObject) as TextView
                     val mSpeedUnit = it.thisObject.javaClass.getDeclaredField("mSpeedUnit")
                         .get(it.thisObject) as TextView
-                    val mSpeedViewGroup = it.thisObject.javaClass.getDeclaredField("mSpeedViewGroup")
-                        .get(it.thisObject) as ViewGroup
-                    mSpeedText.width = LayoutParams.WRAP_CONTENT
-                    mSpeedUnit.width = LayoutParams.WRAP_CONTENT
                     mSpeedText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
                     mSpeedUnit.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
-                    mSpeedViewGroup.layoutParams.width = LayoutParams.WRAP_CONTENT
                 }
             MethodFinder.fromClass("com.zte.mifavor.views.MFVBatteryViewLayout")
                 .filterByName("onFinishInflate").first().createAfterHook {

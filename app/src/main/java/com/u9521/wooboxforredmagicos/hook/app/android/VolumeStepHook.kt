@@ -19,8 +19,8 @@ object VolumeStepHook : HookRegister() {
         val notifySteps = XSPUtils.getInt("notify_volume_steps", 15)
         val ringStepsSwitch = XSPUtils.getBoolean("ring_volume_steps_switch", false)
         val ringSteps = XSPUtils.getInt("ring_volume_steps", 15)
-        val vc_callSwitch = XSPUtils.getBoolean("vc_call_volume_steps_switch", false)
-        val vc_callSteps = XSPUtils.getInt("vc_call_volume_steps", 10)
+        val vcCallSwitch = XSPUtils.getBoolean("vc_call_volume_steps_switch", false)
+        val vcCallSteps = XSPUtils.getInt("vc_call_volume_steps", 10)
 
         ConstructorFinder.fromClass("com.android.server.audio.AudioService")
             .first().createHook {
@@ -44,8 +44,8 @@ object VolumeStepHook : HookRegister() {
                                     "ro.config.ring_vol_steps" -> if (ringStepsSwitch) it.result =
                                         ringSteps
 
-                                    "ro.config.vc_call_vol_steps" -> if (vc_callSwitch) it.result =
-                                        vc_callSteps
+                                    "ro.config.vc_call_vol_steps" -> if (vcCallSwitch) it.result =
+                                        vcCallSteps
                                 }
                             }
                 }

@@ -52,6 +52,7 @@ object SystemUI : AppRegister() {
             //特性
             GestureStartDefaultDigitalAssist,//手势打开默认数字助理
             NoVibrateForvolKeyLongpress,//禁用长按调音量振动
+            AOSPSingleHandModeAdjust,//单手模式允许下拉通知栏
 
             //锁屏界面
             AllowAdjustVolume,//锁屏允许调整音量

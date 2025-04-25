@@ -2,12 +2,16 @@ package com.u9521.wooboxforredmagicos.fragment
 
 import android.view.View
 import android.widget.Switch
+import android.widget.Toast
 import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import cn.fkj233.ui.activity.view.TextV
 import com.u9521.wooboxforredmagicos.R
+import com.u9521.wooboxforredmagicos.compose.InputDialogBuilder
+import com.u9521.wooboxforredmagicos.compose.InputDialogConfig
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
+import com.u9521.wooboxforredmagicos.compose.PrefsTypeAdapter
 import com.u9521.wooboxforredmagicos.compose.SubItemConfig
 import com.u9521.wooboxforredmagicos.compose.SwitchGroupBuilder
 import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
@@ -135,7 +139,7 @@ object ScopeSystemUI : MyFragment() {
                         R.string.show_battery_level_inside,
                         R.string.show_battery_level_inside_tips,
 
-                    ),
+                        ),
                     SubItemConfig.Switch(
                         "show_battery_level_outside",
                         R.string.show_battery_level_outside,
@@ -195,10 +199,18 @@ object ScopeSystemUI : MyFragment() {
                     SubItemConfig.SeekBar(
                         "status_bar_network_speed_dual_row_width",
                         28,
-                        38,
+                        39,
                         35
+                    ),
+                    SubItemConfig.Text(R.string.low_speed_hide_kilo_bytes),
+                    SubItemConfig.SeekBar(
+                        "low_speed_hide_kilo_bytes",
+                        -1,
+                        10,
+                        -1
                     )
-                )
+
+                    )
             )
         ).build()
 //        Line()
@@ -218,6 +230,35 @@ object ScopeSystemUI : MyFragment() {
                 tipsId = R.string.no_vibrate_volKey_Long_press_tips
             ), SwitchV("no_vibrate_volKey_Long_press")
         )
+        SwitchGroupBuilder(
+            this, mactivity!!,
+            SwitchGroupConfig(
+                "aosp_singlehandmode_adjust",
+                R.string.aosp_singlehandmode_adjust,
+                SubItemConfig.Arrow(
+                    R.string.aosp_singlehandmode_offest
+                ) {
+                    InputDialogBuilder(
+                        this,
+                        mactivity!!,
+                        InputDialogConfig(
+                            R.string.input_int,
+                            R.string.aosp_singlehandmode_offest,
+                            "aosp_singlehandmode_offest", 0, PrefsTypeAdapter.INT
+                        )
+                    ).show {
+                        Toast.makeText(mactivity, "设置成功", Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                }
+            )
+        ).build()
+//        TextSummaryWithSwitch(
+//            TextSummaryV(
+//                textId = R.string.aosp_singlehandmode_adjust,
+//            ), SwitchV("aosp_singlehandmode_adjust")
+//        )
+
         Line()
         TitleText(textId = R.string.lockscreen)
         TextSummaryWithSwitch(

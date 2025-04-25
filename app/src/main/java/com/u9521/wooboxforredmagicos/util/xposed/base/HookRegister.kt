@@ -18,7 +18,7 @@ abstract class HookRegister {
         }
         return lpparam
     }
-
+    @Suppress("unused")
     protected fun getDefaultClassLoader(): ClassLoader {
         return getLoadPackageParam().classLoader
     }

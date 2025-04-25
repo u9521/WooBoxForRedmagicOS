@@ -3,6 +3,7 @@ package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import cn.fkj233.ui.activity.dp2px
 import com.github.kyuubiran.ezxhelper.ClassUtils
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder
@@ -14,6 +15,7 @@ import de.robv.android.xposed.XposedBridge
 
 object AOSPNotify : HookRegister() {
     override fun init() {
+        val iconSize = XSPUtils.getInt("aosp_icon_size_dp", 16)
         hasEnable("use_aosp_notify") {
             val adaptClazz = ClassUtils.loadClass("com.zte.base.Adapt")
             val adaptHooker: XC_MethodHook = object : XC_MethodHook() {
@@ -65,15 +67,9 @@ object AOSPNotify : HookRegister() {
             MethodFinder.fromClass(nIACAdapt).onEach { it ->
                 if (it.name == "adjustNotificationIcon") {
                     it.createBeforeHook {
-                        var iconSize =
-                            XSPUtils.getInt("aosp_icon_size_dp", 16)
                         val view = it.args[0] as View
-                        iconSize =
-                            (iconSize * view.context.resources.displayMetrics.density).toInt()
-                        val lp = FrameLayout.LayoutParams(
-                            iconSize,
-                            iconSize
-                        )
+                        val iconSizePx = dp2px(view.context, iconSize.toFloat())
+                        val lp = FrameLayout.LayoutParams(iconSizePx, iconSizePx)
                         lp.gravity = Gravity.CENTER_HORIZONTAL
                         view.layoutParams = lp
                         it.result = null

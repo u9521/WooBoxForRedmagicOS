@@ -2,12 +2,17 @@ package com.u9521.wooboxforredmagicos.hook
 
 import android.app.Activity
 import android.widget.Toast
-import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.BuildConfig
-import com.u9521.wooboxforredmagicos.hook.app.*
+import com.u9521.wooboxforredmagicos.hook.app.AlarmClock
+import com.u9521.wooboxforredmagicos.hook.app.Android
+import com.u9521.wooboxforredmagicos.hook.app.Launcher
+import com.u9521.wooboxforredmagicos.hook.app.PackageInstaller
+import com.u9521.wooboxforredmagicos.hook.app.SecurityCenter
+import com.u9521.wooboxforredmagicos.hook.app.Settings
+import com.u9521.wooboxforredmagicos.hook.app.SystemUI
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister

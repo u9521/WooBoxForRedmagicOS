@@ -2,7 +2,7 @@ package com.u9521.wooboxforredmagicos.util
 
 import com.u9521.wooboxforredmagicos.BuildConfig
 import de.robv.android.xposed.XSharedPreferences
-
+@Suppress("unused")
 object XSPUtils {
     private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "WooboxConfig")
     fun getprefs(): XSharedPreferences {

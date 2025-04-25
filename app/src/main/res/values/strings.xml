@@ -211,4 +211,8 @@
     <string name="show_battery_meter_tips">关闭后在电池内显示的内容失效</string>
     <string name="show_battery_level_outside_tips">如果不显示%，请去设置开启电池百分比外显功能</string>
     <string name="show_battery_level_inside_tips">很遗憾，显示内外电量百分比只能二选一，同时选外百分比优先</string>
+    <string name="aosp_singlehandmode_adjust">允许在单手模式下下拉状态栏</string>
+    <string name="aosp_singlehandmode_offest">单手模式偏移像素，正数向上，负数向下</string>
+    <string name="input_int">输一个整数</string>
+    <string name="low_speed_hide_kilo_bytes">低速时隐藏网速(-1始终显示)</string>
 </resources>
