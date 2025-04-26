@@ -28,7 +28,9 @@ object CustomClock : HookRegister() {
 
     override fun init() = hasEnable("custom_clock_switch") {
         return@hasEnable
+        //TODO:waiting implement
 //        var c: Context? = null
+        //set layout
 //        findConstructor("com.android.systemui.statusbar.policy.Clock") {
 //            paramCount == 3
 //        }.hookAfter {
@@ -66,7 +68,7 @@ object CustomClock : HookRegister() {
 //            Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
 //
 //        }
-//
+            //universal method
 //        findMethod("com.android.systemui.statusbar.policy.Clock") {
 //            name == "getSmallTime"
 //        }.hookAfter {
@@ -81,7 +83,7 @@ object CustomClock : HookRegister() {
 //            it.result = getDate(c!!) + str + getTime(c!!, is24)
 //        }
 //
-//
+            //style
 //        findMethod("com.oplusos.systemui.statusbar.widget.StatClock") {
 //            name == "onConfigurationChanged"
 //        }.hookAfter {

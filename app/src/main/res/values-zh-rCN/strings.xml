@@ -53,11 +53,11 @@
     <string name="participate_in_translation_summary">帮助我们将应用翻译成您的语言</string>
     <string name="qq_channel">加入 官方QQ频道</string>
     <string name="qs_custom_columns">列</string>
-    <string name="qs_custom_columns_unexpanded">列 (未展开)</string>
+    <string name="qs_custom_columns_landscape">列 (横屏)</string>
     <string name="qs_custom_rows">行</string>
-    <string name="qs_custom_rows_horizontal">行 (横向)</string>
+    <string name="qs_custom_rows_landscape">行 (横屏)</string>
     <string name="qs_custom_switch">自定义行列数</string>
-    <string name="qs_custom_switch_summary">具体上限由显示密度决定</string>
+    <string name="qs_custom_switch_summary">具体上限由显示密度决定，行数设多了超出屏幕时会有滑动bug</string>
     <string name="quick_settings_panel">快速设置面板</string>
     <string name="reboot">重启系统</string>
     <string name="reboot_host">重启全部作用域</string>

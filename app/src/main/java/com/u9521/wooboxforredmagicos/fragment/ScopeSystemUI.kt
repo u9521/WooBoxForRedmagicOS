@@ -1,7 +1,5 @@
 package com.u9521.wooboxforredmagicos.fragment
 
-import android.view.View
-import android.widget.Switch
 import android.widget.Toast
 import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
@@ -210,7 +208,7 @@ object ScopeSystemUI : MyFragment() {
                         -1
                     )
 
-                    )
+                )
             )
         ).build()
 //        Line()
@@ -253,11 +251,6 @@ object ScopeSystemUI : MyFragment() {
                 }
             )
         ).build()
-//        TextSummaryWithSwitch(
-//            TextSummaryV(
-//                textId = R.string.aosp_singlehandmode_adjust,
-//            ), SwitchV("aosp_singlehandmode_adjust")
-//        )
 
         Line()
         TitleText(textId = R.string.lockscreen)
@@ -291,65 +284,26 @@ object ScopeSystemUI : MyFragment() {
             ), SwitchV("qs_show_search")
         )
 
-        val oldQSCustomSwitchBinding = GetDataBinding(
-            defValue = { mactivity!!.getSP()!!.getBoolean("qs_custom_switch", false) }
+        SwitchGroupBuilder(
+            this, mactivity!!, SwitchGroupConfig(
+                "qs_custom_switch",
+                R.string.qs_custom_switch,
+                R.string.qs_custom_switch_summary,
+                listOf(
+                    SubItemConfig.Text(R.string.qs_custom_rows),
+                    SubItemConfig.SeekBar("qs_custom_rows", 1, 9, 3),
 
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.qs_custom_switch,
-                tipsId = R.string.qs_custom_switch_summary,
-                colorId = R.color.purple_700
-            ), SwitchV(
-                "qs_custom_switch", dataBindingSend = oldQSCustomSwitchBinding.bindingSend
+                    SubItemConfig.Text(R.string.qs_custom_rows_landscape),
+                    SubItemConfig.SeekBar("qs_custom_rows_landscape", 1, 4, 1),
+
+                    SubItemConfig.Text(R.string.qs_custom_columns),
+                    SubItemConfig.SeekBar("qs_custom_columns", 1, 9, 5),
+
+                    SubItemConfig.Text(R.string.qs_custom_columns_landscape),
+                    SubItemConfig.SeekBar("qs_custom_columns_landscape", 1, 10, 7),
+                    )
             )
-        )
-        Text(
-            textId = R.string.qs_custom_rows,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        SeekBarWithText(
-            "qs_custom_rows", 1, 9, 4, dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        Text(
-            textId = R.string.qs_custom_rows_horizontal,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        SeekBarWithText(
-            "qs_custom_rows_horizontal",
-            1,
-            4,
-            2,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        Text(
-            textId = R.string.qs_custom_columns,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        SeekBarWithText(
-            "qs_custom_columns",
-            1,
-            9,
-            4,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        Text(
-            textId = R.string.qs_custom_columns_unexpanded,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-        SeekBarWithText(
-            "qs_custom_columns_unexpanded",
-            1,
-            10,
-            6,
-            dataBindingRecv = oldQSCustomSwitchBinding.binding.getRecv(2)
-        )
-
+        ).build()
 
     }
 }

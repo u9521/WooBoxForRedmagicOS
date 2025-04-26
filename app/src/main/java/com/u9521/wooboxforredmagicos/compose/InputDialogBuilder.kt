@@ -13,6 +13,7 @@ abstract class PrefsTypeAdapter<T> {
     abstract fun save(editor: SharedPreferences.Editor, key: String, value: T)
 
     // 内置类型实现
+    @Suppress("unused")
     companion object {
         val INT: PrefsTypeAdapter<Int> = object : PrefsTypeAdapter<Int>() {
             override fun parse(input: String) = input.toIntOrNull()

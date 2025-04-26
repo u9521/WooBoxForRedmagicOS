@@ -88,9 +88,9 @@
     <string name="qq_channel">Join the official QQ channel</string>
 
     <string name="qs_custom_columns">Columns</string>
-    <string name="qs_custom_columns_unexpanded">Columns (Unexpanded)</string>
+    <string name="qs_custom_columns_landscape">Columns (Unexpanded)</string>
     <string name="qs_custom_rows">Rows</string>
-    <string name="qs_custom_rows_horizontal">Rows (horizontal)</string>
+    <string name="qs_custom_rows_landscape">Rows (horizontal)</string>
     <string name="qs_custom_switch">Custom rows and columns</string>
     <string name="qs_custom_switch_summary">The specific upper limit is determined by the display density</string>
 

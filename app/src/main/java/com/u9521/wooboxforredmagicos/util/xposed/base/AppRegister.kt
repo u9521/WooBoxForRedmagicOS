@@ -4,8 +4,8 @@ import com.github.kyuubiran.ezxhelper.Log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
+@Suppress("unused", "RedundantSuppression")
 abstract class AppRegister : IXposedHookLoadPackage {
-
     abstract val packageName: List<String>
     abstract val processName: List<String>
     abstract val logTag: String
