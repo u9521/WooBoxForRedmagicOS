@@ -169,4 +169,7 @@
     <string name="aosp_singlehandmode_offest">单手模式偏移像素，正数向上，负数向下</string>
     <string name="input_int">输一个整数</string>
     <string name="low_speed_hide_kilo_bytes">低速时隐藏网速(-1始终显示),单位KiB/s</string>
+    <string name="rm_window_reply_app_restriction">去除小窗应用限制</string>
+    <string name="rm_window_reply_count_restriction">去除小窗数量限制</string>
+    <string name="rm_window_reply_count_restriction_tips">小窗超过三个时，第四个小窗不能挂起（靠边缩成图标）</string>
 </resources>

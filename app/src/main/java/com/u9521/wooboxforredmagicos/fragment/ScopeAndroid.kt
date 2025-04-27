@@ -89,68 +89,91 @@ object ScopeAndroid : MyFragment() {
         //音量阶数
         TitleText(textId = R.string.sound)
         // alarm
-        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
-            "alarm_volume_steps_switch",
-            R.string.alarm_volume_steps_switch,
-            R.string.media_volume_steps_summary,
-            SubItemConfig.SeekBar(
-                "alarm_volume_steps",
-                3,
-                50,
-                15
+        SwitchGroupBuilder(
+            this, mactivity!!, SwitchGroupConfig(
+                "alarm_volume_steps_switch",
+                R.string.alarm_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                SubItemConfig.SeekBar(
+                    "alarm_volume_steps",
+                    3,
+                    50,
+                    15
+                )
             )
-        )).build()
+        ).build()
 
         // media
-        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
-            "media_volume_steps_switch",
-            R.string.media_volume_steps_switch,
-            R.string.media_volume_steps_summary,
-            SubItemConfig.SeekBar(
-                "media_volume_steps",
-                3,
-                50,
-                15
+        SwitchGroupBuilder(
+            this, mactivity!!, SwitchGroupConfig(
+                "media_volume_steps_switch",
+                R.string.media_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                SubItemConfig.SeekBar(
+                    "media_volume_steps",
+                    3,
+                    50,
+                    15
+                )
             )
-        )).build()
+        ).build()
 
         // notify
-        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
-            "notify_volume_steps_switch",
-            R.string.notify_volume_steps_switch,
-            R.string.media_volume_steps_summary,
-            SubItemConfig.SeekBar(
-                "notify_volume_steps",
-                3,
-                50,
-                15
+        SwitchGroupBuilder(
+            this, mactivity!!, SwitchGroupConfig(
+                "notify_volume_steps_switch",
+                R.string.notify_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                SubItemConfig.SeekBar(
+                    "notify_volume_steps",
+                    3,
+                    50,
+                    15
+                )
             )
-        )).build()
+        ).build()
 
         // ring
-        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
-            "ring_volume_steps_switch",
-            R.string.ring_volume_steps_switch,
-            R.string.media_volume_steps_summary,
-            SubItemConfig.SeekBar(
-                "ring_volume_steps",
-                3,
-                50,
-                15
+        SwitchGroupBuilder(
+            this, mactivity!!, SwitchGroupConfig(
+                "ring_volume_steps_switch",
+                R.string.ring_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                SubItemConfig.SeekBar(
+                    "ring_volume_steps",
+                    3,
+                    50,
+                    15
+                )
             )
-        )).build()
+        ).build()
 
         //voice call
-        SwitchGroupBuilder(this,mactivity!!, SwitchGroupConfig(
-            "vc_call_volume_steps_switch",
-            R.string.vc_call_volume_steps_switch,
-            R.string.media_volume_steps_summary,
-            SubItemConfig.SeekBar(
-                "vc_call_volume_steps",
-                3,
-                50,
-                10
+        SwitchGroupBuilder(
+            this, mactivity!!, SwitchGroupConfig(
+                "vc_call_volume_steps_switch",
+                R.string.vc_call_volume_steps_switch,
+                R.string.media_volume_steps_summary,
+                SubItemConfig.SeekBar(
+                    "vc_call_volume_steps",
+                    3,
+                    50,
+                    10
+                )
             )
-        )).build()
+        ).build()
+        Line()
+        TitleText(textId = R.string.features)
+        TextSummaryWithSwitch(
+            TextSummaryV(textId = R.string.rm_window_reply_app_restriction),
+            SwitchV("rm_window_reply_restriction")
+        )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.rm_window_reply_count_restriction,
+                tipsId = R.string.rm_window_reply_count_restriction_tips
+            ),
+            SwitchV("rm_window_reply_count_restriction")
+        )
     }
 }
