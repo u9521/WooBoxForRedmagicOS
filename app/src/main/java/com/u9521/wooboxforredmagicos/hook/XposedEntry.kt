@@ -9,6 +9,7 @@ import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.hook.app.Android
 import com.u9521.wooboxforredmagicos.hook.app.Launcher
 import com.u9521.wooboxforredmagicos.hook.app.PackageInstaller
+import com.u9521.wooboxforredmagicos.hook.app.PermissionController
 import com.u9521.wooboxforredmagicos.hook.app.Settings
 import com.u9521.wooboxforredmagicos.hook.app.SystemUI
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
@@ -28,6 +29,7 @@ class XposedEntry : EasyXposedInit() {
         Launcher, //桌面
 //        AlarmClock, //时钟
 //        SecurityCenter, //安全中心
+        PermissionController, //权限控制器
         PackageInstaller,//应用包安装程序
         Settings,//系统设置
     )

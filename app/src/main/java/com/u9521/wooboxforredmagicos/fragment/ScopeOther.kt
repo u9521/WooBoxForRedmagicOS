@@ -21,5 +21,11 @@ object ScopeOther : MyFragment() {
             TextSummaryV(textId = R.string.remove_clock_widget_redone),
             SwitchV("remove_clock_widget_redone")
         )
+        Line()
+        TitleText(textId = R.string.scope_permission_controller)
+        TextSummaryWithSwitch(
+            TextSummaryV(textId = R.string.allow_thirdparty_launcher, tipsId = R.string.allow_thirdparty_launcher_tips),
+            SwitchV("allow_thirdparty_launcher")
+        )
     }
 }

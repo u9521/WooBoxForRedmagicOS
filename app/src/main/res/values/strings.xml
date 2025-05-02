@@ -221,4 +221,9 @@
     <string name="windowreply">小窗</string>
     <string name="block_system_server_log">阻止系统输出日志</string>
     <string name="block_system_server_log_tips">拦截system_server产生的日志，调试必备</string>
+    <string name="launcher_Force_Show_Blacklist_apps">取消隐藏黑名单APP</string>
+    <string name="launcher_Force_Show_Blacklist_apps_tips">例如，原生的文件，DTS音效等</string>
+    <string name="scope_permission_controller">权限控制器</string>
+    <string name="allow_thirdparty_launcher">允许设置默认第三方桌面</string>
+    <string name="allow_thirdparty_launcher_tips">最近任务无壁纸是BUG，不然为什么不让用三方桌面</string>
 </resources>

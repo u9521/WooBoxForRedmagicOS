@@ -25,5 +25,11 @@ object ScopeLauncher:MyFragment() {
                     tipsId = R.string.launcher_Force_Support_ResizeActivity_tips
                 ), SwitchV("launcher_Force_Support_ResizeActivity")
             )
+            TextSummaryWithSwitch(
+                TextSummaryV(
+                    textId = R.string.launcher_Force_Show_Blacklist_apps,
+                    tipsId = R.string.launcher_Force_Show_Blacklist_apps_tips
+                ), SwitchV("launcher_Force_Show_Blacklist_apps")
+            )
         }
 }

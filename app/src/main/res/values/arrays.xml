@@ -6,5 +6,6 @@
         <item>com.android.settings</item>
         <item>com.android.packageinstaller</item>
         <item>com.zte.mifavor.launcher</item>
+        <item>com.android.permissioncontroller</item>
     </string-array>
 </resources>
