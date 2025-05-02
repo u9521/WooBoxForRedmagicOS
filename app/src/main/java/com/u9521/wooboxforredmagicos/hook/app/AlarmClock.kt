@@ -9,7 +9,8 @@ object AlarmClock : AppRegister() {
     override val packageName: List<String> = listOf("com.coloros.alarmclock")
     override val processName: List<String> = emptyList()
     override val logTag: String = "WooBox"
-
+    override val loadDexkit: Boolean
+        get() = false
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
         autoInitHooks(

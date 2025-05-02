@@ -9,13 +9,16 @@ abstract class AppRegister : IXposedHookLoadPackage {
     abstract val packageName: List<String>
     abstract val processName: List<String>
     abstract val logTag: String
-
+    abstract val loadDexkit: Boolean
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {}
 
     protected fun autoInitHooks(
         lpparam: XC_LoadPackage.LoadPackageParam,
         vararg hook: HookRegister
     ) {
+        if (loadDexkit) {
+            System.loadLibrary("dexkit")
+        }
         hook.forEach {
             runCatching {
                 if (it.isInit) return@forEach

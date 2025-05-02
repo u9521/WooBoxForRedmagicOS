@@ -42,12 +42,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        encoding ="UTF-8"
+        encoding = "UTF-8"
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.majorVersion
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/**"
             excludes += "/kotlin/**"
@@ -71,6 +71,7 @@ dependencies {
     //API
     compileOnly("de.robv.android.xposed:api:82")
     implementation("com.github.kyuubiran:EzXHelper:2.2.1")
+    implementation("org.luckypray:dexkit:2.0.3")
     //UI
     implementation(project(":blockmiui"))
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")

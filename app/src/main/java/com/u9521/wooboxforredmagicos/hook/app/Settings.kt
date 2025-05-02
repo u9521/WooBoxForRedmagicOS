@@ -1,6 +1,9 @@
 package com.u9521.wooboxforredmagicos.hook.app
 
-import com.u9521.wooboxforredmagicos.hook.app.settings.*
+import com.u9521.wooboxforredmagicos.hook.app.settings.FroceDisplayWakeupGoogleAssistantSwitch
+import com.u9521.wooboxforredmagicos.hook.app.settings.FroceDisplayZvioceSwitch
+import com.u9521.wooboxforredmagicos.hook.app.settings.FunSettingoverrideMAXyear
+import com.u9521.wooboxforredmagicos.hook.app.settings.UsbInstallNoVerify
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -11,6 +14,8 @@ object Settings : AppRegister() {
     override val processName: List<String> = emptyList()
 
     override val logTag: String = "Woobox"
+    override val loadDexkit: Boolean = false
+
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
         autoInitHooks(

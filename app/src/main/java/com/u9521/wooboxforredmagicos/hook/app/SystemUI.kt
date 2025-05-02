@@ -1,16 +1,28 @@
 package com.u9521.wooboxforredmagicos.hook.app
 
+import com.u9521.wooboxforredmagicos.hook.app.systemui.features.AOSPSingleHandModeAdjust
+import com.u9521.wooboxforredmagicos.hook.app.systemui.features.GestureStartDefaultDigitalAssist
+import com.u9521.wooboxforredmagicos.hook.app.systemui.features.NoVibrateForvolKeyLongpress
+import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.AllowAdjustVolume
+import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.KSBFontRestore
 import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveDevModeIsOn
 import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveFinishedCharging
 import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveUSBDebugging
-import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSCustom
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.*
-import com.u9521.wooboxforredmagicos.hook.app.systemui.features.*
-import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.*
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSClockShowSecond
+import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSCustom
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderFontRestore
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderShortcut
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderShowControl
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.AOSPNotify
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.BTiconUseGlobalacts
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.BatteryIconAdjuster
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.CustomClock
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideMobileActivityIcon
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideVpnIcon
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideWifiActivityIcon
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.NetworkSpeedAdjuster
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.SBFontRestore
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.StatusBarDoubleTapToSleep
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -19,12 +31,12 @@ object SystemUI : AppRegister() {
     override val packageName: List<String> = listOf("com.android.systemui")
     override val processName: List<String> = emptyList()
     override val logTag: String = "WooBox"
+    override val loadDexkit: Boolean = true
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
         autoInitHooks(
             lpparam,
-
             //快速设置
             QSCustom, //快速设置自定义
             QSClockShowSecond, //下拉状态栏时钟显秒

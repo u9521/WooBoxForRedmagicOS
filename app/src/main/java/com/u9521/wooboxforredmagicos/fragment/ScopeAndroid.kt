@@ -163,7 +163,7 @@ object ScopeAndroid : MyFragment() {
             )
         ).build()
         Line()
-        TitleText(textId = R.string.features)
+        TitleText(textId = R.string.windowreply)
         TextSummaryWithSwitch(
             TextSummaryV(textId = R.string.rm_window_reply_app_restriction),
             SwitchV("rm_window_reply_restriction")
@@ -174,6 +174,14 @@ object ScopeAndroid : MyFragment() {
                 tipsId = R.string.rm_window_reply_count_restriction_tips
             ),
             SwitchV("rm_window_reply_count_restriction")
+        )
+        Line()
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.block_system_server_log,
+                tipsId = R.string.block_system_server_log_tips
+            ),
+            SwitchV("block_system_server_log")
         )
     }
 }

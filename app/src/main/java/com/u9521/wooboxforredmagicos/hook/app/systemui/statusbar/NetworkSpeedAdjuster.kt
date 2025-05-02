@@ -16,6 +16,7 @@ import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
+import org.luckypray.dexkit.DexKitBridge
 import java.text.DecimalFormat
 import kotlin.math.log10
 
@@ -43,11 +44,9 @@ object NetworkSpeedAdjuster : HookRegister() {
                     val mSpeedViewGroup =
                         it.thisObject.javaClass.getDeclaredField("mSpeedViewGroup")
                             .get(it.thisObject) as ViewGroup
-                    val widthPx =
-                        if (viewDualWidth > 38) LayoutParams.WRAP_CONTENT else dp2px(
-                            mSpeedViewGroup.context,
-                            viewDualWidth.toFloat()
-                        )
+                    val widthPx = if (viewDualWidth > 38) LayoutParams.WRAP_CONTENT else dp2px(
+                        mSpeedViewGroup.context, viewDualWidth.toFloat()
+                    )
                     mSpeedViewGroup.layoutParams.apply {
                         width = widthPx
                         mSpeedViewGroup.layoutParams = this
@@ -112,12 +111,12 @@ object NetworkSpeedAdjuster : HookRegister() {
             val delayMethod =
                 MethodFinder.fromClass("android.os.Handler").filterByName("postDelayed")
                     .filterByParamTypes(Runnable::class.java, Long::class.javaPrimitiveType).first()
-            //TODO: better way to find class
-            val netRunnerClazz = ClassUtils.loadClass("com.zte.feature.speed.SpeedControllerImpl$1")
-//                ClassFinder.fromClassloader(EzXHelper.classLoader)
-//                .filter {
-//                    name.startsWith("com.zte.feature.speed.SpeedControllerImpl")
-//                }.filterHasMethodName("run").first()
+            lateinit var netRunnerClazzName: String
+            DexKitBridge.create(getLoadPackageParam().appInfo.sourceDir)
+                .use { dexKitBridge: DexKitBridge ->
+                    netRunnerClazzName = findNetRunnerClazz(dexKitBridge)
+                }
+            val netRunnerClazz = ClassUtils.loadClass(netRunnerClazzName)
             val runMethod = MethodFinder.fromClass(netRunnerClazz).filterByName("run").first()
             val delayHooker = object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam?) {
@@ -214,4 +213,21 @@ object NetworkSpeedAdjuster : HookRegister() {
         }
     }
 
+    private fun findNetRunnerClazz(bridge: DexKitBridge): String {
+        val classData = bridge.findClass {
+            searchPackages("com.zte.feature.speed")
+            matcher {
+                interfaces {
+                    add("java.lang.Runnable")
+                }
+                methods {
+                    add {
+                        name = "run"
+                        usingNumbers(0xbb8L)
+                    }
+                }
+            }
+        }.singleOrNull() ?: error("NetRunnerClazz not find")
+        return classData.name
+    }
 }

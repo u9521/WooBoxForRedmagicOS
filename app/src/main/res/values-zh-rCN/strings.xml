@@ -172,4 +172,7 @@
     <string name="rm_window_reply_app_restriction">去除小窗应用限制</string>
     <string name="rm_window_reply_count_restriction">去除小窗数量限制</string>
     <string name="rm_window_reply_count_restriction_tips">小窗超过三个时，第四个小窗不能挂起（靠边缩成图标）</string>
+    <string name="windowreply">小窗</string>
+    <string name="block_system_server_log">阻止系统输出日志</string>
+    <string name="block_system_server_log_tips">拦截system_server产生的日志，调试必备</string>
 </resources>

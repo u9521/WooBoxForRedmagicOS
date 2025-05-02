@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.u9521.wooboxforredmagicos.util.XSPUtils;
+import com.u9521.wooboxforredmagicos.util.xposed.Deoptimizer;
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit;
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister;
 
@@ -158,7 +159,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     @Override
     public void initZygote(StartupParam startupParam) {
-        if (startupParam == null){
+        if (startupParam == null) {
             return;
         }
         // Enhanced hook for hidden api, the app **must in** lsposed scope
@@ -175,32 +176,23 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     private void deoptimizeSystemServer(ClassLoader classLoader) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
 
-        deoptimizeMethod(
-                classLoader.loadClass("com.android.server.wm.WindowStateAnimator"),
-                "createSurfaceLocked");
-
-        deoptimizeMethod(
-                classLoader.loadClass("com.android.server.wm.WindowManagerService"),
-                "relayoutWindow");
-        deoptimizeMethod(
-                classLoader.loadClass("android.view.SurfaceControl$Transaction"),
-                "setSkipScreenshot");
-        deoptimizeMethod(
-                classLoader.loadClass("android.view.SurfaceControl"),
-                "-$$Nest$smnativeSetFlags");
+        Deoptimizer.INSTANCE.deoptimizeMethod(classLoader.loadClass("com.android.server.wm.WindowStateAnimator"), "createSurfaceLocked");
+        Deoptimizer.INSTANCE.deoptimizeMethod(classLoader.loadClass("com.android.server.wm.WindowManagerService"), "relayoutWindow");
+        Deoptimizer.INSTANCE.deoptimizeMethod(classLoader.loadClass("android.view.SurfaceControl$Transaction"), "setSkipScreenshot");
+        Deoptimizer.INSTANCE.deoptimizeMethod(classLoader.loadClass("android.view.SurfaceControl"), "-$$Nest$smnativeSetFlags");
 
         for (int i = 0; i < 20; i++) {
             try {
                 var clazz = classLoader.loadClass("com.android.server.wm.RootWindowContainer$$ExternalSyntheticLambda" + i);
                 if (BiConsumer.class.isAssignableFrom(clazz)) {
-                    deoptimizeMethod(clazz, "accept");
+                    Deoptimizer.INSTANCE.deoptimizeMethod(clazz, "accept");
                 }
             } catch (ClassNotFoundException ignored) {
             }
             try {
                 var clazz = classLoader.loadClass("com.android.server.wm.DisplayContent$" + i);
                 if (BiPredicate.class.isAssignableFrom(clazz)) {
-                    deoptimizeMethod(clazz, "test");
+                    Deoptimizer.INSTANCE.deoptimizeMethod(clazz, "test");
                 }
             } catch (ClassNotFoundException ignored) {
             }
@@ -217,12 +209,8 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
     private static Field AllowProtectedField;
 
     private void hookScreenCapture(ClassLoader classLoader) throws ClassNotFoundException, NoSuchFieldException {
-        var screenCaptureClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                classLoader.loadClass("android.window.ScreenCapture") :
-                SurfaceControl.class;
-        var captureArgsClazz = classLoader.loadClass(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                "android.window.ScreenCapture$CaptureArgs" :
-                "android.view.SurfaceControl$CaptureArgs");
+        var screenCaptureClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? classLoader.loadClass("android.window.ScreenCapture") : SurfaceControl.class;
+        var captureArgsClazz = classLoader.loadClass(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? "android.window.ScreenCapture$CaptureArgs" : "android.view.SurfaceControl$CaptureArgs");
         captureSecureLayersField = captureArgsClazz.getDeclaredField("mCaptureSecureLayers");
         captureSecureLayersField.setAccessible(true);
         // allow DRM screenshot,may not work
@@ -232,13 +220,8 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
     }
 
     private void hookDisplayControl(ClassLoader classLoader) throws ClassNotFoundException, NoSuchMethodException {
-        var displayControlClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                classLoader.loadClass("com.android.server.display.DisplayControl") :
-                SurfaceControl.class;
-        var method = displayControlClazz.getDeclaredMethod(
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ?
-                        "createVirtualDisplay" :
-                        "createDisplay", String.class, boolean.class);
+        var displayControlClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? classLoader.loadClass("com.android.server.display.DisplayControl") : SurfaceControl.class;
+        var method = displayControlClazz.getDeclaredMethod(Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ? "createVirtualDisplay" : "createDisplay", String.class, boolean.class);
         XposedBridge.hookMethod(method, CreateDisplayHooker);
     }
 
@@ -271,10 +254,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 //    }
 
     private void hookScreenshotHardwareBuffer(ClassLoader classLoader) throws ClassNotFoundException, NoSuchMethodException {
-        var screenshotHardwareBufferClazz = classLoader.loadClass(
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                        "android.window.ScreenCapture$ScreenshotHardwareBuffer" :
-                        "android.view.SurfaceControl$ScreenshotHardwareBuffer");
+        var screenshotHardwareBufferClazz = classLoader.loadClass(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? "android.window.ScreenCapture$ScreenshotHardwareBuffer" : "android.view.SurfaceControl$ScreenshotHardwareBuffer");
         var method = screenshotHardwareBufferClazz.getDeclaredMethod("containsSecureLayers");
         XposedBridge.hookMethod(method, ReturnFalseHooker);
     }
@@ -358,18 +338,13 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
             if (enableHook()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     var walker = StackWalker.getInstance();
-                    var match = walker.walk(frames -> frames
-                            .map(StackWalker.StackFrame::getMethodName)
-                            .limit(6)
-                            .skip(2)
-                            .anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
+                    var match = walker.walk(frames -> frames.map(StackWalker.StackFrame::getMethodName).limit(6).skip(2).anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
                     if (match) return;
                 } else {
                     var stackTrace = new Throwable().getStackTrace();
                     for (int i = 4; i < stackTrace.length && i < 8; i++) {
                         var name = stackTrace[i].getMethodName();
-                        if (name.equals("setInitialSurfaceControlProperties") ||
-                                name.equals("createSurfaceLocked")) {
+                        if (name.equals("setInitialSurfaceControlProperties") || name.equals("createSurfaceLocked")) {
                             return;
                         }
                     }
@@ -415,9 +390,7 @@ public class DisableFlagSecure extends EasyXposedInit implements IXposedHookLoad
 
     private void hookMethods(Class<?> clazz, XC_MethodHook callback, String... names) {
         var list = Arrays.asList(names);
-        Arrays.stream(clazz.getDeclaredMethods())
-                .filter(method -> list.contains(method.getName()))
-                .forEach(method -> XposedBridge.hookMethod(method, callback));
+        Arrays.stream(clazz.getDeclaredMethods()).filter(method -> list.contains(method.getName())).forEach(method -> XposedBridge.hookMethod(method, callback));
     }
 
     private boolean enableHook() {

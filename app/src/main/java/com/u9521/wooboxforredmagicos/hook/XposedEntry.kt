@@ -6,14 +6,13 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.BuildConfig
-import com.u9521.wooboxforredmagicos.hook.app.AlarmClock
 import com.u9521.wooboxforredmagicos.hook.app.Android
 import com.u9521.wooboxforredmagicos.hook.app.Launcher
 import com.u9521.wooboxforredmagicos.hook.app.PackageInstaller
-import com.u9521.wooboxforredmagicos.hook.app.SecurityCenter
 import com.u9521.wooboxforredmagicos.hook.app.Settings
 import com.u9521.wooboxforredmagicos.hook.app.SystemUI
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
+import com.u9521.wooboxforredmagicos.hook.app.android.LogBlocker
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.IXposedHookZygoteInit
@@ -27,8 +26,8 @@ class XposedEntry : EasyXposedInit() {
         Android, //Android
         SystemUI, //系统界面
         Launcher, //桌面
-        AlarmClock, //时钟
-        SecurityCenter, //安全中心
+//        AlarmClock, //时钟
+//        SecurityCenter, //安全中心
         PackageInstaller,//应用包安装程序
         Settings,//系统设置
     )
@@ -54,6 +53,8 @@ class XposedEntry : EasyXposedInit() {
         super.initZygote(startupParam)
 //        CorePatch().initZygote(startupParam)
         DisableFlagSecure().initZygote(startupParam)
+        LogBlocker().initZygote(startupParam!!)
+
     }
 
     private fun matchPackagename(arr: List<AppRegister>, target: String): Boolean {
