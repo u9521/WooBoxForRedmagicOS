@@ -12,7 +12,7 @@ object SkipApkScan : HookRegister() {
         //skip scan
         // ZTE_FEATURE_ODM_VERTU
         MethodFinder.fromClass("com.android.packageinstaller.InstallStaging\$StagingAsyncTask")
-            .filterByName("onPostExecute").filterByParamTypes(java.lang.Object::class.java).first()
+            .filterByName("onPostExecute").filterByParamTypes(Object::class.java).first()
             .createBeforeHook {
                 Log.i("[packageinstaller] package is about to scan")
                 val vertuclzz = ClassUtils.loadClass("com.android.packageinstaller.PackageUtil")

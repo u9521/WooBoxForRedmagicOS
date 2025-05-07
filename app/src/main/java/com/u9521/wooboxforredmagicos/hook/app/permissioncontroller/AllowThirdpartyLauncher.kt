@@ -13,13 +13,12 @@ object AllowThirdpartyLauncher : HookRegister() {
     override fun init() = hasEnable("allow_thirdparty_launcher") {
         lateinit var utilsClazzName: String
         lateinit var isctsPackageMethodName: String
-        DexKitBridge.create(getLoadPackageParam().appInfo.sourceDir)
-            .use { dexKitBridge: DexKitBridge ->
-                findisctsmethod(dexKitBridge).also { (a, b) ->
-                    utilsClazzName = a
-                    isctsPackageMethodName = b
-                }
-            }
+
+        findisctsmethod(dexKitBridge!!).also { (a, b) ->
+            utilsClazzName = a
+            isctsPackageMethodName = b
+        }
+
         MethodFinder.fromClass("com.android.permissioncontroller.role.ui.DefaultAppChildFragment")
             .filterByName("onRoleChanged").first().createHook {
                 var hooker: XC_MethodHook.Unhook? = null

@@ -1,6 +1,7 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 
 import android.net.TrafficStats
+import android.os.SystemClock
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
@@ -32,6 +33,7 @@ object NetworkSpeedAdjuster : HookRegister() {
     private val viewDualSize = XSPUtils.getInt("status_bar_network_speed_dual_row_size", 6)
     private val viewDualWidth = XSPUtils.getInt("status_bar_network_speed_dual_row_width", 35)
     private val lowSpeedHideLevel = XSPUtils.getInt("low_speed_hide_kilo_bytes", -1)
+    private val speedRefreshDelayMs = 1000L
 
     override fun init() {
         hasEnable("status_bar_dual_row_network_speed") {
@@ -68,25 +70,17 @@ object NetworkSpeedAdjuster : HookRegister() {
             val stateSpeedText = speedState.getDeclaredField("speedText")
             val stateSpeedUnit = speedState.getDeclaredField("speedUnit")
             val stateVisible = speedState.getDeclaredField("visible")
-            //sync it
-            MethodFinder.fromClass("com.zte.feature.speed.StatusBarNetSpeedPolicy")
-                .filterByName("onSpeedLevelChanged").first().createAfterHook {
-                    //(String speedText, String speedUnit)
-                    val curNetState = speedState.cast(
-                        it.thisObject.javaClass.getDeclaredField("mNetSpeedState")
-                            .get(it.thisObject)
-                    )
-                    stateSpeedText.set(curNetState, formatSpeed(mLastUpSpeed))
-                    stateSpeedUnit.set(curNetState, formatSpeed(mLastDownSpeed))
-                    if (mLastUpSpeed / 1024 <= lowSpeedHideLevel && mLastDownSpeed / 1024 <= lowSpeedHideLevel) {
-                        stateVisible.setBoolean(curNetState, false)
-                    } else {
-                        stateVisible.setBoolean(curNetState, true)
-                    }
-                }
             // hide on low speed and set text
             MethodFinder.fromClass("com.zte.feature.speed.StatusBarNetSpeedPolicy")
                 .filterByName("updateNetSpeedDisplay").first().createBeforeHook {
+                    val curTimestamp = SystemClock.elapsedRealtime()
+                    //太快不更
+                    if (curTimestamp - mLastDownTimeStamp < speedRefreshDelayMs ||
+                        curTimestamp - mLastUPTimeStamp < speedRefreshDelayMs
+                    ) {
+                        it.result = null
+                        return@createBeforeHook
+                    }
                     val curNetState = speedState.cast(it.args[0])
                     updateUpSpeed()
                     updateDownSpeed()
@@ -107,15 +101,10 @@ object NetworkSpeedAdjuster : HookRegister() {
                 }
         }
         hasEnable("status_bar_network_speed_refresh_speed") {
-            val delayMs = 1000L
             val delayMethod =
                 MethodFinder.fromClass("android.os.Handler").filterByName("postDelayed")
                     .filterByParamTypes(Runnable::class.java, Long::class.javaPrimitiveType).first()
-            lateinit var netRunnerClazzName: String
-            DexKitBridge.create(getLoadPackageParam().appInfo.sourceDir)
-                .use { dexKitBridge: DexKitBridge ->
-                    netRunnerClazzName = findNetRunnerClazz(dexKitBridge)
-                }
+            var netRunnerClazzName: String = findNetRunnerClazz(dexKitBridge!!)
             val netRunnerClazz = ClassUtils.loadClass(netRunnerClazzName)
             val runMethod = MethodFinder.fromClass(netRunnerClazz).filterByName("run").first()
             val delayHooker = object : XC_MethodHook() {
@@ -127,7 +116,7 @@ object NetworkSpeedAdjuster : HookRegister() {
                     if (!runnable.javaClass.name.equals(netRunnerClazz.name)) {
                         return
                     }
-                    param.args[1] = delayMs
+                    param.args[1] = speedRefreshDelayMs
                 }
             }
             runMethod.createHook {
@@ -145,11 +134,9 @@ object NetworkSpeedAdjuster : HookRegister() {
     //获取总的上行速度
     private fun updateUpSpeed() {
         val nowTotalTxBytes = TrafficStats.getTotalTxBytes()
-        val nowTimeStamp = System.currentTimeMillis()
-        //时间回溯了吗
-        if (nowTimeStamp - mLastUPTimeStamp <= 0) {
-            this.mLastUpSpeed = 0.0
-            this.mLastUPTimeStamp = nowTimeStamp
+        val nowTimeStamp = SystemClock.elapsedRealtime()
+        //太快了，忽略这次更新
+        if (nowTimeStamp - mLastDownTimeStamp < speedRefreshDelayMs) {
             return
         }
         //计数器重置
@@ -170,25 +157,22 @@ object NetworkSpeedAdjuster : HookRegister() {
     //获取总的下行速度
     private fun updateDownSpeed() {
         val currentTotalRxBytes = TrafficStats.getTotalRxBytes()
-        val nowTimeStampTotalDown = System.currentTimeMillis()
-        //时间回溯了吗
-        if (nowTimeStampTotalDown - mLastDownTimeStamp <= 0) {
-            this.mLastDownSpeed = 0.0
-            this.mLastDownTimeStamp = nowTimeStampTotalDown
+        val nowTimeStamp = SystemClock.elapsedRealtime()
+        if (nowTimeStamp - mLastDownTimeStamp < speedRefreshDelayMs) {
             return
         }
         //计数器重置
         if (currentTotalRxBytes - mLastTotalDown <= 0) {
             this.mLastDownSpeed = 0.0
-            this.mLastDownTimeStamp = nowTimeStampTotalDown
+            this.mLastDownTimeStamp = nowTimeStamp
             this.mLastTotalDown = currentTotalRxBytes
             return
         }
         val downBytesPerSecond =
-            (currentTotalRxBytes - mLastTotalDown) * 1000 / (nowTimeStampTotalDown - mLastDownTimeStamp).toDouble()
+            (currentTotalRxBytes - mLastTotalDown) * 1000 / (nowTimeStamp - mLastDownTimeStamp).toDouble()
         this.mLastTotalDown = currentTotalRxBytes
         this.mLastDownSpeed = downBytesPerSecond
-        this.mLastDownTimeStamp = nowTimeStampTotalDown
+        this.mLastDownTimeStamp = nowTimeStamp
     }
 
 

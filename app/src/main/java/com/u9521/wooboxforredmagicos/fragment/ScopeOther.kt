@@ -10,16 +10,14 @@ object ScopeOther : MyFragment() {
     override val regKey = "scope_other"
     override val iData: InitView.ItemData.() -> Unit = {
         LsposedInactiveTip(this, mactivity!!).setViews()
-        TitleText(textId = R.string.scope_security_center)
+        TitleText(textId = R.string.scope_nfcService)
         TextSummaryWithSwitch(
-            TextSummaryV(textId = R.string.unlock_self_start_quantity),
-            SwitchV("unlock_self_start_quantity")
+            TextSummaryV(textId = R.string.mute_nfc_sound),
+            SwitchV("mute_nfc_sound")
         )
-        Line()
-        TitleText(textId = R.string.scope_alarmclock)
         TextSummaryWithSwitch(
-            TextSummaryV(textId = R.string.remove_clock_widget_redone),
-            SwitchV("remove_clock_widget_redone")
+            TextSummaryV(textId = R.string.nfc_confirm_launch_app),
+            SwitchV("nfc_confirm_launch_app")
         )
         Line()
         TitleText(textId = R.string.scope_permission_controller)

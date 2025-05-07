@@ -46,61 +46,61 @@ object ScopeSystemUI : MyFragment() {
 
         Line()
         TitleText(textId = R.string.status_bar_clock_format)
-        SwitchGroupBuilder(
-            this, mactivity!!, SwitchGroupConfig(
-                "custom_clock_switch", R.string.custom_clock_switch, listOf(
-                    SubItemConfig.Switch(
-                        "status_bar_time_year", R.string.status_bar_time_year
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_month", R.string.status_bar_time_month
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_day", R.string.status_bar_time_day
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_week", R.string.status_bar_time_week
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_double_hour", R.string.status_bar_time_double_hour
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_period", R.string.status_bar_time_period
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_seconds", R.string.status_bar_time_seconds
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_hide_space", R.string.status_bar_time_hide_space
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_double_line", R.string.status_bar_time_double_line
-                    ),
-                    SubItemConfig.Switch(
-                        "status_bar_time_double_line_center_align",
-                        R.string.status_bar_time_double_line_center_align
-                    ),
-                    SubItemConfig.Text(
-                        R.string.status_bar_clock_size
-                    ),
-                    SubItemConfig.SeekBar(
-                        "status_bar_clock_size",
-                        0,
-                        18,
-                        0
-                    ),
-                    SubItemConfig.Text(
-                        R.string.status_bar_clock_double_line_size,
-                    ),
-                    SubItemConfig.SeekBar(
-                        "status_bar_clock_double_line_size",
-                        0,
-                        9,
-                        0
-                    ),
-                )
-            )
-        ).build()
+//        SwitchGroupBuilder(
+//            this, mactivity!!, SwitchGroupConfig(
+//                "custom_clock_switch", R.string.custom_clock_switch, listOf(
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_year", R.string.status_bar_time_year
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_month", R.string.status_bar_time_month
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_day", R.string.status_bar_time_day
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_week", R.string.status_bar_time_week
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_double_hour", R.string.status_bar_time_double_hour
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_period", R.string.status_bar_time_period
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_seconds", R.string.status_bar_time_seconds
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_hide_space", R.string.status_bar_time_hide_space
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_double_line", R.string.status_bar_time_double_line
+//                    ),
+//                    SubItemConfig.Switch(
+//                        "status_bar_time_double_line_center_align",
+//                        R.string.status_bar_time_double_line_center_align
+//                    ),
+//                    SubItemConfig.Text(
+//                        R.string.status_bar_clock_size
+//                    ),
+//                    SubItemConfig.SeekBar(
+//                        "status_bar_clock_size",
+//                        0,
+//                        18,
+//                        0
+//                    ),
+//                    SubItemConfig.Text(
+//                        R.string.status_bar_clock_double_line_size,
+//                    ),
+//                    SubItemConfig.SeekBar(
+//                        "status_bar_clock_double_line_size",
+//                        0,
+//                        9,
+//                        0
+//                    ),
+//                )
+//            )
+//        ).build()
         TextWithSwitch(
             TextV(textId = R.string.dropdown_status_bar_clock_display_seconds),
             SwitchV("collapsed_status_bar_clock_display_seconds")

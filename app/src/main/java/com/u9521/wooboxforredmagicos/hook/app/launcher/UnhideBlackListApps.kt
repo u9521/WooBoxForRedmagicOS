@@ -11,13 +11,10 @@ object UnhideBlackListApps : HookRegister() {
     override fun init() = hasEnable("launcher_Force_Show_Blacklist_apps") {
         lateinit var configResourceClazzName: String
         lateinit var configResourceMethodName: String
-        DexKitBridge.create(getLoadPackageParam().appInfo.sourceDir)
-            .use { dexKitBridge: DexKitBridge ->
-                findHidemethods(dexKitBridge).also { (a, b) ->
-                    configResourceClazzName = a
-                    configResourceMethodName = b
-                }
-            }
+        findHidemethods(dexKitBridge!!).also { (a, b) ->
+            configResourceClazzName = a
+            configResourceMethodName = b
+        }
         MethodFinder.fromClass(configResourceClazzName)
             .filterByName(configResourceMethodName)
             .first().createBeforeHook {

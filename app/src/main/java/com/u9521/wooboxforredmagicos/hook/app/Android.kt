@@ -4,6 +4,7 @@ import com.u9521.wooboxforredmagicos.hook.app.android.AllowUntrustedTouches
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.hook.app.android.RemoveAlertWindowsNotification
 import com.u9521.wooboxforredmagicos.hook.app.android.RmWindowReplyLimits
+import com.u9521.wooboxforredmagicos.hook.app.android.SyetemServerLogBlocker
 import com.u9521.wooboxforredmagicos.hook.app.android.VolumeStepHook
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.XposedBridge
@@ -26,6 +27,7 @@ object Android : AppRegister() {
             VolumeStepHook, //音量阶数Hook
             AllowUntrustedTouches, //允许不受信任的触摸
             RmWindowReplyLimits,//解除小窗限制
+            SyetemServerLogBlocker,//屏蔽一些系统日志
         )
     }
 

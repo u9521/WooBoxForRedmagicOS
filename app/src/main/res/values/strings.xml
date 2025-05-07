@@ -106,7 +106,7 @@
     <string name="scope_other">Other</string>
     <string name="scope_other_summary">Phone Manager, Battery and performance, etc.</string>
     <string name="scope_security_center">Security Center</string>
-    <string name="scope_alarmclock">Alaarm Clock</string>
+    <string name="scope_nfcService">NFC Service</string>
     <string name="scope_systemui">SystemUI</string>
     <string name="scope_systemui_summary">Customize system interface, status bar, lock screen, etc.</string>
 
@@ -226,4 +226,6 @@
     <string name="scope_permission_controller">权限控制器</string>
     <string name="allow_thirdparty_launcher">允许设置默认第三方桌面</string>
     <string name="allow_thirdparty_launcher_tips">最近任务无壁纸是BUG，不然为什么不让用三方桌面</string>
+    <string name="mute_nfc_sound">禁用NFC提示音</string>
+    <string name="nfc_confirm_launch_app">在启动应用前弹窗确认</string>
 </resources>
