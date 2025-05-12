@@ -105,7 +105,6 @@
     <string name="scope_launcher">Launcher</string>
     <string name="scope_other">Other</string>
     <string name="scope_other_summary">Phone Manager, Battery and performance, etc.</string>
-    <string name="scope_security_center">Security Center</string>
     <string name="scope_nfcService">NFC Service</string>
     <string name="scope_systemui">SystemUI</string>
     <string name="scope_systemui_summary">Customize system interface, status bar, lock screen, etc.</string>
@@ -130,24 +129,8 @@
 
     <string name="third_party_open_source_statement">Third Party Open Source Statement</string>
 
-    <string name="unlock_self_start_quantity">Unlock self start quantity</string>
-    <string name="remove_clock_widget_redone">Remove desktop clock component RedOne</string>
-
     <string name="xposeddescription">Customization tool for RedmagicOS9(Android 14)</string>
     <string name="status_bar_clock_format">Status bar clock format</string>
-    <string name="custom_clock_switch">Custom Clock Switch</string>
-    <string name="status_bar_time_year">Display year</string>
-    <string name="status_bar_time_month">Display month</string>
-    <string name="status_bar_time_day">Display date</string>
-    <string name="status_bar_time_week">Display day</string>
-    <string name="status_bar_time_double_hour">Display chinese twelve hour</string>
-    <string name="status_bar_time_period">Display AM/PM</string>
-    <string name="status_bar_time_seconds">Display seconds</string>
-    <string name="status_bar_time_hide_space">Hide space</string>
-    <string name="status_bar_time_double_line">Dual row</string>
-    <string name="status_bar_time_double_line_center_align">Dual row center align</string>
-    <string name="status_bar_clock_size">Clock size (0: do not change)</string>
-    <string name="status_bar_clock_double_line_size">Dual row size (0: do not change</string>
     <string name="installer_hide_store_hint">Hide install from store hint</string>
     <string name="features">Features</string>
     <string name="lockscreen">Lock Screen</string>
@@ -228,4 +211,10 @@
     <string name="allow_thirdparty_launcher_tips">最近任务无壁纸是BUG，不然为什么不让用三方桌面</string>
     <string name="mute_nfc_sound">禁用NFC提示音</string>
     <string name="nfc_confirm_launch_app">在启动应用前弹窗确认</string>
+    <string name="airplane_mode_keep_bt">飞行模式开启时保持蓝牙</string>
+    <string name="airplane_mode_keep_bt_tips">飞行模式开启时保持蓝牙状态，无论是否有媒体在播放</string>
+    <string name="airplane_mode_keep_wlan">飞行模式开启时保持WLAN和热点的状态</string>
+    <string name="airplane_mode_keep_wlan_tips">飞行模式开启时保持WLAN和热点的状态，妈妈再也不用担心开关飞行断网了</string>
+    <string name="airplane_mode">飞行模式</string>
+    <string name="debug_option">调试选项</string>
 </resources>

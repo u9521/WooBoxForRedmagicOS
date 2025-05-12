@@ -182,4 +182,10 @@
     <string name="allow_thirdparty_launcher_tips">最近任务无壁纸是BUG，不然为什么不让用三方桌面</string>
     <string name="mute_nfc_sound">禁用NFC提示音</string>
     <string name="nfc_confirm_launch_app">在启动应用前弹窗确认</string>
+    <string name="airplane_mode_keep_bt">飞行模式开启时保持蓝牙状态</string>
+    <string name="airplane_mode_keep_bt_tips">飞行模式开启时保持蓝牙状态，无论是否有媒体在播放</string>
+    <string name="airplane_mode_keep_wlan">飞行模式开启时保持WLAN和热点的状态</string>
+    <string name="airplane_mode_keep_wlan_tips">飞行模式开启时保持WLAN和热点的状态，妈妈再也不用担心开关飞行断网了</string>
+    <string name="airplane_mode">飞行模式</string>
+    <string name="debug_option">调试选项</string>
 </resources>

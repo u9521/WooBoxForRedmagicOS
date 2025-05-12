@@ -1,5 +1,6 @@
 package com.u9521.wooboxforredmagicos.hook.app
 
+import com.u9521.wooboxforredmagicos.hook.app.android.AirplaneMode
 import com.u9521.wooboxforredmagicos.hook.app.android.AllowUntrustedTouches
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.hook.app.android.RemoveAlertWindowsNotification
@@ -23,6 +24,7 @@ object Android : AppRegister() {
         DisableFlagSecure().handleLoadPackage(lpparam) //允许截图
         autoInitHooks(
             lpparam,
+            AirplaneMode,//飞行模式设置
             RemoveAlertWindowsNotification, //上层显示通知
             VolumeStepHook, //音量阶数Hook
             AllowUntrustedTouches, //允许不受信任的触摸

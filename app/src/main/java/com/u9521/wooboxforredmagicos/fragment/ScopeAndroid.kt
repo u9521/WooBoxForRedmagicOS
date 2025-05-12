@@ -1,7 +1,5 @@
 package com.u9521.wooboxforredmagicos.fragment
 
-import android.view.View
-import android.widget.Switch
 import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
@@ -15,35 +13,20 @@ object ScopeAndroid : MyFragment() {
     override val regKey: String = "scope_android"
     override val iData: InitView.ItemData.() -> Unit = {
         LsposedInactiveTip(this, mactivity!!).setViews()
-        val disableFlagSecureSwitchBinding = GetDataBinding(
-            defValue = {
-                mactivity!!.getSP()!!.getBoolean("disable_flag_secure", false)
-            }
-        ) { view, flags, data ->
-            when (flags) {
-                1 -> (view as Switch).isEnabled = data as Boolean
-                2 -> view.visibility = if (data as Boolean) View.VISIBLE else View.GONE
-            }
-        }
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.disable_flag_secure,
-                tipsId = R.string.disable_flag_secure_summary
-            ),
-            SwitchV(
+        SwitchGroupBuilder(
+            this,
+            mactivity!!,
+            SwitchGroupConfig(
                 "disable_flag_secure",
-                dataBindingSend = disableFlagSecureSwitchBinding.bindingSend
+                R.string.disable_flag_secure,
+                R.string.disable_flag_secure_summary,
+                SubItemConfig.Switch(
+                    "disable_flag_secure_enhanced",
+                    R.string.disable_flag_secure_enhanced,
+                    R.string.disable_flag_secure_enhanced_tips
+                )
             )
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.disable_flag_secure_enhanced,
-                tipsId = R.string.disable_flag_secure_enhanced_tips
-            ),
-            SwitchV("disable_flag_secure_enhanced"),
-            dataBindingRecv = disableFlagSecureSwitchBinding.getRecv(2)
-        )
-
+        ).build()
         Line()
         TitleText(textId = R.string.corepacth)
         TextSummaryWithSwitch(
@@ -176,6 +159,23 @@ object ScopeAndroid : MyFragment() {
             SwitchV("rm_window_reply_count_restriction")
         )
         Line()
+        TitleText(textId = R.string.airplane_mode)
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.airplane_mode_keep_bt,
+                tipsId = R.string.airplane_mode_keep_bt_tips
+            ),
+            SwitchV("airplane_mode_keep_bt")
+        )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.airplane_mode_keep_wlan,
+                tipsId = R.string.airplane_mode_keep_wlan_tips
+            ),
+            SwitchV("airplane_mode_keep_wlan")
+        )
+        Line()
+        TitleText(textId = R.string.debug_option)
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.block_system_server_log,
