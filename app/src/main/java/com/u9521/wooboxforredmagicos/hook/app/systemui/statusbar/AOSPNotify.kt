@@ -26,21 +26,33 @@ object AOSPNotify : HookRegister() {
                     enableAdapt.setBoolean(param.thisObject, false)
                 }
 
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    enableAdapt.setBoolean(param!!.thisObject, true)
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    enableAdapt.setBoolean(param.thisObject, true)
                 }
             }
-
-            val cBGMethod =
-                MethodFinder.fromClass("com.zte.feature.notification.module.NotificationBackground")
-                    .filterByName("clearBackground").first()
+            val notificationBGClazz =
+                ClassUtils.loadClass("com.zte.feature.notification.module.NotificationBackground")
+            // Force all app use system icon
             MethodFinder.fromClass("com.zte.feature.notification.NotificationUtil")
                 .filterByName("shouldShowAppIcon").first().createBeforeHook {
                     it.result = false
                 }
-            MethodFinder.fromClass("com.zte.feature.notification.module.NotificationBackground")
-                .filterByName("updateNotificationIconBackground").first().createBeforeHook {
-                    cBGMethod.invoke(it.thisObject)
+            // clean app icon background;fix sometime icon with background
+            MethodFinder.fromClass("com.zte.feature.notification.NotificationUtil")
+                .filterByName("getAppIconBackgroundDrawable").first().createBeforeHook {
+                    it.result = null
+                }
+
+            MethodFinder.fromClass(notificationBGClazz).filterByName("adjustNotificationIcon")
+                .first().createBeforeHook {
+                    val view = it.args[0] as View
+                    val iconSizePx = dp2px(view.context, iconSize.toFloat())
+                    val lp = FrameLayout.LayoutParams(iconSizePx, iconSizePx)
+                    lp.gravity = Gravity.CENTER_HORIZONTAL
+                    view.layoutParams = lp
+                    it.result = null
+//                    Log.wx("WTF: this method shouldnot be called, stacktrace bellow")
+//                    DebugUtils.printStackTrace()
                 }
             val nICAdapt =
                 ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationIconContainerAdapt")
@@ -66,14 +78,6 @@ object AOSPNotify : HookRegister() {
             }
             MethodFinder.fromClass(nIACAdapt).onEach { it ->
                 if (it.name == "adjustNotificationIcon") {
-                    it.createBeforeHook {
-                        val view = it.args[0] as View
-                        val iconSizePx = dp2px(view.context, iconSize.toFloat())
-                        val lp = FrameLayout.LayoutParams(iconSizePx, iconSizePx)
-                        lp.gravity = Gravity.CENTER_HORIZONTAL
-                        view.layoutParams = lp
-                        it.result = null
-                    }
                     return@onEach
                 }
                 XposedBridge.hookMethod(it, adaptHooker)
