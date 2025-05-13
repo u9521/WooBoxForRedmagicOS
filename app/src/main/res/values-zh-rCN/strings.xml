@@ -188,4 +188,13 @@
     <string name="airplane_mode_keep_wlan_tips">飞行模式开启时保持WLAN和热点的状态，妈妈再也不用担心开关飞行断网了</string>
     <string name="airplane_mode">飞行模式</string>
     <string name="debug_option">调试选项</string>
+    <string name="wlan_server">WLAN服务</string>
+    <string name="telecom_wlan_cc">自定义WiFi国家码</string>
+    <string name="telecom_wlan_cc_tips">手机按照SIM卡分配的国家码，打开开关未设置时默认为us，开关飞行模式并重启WIFI生效，注意magisk模块设置的测试国家码会覆盖这个选项，有效输入为两位，字母或数字</string>
+    <string name="telecom_wlan_cc_set">设置国家码</string>
+    <string name="pin_sta_mac">固定终端MAC地址</string>
+    <string name="pin_sta_mac_tips">就是修改你手机连WiFi的MAC地址，如果不生效（一般第一个字节要是偶数），很有可能是驱动拒绝这个地址，修改后重启WiFi生效</string>
+    <string name="pin_sta_mac_set">修改MAC地址</string>
+    <string name="pin_ap_bssid">固定热点随机BSSID</string>
+    <string name="pin_ap_bssid_tips">需要在VPN热点中开启随机化MAC地址，热点打不开多半是设备拒绝这个地址（一般第一个字节要是偶数），修改后重启热点生效</string>
 </resources>

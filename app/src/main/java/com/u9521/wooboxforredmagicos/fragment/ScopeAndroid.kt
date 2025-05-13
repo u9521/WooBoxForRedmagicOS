@@ -1,10 +1,14 @@
 package com.u9521.wooboxforredmagicos.fragment
 
+import android.widget.Toast
 import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import com.u9521.wooboxforredmagicos.R
+import com.u9521.wooboxforredmagicos.compose.InputDialogBuilder
+import com.u9521.wooboxforredmagicos.compose.InputDialogConfig
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
+import com.u9521.wooboxforredmagicos.compose.PrefsTypeAdapter
 import com.u9521.wooboxforredmagicos.compose.SubItemConfig
 import com.u9521.wooboxforredmagicos.compose.SwitchGroupBuilder
 import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
@@ -174,6 +178,74 @@ object ScopeAndroid : MyFragment() {
             ),
             SwitchV("airplane_mode_keep_wlan")
         )
+        TitleText(textId = R.string.wlan_server)
+        SwitchGroupBuilder(
+            this,
+            mactivity!!,
+            SwitchGroupConfig(
+                "custom_wlan_countrycode", R.string.telecom_wlan_cc, R.string.telecom_wlan_cc_tips,
+                SubItemConfig.Arrow(R.string.telecom_wlan_cc_set) {
+                    InputDialogBuilder<String>(
+                        this,
+                        mactivity!!,
+                        InputDialogConfig(
+                            R.string.telecom_wlan_cc_set,
+                            R.string.telecom_wlan_cc_tips,
+                            "telecom_wlan_cc_val",
+                            "us",
+                            PrefsTypeAdapter.STRING
+                        )
+                    ).show {
+                        Toast.makeText(mactivity!!, "设置成功", Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                })
+        ).build()
+        SwitchGroupBuilder(
+            this,
+            mactivity!!,
+            SwitchGroupConfig(
+                "pin_sta_mac_sw", R.string.pin_sta_mac, R.string.pin_sta_mac_tips,
+                SubItemConfig.Arrow(R.string.pin_sta_mac_set) {
+                    InputDialogBuilder<String>(
+                        this,
+                        mactivity!!,
+                        InputDialogConfig(
+                            R.string.pin_sta_mac_set,
+                            R.string.pin_sta_mac_tips,
+                            "pin_sta_mac",
+                            "66:31:32:35:39:75",
+                            PrefsTypeAdapter.STRING
+                        )
+                    ).show {
+                        Toast.makeText(mactivity!!, "设置成功", Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                })
+        ).build()
+        SwitchGroupBuilder(
+            this,
+            mactivity!!,
+            SwitchGroupConfig(
+                "pin_ap_bssid_sw", R.string.pin_ap_bssid, R.string.pin_ap_bssid_tips,
+                SubItemConfig.Arrow(R.string.pin_sta_mac_set) {
+                    InputDialogBuilder<String>(
+                        this,
+                        mactivity!!,
+                        InputDialogConfig(
+                            R.string.pin_sta_mac_set,
+                            R.string.pin_ap_bssid_tips,
+                            "pin_ap_bssid",
+                            "b4:f3:cb:a7:b8:e7",
+                            PrefsTypeAdapter.STRING
+                        )
+                    ).show {
+                        Toast.makeText(mactivity!!, "设置成功", Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                })
+        ).build()
+
         Line()
         TitleText(textId = R.string.debug_option)
         TextSummaryWithSwitch(
