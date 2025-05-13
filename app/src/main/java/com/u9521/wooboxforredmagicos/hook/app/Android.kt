@@ -4,6 +4,7 @@ import com.u9521.wooboxforredmagicos.hook.app.android.AirplaneMode
 import com.u9521.wooboxforredmagicos.hook.app.android.AllowUntrustedTouches
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.hook.app.android.RemoveAlertWindowsNotification
+import com.u9521.wooboxforredmagicos.hook.app.android.RmInstallerHijack
 import com.u9521.wooboxforredmagicos.hook.app.android.RmWindowReplyLimits
 import com.u9521.wooboxforredmagicos.hook.app.android.SyetemServerLogBlocker
 import com.u9521.wooboxforredmagicos.hook.app.android.VolumeStepHook
@@ -27,6 +28,7 @@ object Android : AppRegister() {
             AirplaneMode,//飞行模式设置
             WLANServerHooker,//WLAN服务，国家码，mac地址
             RemoveAlertWindowsNotification, //上层显示通知
+            RmInstallerHijack,//去除安装器劫持
             VolumeStepHook, //音量阶数Hook
             AllowUntrustedTouches, //允许不受信任的触摸
             RmWindowReplyLimits,//解除小窗限制

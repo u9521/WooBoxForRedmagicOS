@@ -46,6 +46,13 @@ object ScopeAndroid : MyFragment() {
             ), SwitchV("allow_untrusted_touches")
         )
         Line()
+        TitleText(textId = R.string.scope_packageinstaller)
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.allow_thirdparty_installer,
+            ), SwitchV("allow_thirdparty_installer")
+        )
+        Line()
         //音量阶数
         TitleText(textId = R.string.sound)
         // alarm
