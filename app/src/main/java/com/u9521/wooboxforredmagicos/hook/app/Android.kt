@@ -21,7 +21,6 @@ object Android : AppRegister() {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
 
-//        CorePatch().handleLoadPackage(lpparam)//核心破解
         DisableFlagSecure().handleLoadPackage(lpparam) //允许截图
         autoInitHooks(
             lpparam,

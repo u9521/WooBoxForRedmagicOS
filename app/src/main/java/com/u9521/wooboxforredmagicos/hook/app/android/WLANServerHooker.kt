@@ -56,9 +56,6 @@ object WLANServerHooker : HookRegister() {
     @SuppressLint("PrivateApi")
     private fun wlanTelecomCCHooker(cl: ClassLoader) {
         hasEnable("custom_wlan_countrycode") {
-            //hints
-            //wifi native
-            //setStaCountryCode
 
             MethodFinder.fromClass("com.android.server.wifi.WifiCountryCode", cl)
                 .filterByName("setTelephonyCountryCode").filterByParamTypes(

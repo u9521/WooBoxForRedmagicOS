@@ -32,33 +32,6 @@ object ScopeAndroid : MyFragment() {
             )
         ).build()
         Line()
-        TitleText(textId = R.string.corepacth)
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.downgr, tipsId = R.string.downgr_summary
-            ), SwitchV("downgrade")
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.authcreak, tipsId = R.string.authcreak_summary
-            ), SwitchV("authcreak")
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.digestCreak, tipsId = R.string.digestCreak_summary
-            ), SwitchV("digestCreak")
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.UsePreSig, tipsId = R.string.UsePreSig_summary
-            ), SwitchV("UsePreSig")
-        )
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.enhancedMode, tipsId = R.string.enhancedMode_summary
-            ), SwitchV("enhancedMode")
-        )
-        Line()
         TitleText(textId = R.string.notification)
         TextSummaryWithSwitch(
             TextSummaryV(

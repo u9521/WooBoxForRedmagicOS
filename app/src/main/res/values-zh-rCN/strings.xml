@@ -14,7 +14,7 @@
     <string name="are_you_sure_reboot">确定重启系统？</string>
     <string name="are_you_sure_reboot_scope">确定重启全部作用域？</string>
     <string name="authcreak">禁用软件包管理器签名验证</string>
-    <string name="authcreak_summary">关闭安装应用时的签名验证，可以安装被篡改的应用</string>
+    <string name="authcreak_summary">关闭安装应用时的签名验证，可以安装被篡改的应用，如果你用自带的安装器可以无视这个选项，因为官方安装器白名单无视完整性检查</string>
     <string name="cancel">取消</string>
     <string name="contributor_list">开源仓库贡献者名单</string>
     <string name="corepacth">解除安装限制</string>
@@ -197,4 +197,8 @@
     <string name="pin_sta_mac_set">修改MAC地址</string>
     <string name="pin_ap_bssid">固定热点随机BSSID</string>
     <string name="pin_ap_bssid_tips">需要在VPN热点中开启随机化MAC地址，热点打不开多半是设备拒绝这个地址（一般第一个字节要是偶数），修改后重启热点生效</string>
+    <string name="sharedUser">绕过共享用户签名验证</string>
+    <string name="sharedUser_summary">允许安装与其共享用户签名不同的 app（<b>需要同时打开“禁用APK签名验证”</b>）</string>
+    <string name="disableVerificationAgent">禁用安装包验证代理</string>
+    <string name="disableVerificationAgent_summary">如 Play 商店的保护机制</string>
 </resources>
