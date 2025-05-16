@@ -14,7 +14,6 @@ import com.u9521.wooboxforredmagicos.R
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
 import com.u9521.wooboxforredmagicos.fragment.*
 import com.u9521.wooboxforredmagicos.util.ShellUtils
-
 import kotlin.system.exitProcess
 
 class SettingsActivity : MIUIActivity() {
@@ -81,7 +80,7 @@ class SettingsActivity : MIUIActivity() {
         initView {
             mInitvew = this
             registerMain(getString(R.string.app_name), false) {
-                LsposedInactiveTip(this,this@SettingsActivity).setViews()
+                LsposedInactiveTip(this, this@SettingsActivity).setViews()
                 TextSummaryWithSwitch(
                     TextSummaryV(textId = R.string.main_switch, colorId = R.color.purple_700),
                     SwitchV("main_switch", true)
@@ -147,6 +146,11 @@ class SettingsActivity : MIUIActivity() {
                 )
                 TextSummaryArrow(
                     TextSummaryV(
+                        textId = R.string.scope_system_update,
+                        onClickListener = { showFragment(ScopeSystemUpdate.regKey) })
+                )
+                TextSummaryArrow(
+                    TextSummaryV(
                         textId = R.string.scope_other,
                         tipsId = R.string.scope_other_summary,
                         onClickListener = { showFragment(ScopeOther.regKey) })
@@ -163,31 +167,25 @@ class SettingsActivity : MIUIActivity() {
             }
             AboutModule.registerView(this@SettingsActivity, getString(R.string.about_module), true)
             ScopeAndroid.registerView(
-                this@SettingsActivity,
-                getString(R.string.scope_android),
-                false
+                this@SettingsActivity, getString(R.string.scope_android), false
             )
             ScopeLauncher.registerView(
-                this@SettingsActivity,
-                getString(R.string.scope_launcher),
-                false
+                this@SettingsActivity, getString(R.string.scope_launcher), false
             )
             ScopeOther.registerView(this@SettingsActivity, getString(R.string.scope_other), false)
             ScopePackageInstaller.registerView(
-                this@SettingsActivity,
-                getString(R.string.scope_packageinstaller),
-                false
+                this@SettingsActivity, getString(R.string.scope_packageinstaller), false
             )
             ScopeSystemSettings.registerView(
-                this@SettingsActivity,
-                getString(R.string.scope_systemSettings),
-                false
+                this@SettingsActivity, getString(R.string.scope_systemSettings), false
             )
             ScopeSystemUI.registerView(
-                this@SettingsActivity,
-                getString(R.string.scope_systemui),
-                false
+                this@SettingsActivity, getString(R.string.scope_systemui), false
             )
+            ScopeSystemUpdate.registerView(
+                this@SettingsActivity, getString(R.string.scope_system_update), false
+            )
+
             registerMenu(getString(R.string.menu)) {
                 TextSummaryArrow(
                     TextSummaryV(textId = R.string.reboot, onClickListener = {

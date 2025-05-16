@@ -13,6 +13,7 @@ import com.u9521.wooboxforredmagicos.hook.app.PackageInstaller
 import com.u9521.wooboxforredmagicos.hook.app.PermissionController
 import com.u9521.wooboxforredmagicos.hook.app.Settings
 import com.u9521.wooboxforredmagicos.hook.app.SystemUI
+import com.u9521.wooboxforredmagicos.hook.app.SystemUpdater
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
@@ -31,6 +32,7 @@ class XposedEntry : EasyXposedInit() {
         PermissionController, //权限控制器
         Settings,//系统设置
         SystemUI, //系统界面
+        SystemUpdater,//系统更新
     )
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {

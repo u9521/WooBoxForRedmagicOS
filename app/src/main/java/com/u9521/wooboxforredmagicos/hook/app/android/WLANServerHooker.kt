@@ -63,7 +63,7 @@ object WLANServerHooker : HookRegister() {
                 ).first().createBeforeHook {
                     val custCC = XSPUtils.getString("telecom_wlan_cc_val", "us")!!
                     if (isValidCC(custCC)) {
-                        Log.ix("set country Code ${it.args[0] as String} to $custCC")
+                        Log.ix("set country Code ${it.args[0] as String?} to $custCC")
                         it.args[0] = custCC
                         return@createBeforeHook
                     }
@@ -114,7 +114,8 @@ object WLANServerHooker : HookRegister() {
                     Log.i("setApMacAddress called:${it.args[0] as String},${it.args[1] as MacAddress}")
                     //才没有彩蛋呢
                     val macStr = XSPUtils.getString("pin_ap_bssid", "b4:f3:cb:a7:b8:e7")!!
-                    validMAC(macStr)?.let { mac -> it.args[1] = mac
+                    validMAC(macStr)?.let { mac ->
+                        it.args[1] = mac
                         Log.i("mod bssid to:${mac}")
                     }
                 }

@@ -46,11 +46,12 @@ object ScopeAndroid : MyFragment() {
             ), SwitchV("allow_untrusted_touches")
         )
         Line()
-        TitleText(textId = R.string.scope_packageinstaller)
+        TitleText(textId = R.string.intent_hijack)
         TextSummaryWithSwitch(
             TextSummaryV(
-                textId = R.string.allow_thirdparty_installer,
-            ), SwitchV("allow_thirdparty_installer")
+                textId = R.string.remove_intent_hijack,
+                tipsId = R.string.remove_intent_hijack_tips,
+            ), SwitchV("remove_intent_hijack")
         )
         Line()
         //音量阶数

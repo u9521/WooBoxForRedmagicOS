@@ -8,5 +8,6 @@
         <item>com.android.settings</item>
         <item>com.android.systemui</item>
         <item>com.zte.mifavor.launcher</item>
+        <item>com.zte.zdm</item>
     </string-array>
 </resources>

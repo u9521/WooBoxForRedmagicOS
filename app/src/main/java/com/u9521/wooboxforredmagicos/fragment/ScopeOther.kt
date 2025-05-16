@@ -15,10 +15,6 @@ object ScopeOther : MyFragment() {
             TextSummaryV(textId = R.string.mute_nfc_sound),
             SwitchV("mute_nfc_sound")
         )
-        TextSummaryWithSwitch(
-            TextSummaryV(textId = R.string.nfc_confirm_launch_app),
-            SwitchV("nfc_confirm_launch_app")
-        )
         Line()
         TitleText(textId = R.string.scope_permission_controller)
         TextSummaryWithSwitch(

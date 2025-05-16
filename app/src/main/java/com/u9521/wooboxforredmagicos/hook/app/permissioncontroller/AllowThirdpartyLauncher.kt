@@ -8,26 +8,20 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import de.robv.android.xposed.XC_MethodHook
 import org.luckypray.dexkit.DexKitBridge
 import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.reflect.Method
 
 object AllowThirdpartyLauncher : HookRegister() {
     override fun init() = hasEnable("allow_thirdparty_launcher") {
-        lateinit var utilsClazzName: String
-        lateinit var isctsPackageMethodName: String
 
-        findisctsmethod(dexKitBridge!!).also { (a, b) ->
-            utilsClazzName = a
-            isctsPackageMethodName = b
-        }
+        val ctsMe = findisctsmethod(dexKitBridge!!)
 
         MethodFinder.fromClass("com.android.permissioncontroller.role.ui.DefaultAppChildFragment")
             .filterByName("onRoleChanged").first().createHook {
                 var hooker: XC_MethodHook.Unhook? = null
                 before {
-                    hooker = MethodFinder.fromClass(utilsClazzName)
-                        .filterByName(isctsPackageMethodName)
-                        .first().createBeforeHook {
-                            it.result = true
-                        }
+                    hooker = ctsMe.createBeforeHook {
+                        it.result = true
+                    }
                 }
                 after {
                     hooker!!.unhook()
@@ -35,7 +29,7 @@ object AllowThirdpartyLauncher : HookRegister() {
             }
     }
 
-    private fun findisctsmethod(bridge: DexKitBridge): Pair<String, String> {
+    private fun findisctsmethod(bridge: DexKitBridge): Method {
         //ConfigResource
         val classData = bridge.findClass {
             searchPackages("com.android.permissioncontroller.permission.utils")
@@ -58,6 +52,6 @@ object AllowThirdpartyLauncher : HookRegister() {
                 usingStrings(listOf("android.", ".cts."), StringMatchType.Equals)
             }
         }.singleOrNull() ?: error("utils->isctsMethod not find")
-        return Pair(classData.name, methodData.name)
+        return methodData.getMethodInstance(getDefaultClassLoader())
     }
 }
