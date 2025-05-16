@@ -27,7 +27,6 @@ class LsposedInactiveTip(private val iData: InitView.ItemData, val activity: Set
                     })
             )
         }
-
     fun setViews() {
         if (activity.lsposedLoaded) {
             return

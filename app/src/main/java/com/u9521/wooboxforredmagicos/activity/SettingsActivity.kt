@@ -2,6 +2,7 @@ package com.u9521.wooboxforredmagicos.activity
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import cn.fkj233.ui.activity.MIUIActivity
@@ -12,7 +13,15 @@ import cn.fkj233.ui.dialog.MIUIDialog
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.R
 import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
-import com.u9521.wooboxforredmagicos.fragment.*
+import com.u9521.wooboxforredmagicos.fragment.AboutModule
+import com.u9521.wooboxforredmagicos.fragment.ScopeAndroid
+import com.u9521.wooboxforredmagicos.fragment.ScopeLauncher
+import com.u9521.wooboxforredmagicos.fragment.ScopeOther
+import com.u9521.wooboxforredmagicos.fragment.ScopePackageInstaller
+import com.u9521.wooboxforredmagicos.fragment.ScopeSystemSettings
+import com.u9521.wooboxforredmagicos.fragment.ScopeSystemUI
+import com.u9521.wooboxforredmagicos.fragment.ScopeSystemUpdate
+import com.u9521.wooboxforredmagicos.util.BackupAndRestore
 import com.u9521.wooboxforredmagicos.util.ShellUtils
 import kotlin.system.exitProcess
 
@@ -23,7 +32,6 @@ class SettingsActivity : MIUIActivity() {
     var mInitvew: InitView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         checkLSPosed()
-        getVersionCommit()
         super.onCreate(savedInstanceState)
     }
 
@@ -53,27 +61,9 @@ class SettingsActivity : MIUIActivity() {
         }
     }
 
-    //获取APP Manifest versionCommit
-    private fun getVersionCommit() {
-        if (lsposedLoaded) {
-            val keyList = arrayOf("PackageInstallCommit", "AlarmClockCommit")
-            val packageList = arrayOf("com.android.packageinstaller", "com.android.htmlviewer")
-            for ((index, value) in keyList.withIndex()) {
-                val appcommit = getAppCommit(packageList[index]) ?: "null"
-                safeSP.putAny(value, appcommit)
-            }
-        }
-    }
-
-    private fun getAppCommit(packageName: String): String? {
-        return try {
-            val packageManager = this.packageManager
-            packageManager.getApplicationInfo(
-                packageName, PackageManager.GET_META_DATA
-            ).metaData.getString("versionCommit")
-        } catch (exception: java.lang.Exception) {
-            null
-        }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        BackupAndRestore(this).handleActivityResult(requestCode, resultCode, data)
     }
 
     init {
@@ -156,6 +146,24 @@ class SettingsActivity : MIUIActivity() {
                         onClickListener = { showFragment(ScopeOther.regKey) })
                 )
                 Line()
+                TitleText(textId = R.string.backup_restore)
+                TextSummaryArrow(
+                    TextSummaryV(
+                        textId = R.string.backup,
+                        tipsId = R.string.backup_tips,
+                        onClickListener = { BackupAndRestore(this@SettingsActivity).startBackup() })
+                )
+                TextSummaryArrow(
+                    TextSummaryV(
+                        textId = R.string.restore,
+                        tipsId = R.string.restore_tips,
+                        onClickListener = {
+                            BackupAndRestore(this@SettingsActivity).confirmRestore(
+                                this
+                            )
+                        })
+                )
+                Line()
                 TitleText(textId = R.string.about)
                 TextSummaryArrow(
                     TextSummaryV(
@@ -165,14 +173,22 @@ class SettingsActivity : MIUIActivity() {
                 )
 
             }
-            AboutModule.registerView(this@SettingsActivity, getString(R.string.about_module), true)
+            AboutModule.registerView(
+                this@SettingsActivity,
+                getString(R.string.about_module),
+                true
+            )
             ScopeAndroid.registerView(
                 this@SettingsActivity, getString(R.string.scope_android), false
             )
             ScopeLauncher.registerView(
                 this@SettingsActivity, getString(R.string.scope_launcher), false
             )
-            ScopeOther.registerView(this@SettingsActivity, getString(R.string.scope_other), false)
+            ScopeOther.registerView(
+                this@SettingsActivity,
+                getString(R.string.scope_other),
+                false
+            )
             ScopePackageInstaller.registerView(
                 this@SettingsActivity, getString(R.string.scope_packageinstaller), false
             )
@@ -212,13 +228,13 @@ class SettingsActivity : MIUIActivity() {
                                 dismiss()
                             }
                             setRButton(R.string.Done) {
-                                val command = arrayOf(
-                                    "killall com.android.systemui",
-                                    "killall com.android.launcher",
-                                    "killall com.coloros.alarmclock",
-                                    "killall com.android.packageinstaller",
-                                    "killall com.oplus.safecenter",
-                                )
+                                val command = mutableListOf<String>()
+                                resources.getStringArray(R.array.xposed_scope).forEach {
+                                    if (it == "android") {
+                                        return@forEach
+                                    }
+                                    command.add("killall $it")
+                                }
                                 ShellUtils.execCommand(command, true)
                                 dismiss()
                             }

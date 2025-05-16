@@ -270,4 +270,9 @@
     <string name="system_update_mock_variant_id">修改设备版本</string>
     <string name="mock_variant_id">修改设备版本</string>
     <string name="mock_variant_id_tips">设备的版本，比如云海腾龙定制版，默认值为\nGEN_NY_CN</string>
+    <string name="backup_restore">备份和恢复</string>
+    <string name="backup">备份模块设置</string>
+    <string name="backup_tips">选择一个位置来备份模块设置</string>
+    <string name="restore">恢复模块配置</string>
+    <string name="restore_tips">选择备份文件恢复模块设置，注意现有设置将会被覆盖</string>
 </resources>
