@@ -17,3 +17,6 @@ local.properties
 /app/release/app-release.apk
 /app/release/output-metadata.json
 /.kotlin
+/sign.properties
+/keystore/woobox.p12
+/outputs

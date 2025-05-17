@@ -1,0 +1,5 @@
+## your personal key here
+signing.storeFile=keystore/testkey.p12
+signing.storePassword=android
+signing.keyAlias=androidtestkey
+signing.keyPassword=android
