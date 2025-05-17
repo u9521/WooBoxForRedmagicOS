@@ -1,3 +1,4 @@
+
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.io.FileInputStream
 import java.util.Properties
@@ -38,8 +39,8 @@ android {
                 storePassword = props.getProperty("signing.storePassword", "")
                 keyAlias = props.getProperty("signing.keyAlias", "")
                 keyPassword = props.getProperty("signing.keyPassword", "")
-                enableV1Signing = true
-                enableV2Signing = true
+                enableV1Signing = false
+                enableV2Signing = false
                 enableV3Signing = true
             } else {
                 initWith(getByName("debug"))
@@ -58,9 +59,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
-        ndk {
-            abiFilters.add("arm64-v8a")
-        }
     }
 
     buildTypes {
@@ -71,6 +69,10 @@ android {
                 listOf("proguard-rules.pro")
             )
             signingConfig = signingConfigs.getByName("release")
+            ndk {
+                abiFilters.clear()
+                abiFilters.add("arm64-v8a")
+            }
 
         }
         debug {

@@ -23,7 +23,7 @@
 
 ---
 
-### 模块截图 ~~ （传家宝截图，以后再更新） ~~
+### 模块截图 ~~（传家宝截图，以后再更新）~~
 ![截图](https://raw.githubusercontent.com/Simplicity-Team/WooBoxForColorOS/main/doc/cn.jpg)  
 
 ---
