@@ -24,13 +24,13 @@
 ---
 
 ### 模块截图 ~~（传家宝截图，以后再更新）~~
-![截图](https://raw.githubusercontent.com/Simplicity-Team/WooBoxForColorOS/main/doc/cn.jpg)  
+![截图](https://raw.githubusercontent.com/u9521/WooBoxForRedmagicOS/main/doc/cn.jpg)  
 
 ---
 
 ### 下载地址
 
-仓库Release下载(目前唯一发布渠道)：[releases](https://github.com/WooBoxForRedmagicOS/releases)
+仓库Release下载(目前唯一发布渠道)：[releases](https://github.com/u9521/WooBoxForRedmagicOS/releases)
 
 ~~Xposed仓库下载：[点击此处下载最新发行版](https://github.com/Xposed-Modules-Repo/wooboxforredmagicos/releases)~~
 
@@ -60,4 +60,4 @@
 ---
 
 ### License
-[GNU General Public License v3.0](https://github.com/Simplicity-Team/WooBoxForColorOS/blob/main/LICENSE)
+[GNU General Public License v3.0](https://github.com/u9521/WooBoxForRedmagicOS/blob/main/LICENSE)
