@@ -109,6 +109,12 @@ object ScopeSystemUI : MyFragment() {
         TitleText(textId = R.string.status_bar_icon)
         TextSummaryWithSwitch(
             TextSummaryV(
+                textId = R.string.align_fan_refreshrate_aosp,
+                tipsId = R.string.align_fan_refreshrate_aosp_tip
+            ), SwitchV("align_fan_refreshrate_aosp")
+        )
+        TextSummaryWithSwitch(
+            TextSummaryV(
                 textId = R.string.hide_battery_percentage_icon,
                 tipsId = R.string.hide_battery_percentage_icon_summary
             ), SwitchV("hide_battery_percentage_icon")
@@ -186,6 +192,8 @@ object ScopeSystemUI : MyFragment() {
                 R.string.status_bar_dual_row_network_speed,
                 R.string.status_bar_dual_row_network_speed_summary,
                 listOf(
+                    SubItemConfig.Switch("speed_unit_hide_per_second",R.string.speed_unit_hide_per_second),
+
                     SubItemConfig.Text(R.string.status_bar_network_speed_dual_row_size),
                     SubItemConfig.SeekBar(
                         "status_bar_network_speed_dual_row_size",
@@ -199,6 +207,13 @@ object ScopeSystemUI : MyFragment() {
                         28,
                         39,
                         35
+                    ),
+                    SubItemConfig.Text(R.string.status_bar_network_speed_dual_row_digit_len),
+                    SubItemConfig.SeekBar(
+                        "status_bar_network_speed_dual_row_digit_len",
+                        0,
+                        3,
+                        3
                     ),
                     SubItemConfig.Text(R.string.low_speed_hide_kilo_bytes),
                     SubItemConfig.SeekBar(
@@ -301,6 +316,20 @@ object ScopeSystemUI : MyFragment() {
 
                     SubItemConfig.Text(R.string.qs_custom_columns_landscape),
                     SubItemConfig.SeekBar("qs_custom_columns_landscape", 1, 10, 7),
+
+                    SubItemConfig.TextSummary(
+                        R.string.qs_custom_columns_editor,
+                        R.string.qs_custom_columns_original_tips
+                    ),
+                    SubItemConfig.SeekBar("qs_custom_columns_editor", 1, 9, 4),
+
+                    SubItemConfig.TextSummary(
+                        R.string.qs_custom_columns_landscape_original,
+                        R.string.qs_custom_columns_landscape_original_tips
+                    ),
+                    SubItemConfig.SeekBar("qs_custom_columns_landscape_editor", 1, 10, 6),
+
+
                     )
             )
         ).build()

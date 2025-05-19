@@ -57,8 +57,8 @@ android {
         applicationId = "com.u9521.wooboxforredmagicos"
         minSdk = 31
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
     }
 
     buildTypes {

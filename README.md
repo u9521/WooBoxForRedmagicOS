@@ -1,6 +1,6 @@
 <div align="center">
    <img width="160" src="https://raw.githubusercontent.com/u9521/WooBoxForRedmagicOS/main/doc/ic_launcher.png" alt="logo">
-   <h1>WooBox For ColorOS</h1>
+   <h1>WooBox For RedmagicOS</h1>
    <p>
        <b><a href="https://github.com/u9521/WooBoxForRedmagicOS/blob/main/README_EN.md">English</a>  丨 简体中文</b>
    </p>

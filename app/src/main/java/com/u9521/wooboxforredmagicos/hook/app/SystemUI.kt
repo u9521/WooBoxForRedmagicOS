@@ -16,6 +16,7 @@ import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderShowControl
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.AOSPNotify
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.BTiconUseGlobalacts
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.BatteryIconAdjuster
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.FanRRIconAlign
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideMobileActivityIcon
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideVpnIcon
 import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideWifiActivityIcon
@@ -53,6 +54,7 @@ object SystemUI : AppRegister() {
             HideVpnIcon,//老版本隐藏VPN图标
             BTiconUseGlobalacts,//未连接设备时隐藏蓝牙图标
             AOSPNotify,//原生通知图标和通知样式
+            FanRRIconAlign,//原生通知图标和通知样式后风扇刷新图标对齐
             SBFontRestore,//时钟字体恢复
 
             //通知类

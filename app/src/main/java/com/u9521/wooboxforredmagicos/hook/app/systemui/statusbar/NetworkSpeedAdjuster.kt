@@ -20,6 +20,7 @@ import de.robv.android.xposed.XposedBridge
 import org.luckypray.dexkit.DexKitBridge
 import java.text.DecimalFormat
 import kotlin.math.log10
+import kotlin.math.min
 
 object NetworkSpeedAdjuster : HookRegister() {
 
@@ -33,6 +34,8 @@ object NetworkSpeedAdjuster : HookRegister() {
     private val viewDualSize = XSPUtils.getInt("status_bar_network_speed_dual_row_size", 6)
     private val viewDualWidth = XSPUtils.getInt("status_bar_network_speed_dual_row_width", 35)
     private val lowSpeedHideLevel = XSPUtils.getInt("low_speed_hide_kilo_bytes", -1)
+    private val digitLen = XSPUtils.getInt("status_bar_network_speed_dual_row_digit_len", 3)
+    private val hideUnitPerSec = XSPUtils.getBoolean("speed_unit_hide_per_second", false)
     private val speedRefreshDelayMs = 1000L
 
     override fun init() {
@@ -177,8 +180,9 @@ object NetworkSpeedAdjuster : HookRegister() {
 
 
     private fun formatSpeed(speed: Double): String {
-        val units = listOf("B/s", "KiB/s", "MiB/s", "GiB/s", "TiB/s")
+        val units = listOf("B", "KiB", "MiB", "GiB", "TiB")
         var speedCp = speed
+        val perSec = if (hideUnitPerSec) "" else "/s"
         var unitIndex = 0
         while (speedCp >= 1024 && unitIndex < units.size - 1) {
             speedCp /= 1024
@@ -186,14 +190,14 @@ object NetworkSpeedAdjuster : HookRegister() {
         }
         val df = DecimalFormat()
         val integerDigits = if (speedCp == 0.0) 1 else log10(speedCp).toInt() + 1
-        val decimalPlaces = 4 - integerDigits
+        val decimalPlaces = min(4 - integerDigits, digitLen)
         df.maximumFractionDigits = decimalPlaces.coerceAtLeast(0)
         df.isGroupingUsed = false
         return if (unitIndex == units.size - 1 && speedCp > 1000) {
             //seriously ?
-            "%.0f".format(speedCp) + units[unitIndex]
+            "%.0f".format(speedCp) + units[unitIndex] + perSec
         } else {
-            df.format(speedCp) + units[unitIndex]
+            df.format(speedCp) + units[unitIndex] + perSec
         }
     }
 

@@ -275,4 +275,12 @@
     <string name="backup_tips">选择一个位置来备份模块设置</string>
     <string name="restore">恢复模块配置</string>
     <string name="restore_tips">选择备份文件恢复模块设置，注意现有设置将会被覆盖</string>
+    <string name="qs_custom_columns_editor">编辑模式列数</string>
+    <string name="qs_custom_columns_original_tips">设备竖屏状态下<b>编辑时的列数</b></string>
+    <string name="qs_custom_columns_landscape_original">编辑模式列数(横屏模式)</string>
+    <string name="qs_custom_columns_landscape_original_tips">设备横屏状态下<b>编辑时的列数</b></string>
+    <string name="align_fan_refreshrate_aosp">对齐风扇和刷新率图标到原生通知图标</string>
+    <string name="align_fan_refreshrate_aosp_tip">要配合原生通知样式使用，不然本来正的会歪掉</string>
+    <string name="speed_unit_hide_per_second">隐藏速度单位中的/s</string>
+    <string name="status_bar_network_speed_dual_row_digit_len">网速的最大小数位数</string>
 </resources>

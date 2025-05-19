@@ -6,8 +6,8 @@ import cn.fkj233.ui.activity.data.DataBinding
 import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
-import com.u9521.wooboxforredmagicos.activity.SettingsActivity
 import com.u9521.wooboxforredmagicos.R
+import com.u9521.wooboxforredmagicos.activity.SettingsActivity
 
 // 类型安全配置体系
 sealed class SubItemConfig {
@@ -32,6 +32,11 @@ sealed class SubItemConfig {
 
     data class Text(
         val textResId: Int,
+    ) : SubItemConfig()
+
+    data class TextSummary(
+        val textResId: Int,
+        val textTipsResId: Int? = null,
     ) : SubItemConfig()
 }
 
@@ -120,6 +125,7 @@ class SwitchGroupBuilder(
                 is SubItemConfig.Arrow -> addArrowItem(sub, masterBinding)
                 is SubItemConfig.SeekBar -> addSeekBar(sub, masterBinding)
                 is SubItemConfig.Text -> addText(sub, masterBinding)
+                is SubItemConfig.TextSummary -> addTextSummary(sub, masterBinding)
             }
         }
     }
@@ -131,6 +137,7 @@ class SwitchGroupBuilder(
                 is SubItemConfig.Arrow -> addArrowItem(it, masterBinding)
                 is SubItemConfig.SeekBar -> addSeekBar(it, masterBinding)
                 is SubItemConfig.Text -> addText(it, masterBinding)
+                is SubItemConfig.TextSummary -> addTextSummary(it, masterBinding)
             }
         }
     }
@@ -185,6 +192,19 @@ class SwitchGroupBuilder(
         itemData.apply {
             Text(
                 textId = config.textResId,
+                dataBindingRecv = masterBinding.binding.getRecv(2)
+            )
+        }
+    }
+
+    private fun addTextSummary(
+        config: SubItemConfig.TextSummary,
+        masterBinding: DataBinding.BindingData
+    ) {
+        itemData.apply {
+            TextSummary(
+                textId = config.textResId,
+                tipsId = config.textTipsResId,
                 dataBindingRecv = masterBinding.binding.getRecv(2)
             )
         }
