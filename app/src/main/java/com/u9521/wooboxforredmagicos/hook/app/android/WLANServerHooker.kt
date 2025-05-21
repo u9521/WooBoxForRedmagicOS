@@ -2,43 +2,64 @@ package com.u9521.wooboxforredmagicos.hook.app.android
 
 import android.annotation.SuppressLint
 import android.net.MacAddress
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.Log
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.Deoptimizer
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object WLANServerHooker : HookRegister() {
+    const val WIFI_SERVICE_CLASS = "com.android.server.wifi.WifiService"
+
+    @SuppressLint("PrivateApi")
     override fun init() {
-        try {
-            var wifiServiceHooker: XC_MethodHook.Unhook? = null
-            wifiServiceHooker = MethodFinder.fromClass("com.android.server.SystemServiceManager")
-                .filterByName("loadClassFromLoader").filterByParamTypes(
-                    String::class.java, ClassLoader::class.java
-                ).first().createBeforeHook {
-                    val clzName = it.args[0] as String
-                    val cl = it.args[1] as ClassLoader
-                    if (clzName == "com.android.server.wifi.WifiService") {
+        var wifiServiceUnhook: XC_MethodHook.Unhook? = null
+        val loadClassMe = getDefaultCL().loadClass("com.android.server.SystemServiceManager")
+            .getDeclaredMethod("loadClassFromLoader", String::class.java, ClassLoader::class.java)
+        val loadClassHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
+                val clzName = param!!.args[0] as String
+                val cl = param.args[1] as ClassLoader
+                if (clzName == WIFI_SERVICE_CLASS) {
+                    Log.i("found WifiService, start Hook", logInRelease = true)
+                    runCatching {
+                        // add your wifi service Hooker here
                         AirplaneMode.wifiAirplaneHooker(cl)
                         wlanTelecomCCHooker(cl)
                         wlanNativeHooker(cl)
-                        wifiServiceHooker!!.unhook()
-                        Log.ix("hooked WifiService")
+                        wifiServiceUnhook!!.unhook()
+                    }.onSuccess {
+                        Log.i(
+                            "hooked WifiService succeed,released loadClassFromLoader Hooker",
+                            logInRelease = true
+                        )
+                    }.onFailure {
+                        Log.ex("hook WifiService failed", it, logInRelease = true)
                     }
                 }
-        } catch (t: Throwable) {
-            Log.ex(t, "hook WifiService failed")
+            }
+        }
+        runCatching {
+            wifiServiceUnhook = XposedBridge.hookMethod(loadClassMe, loadClassHooker)
+        }.onSuccess {
+            Log.i("Hook loadClassFromLoader Success", logInRelease = true)
+        }.onFailure {
+            Log.ex(
+                "Hook loadClassFromLoader Failed, WifiService Hook wont work",
+                it,
+                logInRelease = true
+            )
         }
     }
 
-    private fun isValidCC(countrycode: String): Boolean {
-        if (countrycode.length != 2) {
+    private fun isValidCC(countryCode: String): Boolean {
+        if (countryCode.length != 2) {
             return false
         }
-        return countrycode.all { char ->
+        return countryCode.all { char ->
             char.isLetterOrDigit()
         }
     }
@@ -48,7 +69,7 @@ object WLANServerHooker : HookRegister() {
             val mac = MacAddress.fromString(macAddress)
             return mac
         } catch (e: IllegalArgumentException) {
-            Log.ex("macAddress: $macAddress is invalid", e)
+            Log.ex("macAddress: $macAddress is invalid", e, logInRelease = true)
             return null
         }
     }
@@ -56,29 +77,40 @@ object WLANServerHooker : HookRegister() {
     @SuppressLint("PrivateApi")
     private fun wlanTelecomCCHooker(cl: ClassLoader) {
         hasEnable("custom_wlan_countrycode") {
-
-            MethodFinder.fromClass("com.android.server.wifi.WifiCountryCode", cl)
-                .filterByName("setTelephonyCountryCode").filterByParamTypes(
-                    String::class.java
-                ).first().createBeforeHook {
+            val setTelecomCC = cl.loadClass("com.android.server.wifi.WifiCountryCode")
+                .getDeclaredMethod("setTelephonyCountryCode", String::class.java)
+            val setTelecomCCHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
                     val custCC = XSPUtils.getString("telecom_wlan_cc_val", "us")!!
                     if (isValidCC(custCC)) {
-                        Log.ix("set country Code ${it.args[0] as String?} to $custCC")
-                        it.args[0] = custCC
-                        return@createBeforeHook
+                        Log.ix("set country Code ${param!!.args[0] as String?} to $custCC")
+                        param.args[0] = custCC
+                        return
                     }
-                    Log.ex("Invalid countryCode:$custCC,we dont hook that")
+                    Log.ex("Invalid countryCode:$custCC,please check it", logInRelease = true)
                 }
-            Log.ix("hooked setTelephonyCountryCode success")
+            }
             //this method not likely inline
-//            Deoptimizer.deoptimizeMethod(
-//                cl.loadClass("com.android.server.wifi.WifiCountryCode"),
-//                "updateAirplaneModeTracker"
-//            )
+            XposedBridge.hookMethod(setTelecomCC, setTelecomCCHooker)
+            Log.i("hooked setTelephonyCountryCode", logInRelease = true)
+
+//            MethodFinder.fromClass("com.android.server.wifi.WifiCountryCode", cl)
+//                .filterByName("setTelephonyCountryCode").filterByParamTypes(
+//                    String::class.java
+//                ).first().createBeforeHook {
+//                    val custCC = XSPUtils.getString("telecom_wlan_cc_val", "us")!!
+//                    if (isValidCC(custCC)) {
+//                        Log.ix("set country Code ${it.args[0] as String?} to $custCC")
+//                        it.args[0] = custCC
+//                        return@createBeforeHook
+//                    }
+//                    Log.ex("Invalid countryCode:$custCC,we dont hook that")
+//                }
         }
     }
 
-    // not test yet ,use at your own risk
+    //use at your own risk
     @SuppressLint("PrivateApi")
     private fun wlanNativeHooker(cl: ClassLoader) {
         val wifiNativeClazz = cl.loadClass("com.android.server.wifi.WifiNative")
@@ -93,33 +125,50 @@ object WLANServerHooker : HookRegister() {
 ////                Log.i("setApCountryCode called:${it.args[0] as String},${it.args[1] as String}")
 //            }
         // setStaMacAddress 终端MAC地址
-        MethodFinder.fromClass(wifiNativeClazz).filterByName("setStaMacAddress")
-            .filterByParamTypes(String::class.java, MacAddress::class.java).first()
-            .createBeforeHook {
+        val setStaMacMe = wifiNativeClazz.getDeclaredMethod(
+            "setStaMacAddress",
+            String::class.java,
+            MacAddress::class.java
+        )
+
+        val setStaMacMeHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
                 hasEnable("pin_sta_mac_sw") {
-                    Log.i("setStaMacAddress called:${it.args[0] as String},${it.args[1] as MacAddress}")
+                    Log.i("setStaMacAddress called:${param!!.args[0] as String},${param.args[1] as MacAddress}")
                     //才没有彩蛋呢
                     val macStr = XSPUtils.getString("pin_sta_mac", "66:31:32:35:39:75")!!
                     validMAC(macStr)?.let { mac ->
-                        it.args[1] = mac
-                        Log.i("mod mac to:${mac}")
+                        param.args[1] = mac
+                        Log.i("override sta mac to:${mac}")
                     }
                 }
             }
+        }
+        XposedBridge.hookMethod(setStaMacMe, setStaMacMeHooker)
+        Log.i("hooked setStaMacAddress", logInRelease = true)
+
         // setApMacAddress AP MAC地址,改了有用的才能开热点
-        MethodFinder.fromClass(wifiNativeClazz).filterByName("setApMacAddress")
-            .filterByParamTypes(String::class.java, MacAddress::class.java).first()
-            .createBeforeHook {
-                hasEnable("pin_ap_bssid_sw") {
-                    Log.i("setApMacAddress called:${it.args[0] as String},${it.args[1] as MacAddress}")
-                    //才没有彩蛋呢
-                    val macStr = XSPUtils.getString("pin_ap_bssid", "b4:f3:cb:a7:b8:e7")!!
-                    validMAC(macStr)?.let { mac ->
-                        it.args[1] = mac
-                        Log.i("mod bssid to:${mac}")
-                    }
+        val setApMacMe = wifiNativeClazz.getDeclaredMethod(
+            "setApMacAddress",
+            String::class.java,
+            MacAddress::class.java
+        )
+        val setApMacMeHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
+                Log.i("setApMacAddress:${param!!.args[0] as String},${param.args[1] as MacAddress}")
+                //才没有彩蛋呢
+                val macStr = XSPUtils.getString("pin_ap_bssid", "b4:f3:cb:a7:b8:e7")!!
+                validMAC(macStr)?.let { mac ->
+                    param.args[1] = mac
+                    Log.i("override AP mac to:${mac}")
                 }
             }
+        }
+        XposedBridge.hookMethod(setApMacMe, setApMacMeHooker)
+        Log.i("hooked setStaMacAddress", logInRelease = true)
+
 
         Deoptimizer.deoptimizeMethods(
             cl.loadClass("com.android.server.wifi.SoftApManager"), "setMacAddress", "setCountryCode"

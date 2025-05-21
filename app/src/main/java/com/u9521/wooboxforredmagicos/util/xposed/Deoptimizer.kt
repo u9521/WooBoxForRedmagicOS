@@ -1,6 +1,5 @@
 package com.u9521.wooboxforredmagicos.util.xposed
 
-import com.github.kyuubiran.ezxhelper.Log
 import de.robv.android.xposed.XposedBridge
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Member
@@ -31,7 +30,7 @@ object Deoptimizer {
         for (m in c.declaredMethods) {
             if (deoptimizeMethod != null && m.name == methodName) {
                 deoptimizeMethod!!.invoke(null, m)
-                Log.i("Method Deoptimized $m")
+                Log.i("Method deoptimized: $m", logInRelease = true)
             }
         }
     }

@@ -16,7 +16,7 @@ object UnhideBlackListApps : HookRegister() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 super.beforeHookedMethod(param)
                 param!!.args[0] = true
-                Log.i("start unhide blacklist app")
+                Log.i("start unhide blacklist app", logInRelease = true)
             }
         }
         XposedBridge.hookMethod(unHideAppMe, unHideAppHooker)

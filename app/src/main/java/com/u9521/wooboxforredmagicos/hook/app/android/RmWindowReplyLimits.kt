@@ -1,11 +1,13 @@
 package com.u9521.wooboxforredmagicos.hook.app.android
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
+import android.annotation.SuppressLint
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object RmWindowReplyLimits : HookRegister() {
+    @SuppressLint("PrivateApi")
     override fun init() {
         hasEnable("rm_window_reply_restriction") {
             //一些hook点记录
@@ -33,11 +35,15 @@ object RmWindowReplyLimits : HookRegister() {
 //                }
 
             //allow all package
-            MethodFinder.fromClass("android.app.WindowReplyUtils")
-                .filterByName("isForceSupportWhiteListForWR").filterByParamTypes(String::class.java)
-                .first().createBeforeHook {
-                    it.result = true
+            val pkgInWhiteList = getDefaultCL().loadClass("android.app.WindowReplyUtils")
+                .getDeclaredMethod("isForceSupportWhiteListForWR", String::class.java)
+            val pkgWhiteListHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    param!!.result = true
                 }
+            }
+            XposedBridge.hookMethod(pkgInWhiteList, pkgWhiteListHooker)
         }
         hasEnable("rm_window_reply_count_restriction") {
             /*
@@ -47,11 +53,17 @@ object RmWindowReplyLimits : HookRegister() {
            Lcom/android/server/wm/TaskMifavor;->resizeForWR(Lcom/android/server/wm/Task;Lcom/android/server/wm/DisplayContent;IIILandroid/content/Context;Landroid/graphics/Rect;ZZ)V
            */
             //patch max window count
-            MethodFinder.fromClass("com.android.server.wm.ActivityTaskManagerService")
-                .filterByName("isReachWrMaxSizeForMulti").filterEmptyParam().first()
-                .createBeforeHook {
-                    it.result = false
+            val isMaxForMulti =
+                getDefaultCL().loadClass("com.android.server.wm.ActivityTaskManagerService")
+                    .getDeclaredMethod("isReachWrMaxSizeForMulti")
+            val maxMultiHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    param!!.result = false
                 }
+            }
+            XposedBridge.hookMethod(isMaxForMulti, maxMultiHooker)
+
 //            val wmTaskClazz = ClassUtils.loadClass("com.android.server.wm.Task")
 //            val wmDisplayContentClazz = ClassUtils.loadClass("com.android.server.wm.DisplayContent")
 //            val rectClazz = ClassUtils.loadClass("android.graphics.Rect")

@@ -1,9 +1,8 @@
 package com.u9521.wooboxforredmagicos.hook
 
 import android.app.Activity
+import android.os.Bundle
 import android.widget.Toast
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.hook.app.Android
 import com.u9521.wooboxforredmagicos.hook.app.Launcher
@@ -17,7 +16,9 @@ import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.IXposedHookZygoteInit
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class XposedEntry : EasyXposedInit() {
@@ -38,15 +39,19 @@ class XposedEntry : EasyXposedInit() {
         if (prefs.getBoolean("main_switch", true)) {
             super.handleLoadPackage(lpparam)
         }
+        val warnToastHooker = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                Toast.makeText(
+                    param!!.thisObject as Activity,
+                    "Woobox注入了非推荐应用:(${lpparam!!.packageName})",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
         if (!matchPackagename(registeredApp, lpparam!!.packageName)) {
-            MethodFinder.fromClass(Activity::class.java).filterByName("onCreate").first()
-                .createBeforeHook {
-                    Toast.makeText(
-                        it.thisObject as Activity,
-                        "注意:Woobox注入了非推荐应用:(${lpparam.packageName})",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            val oCMe = Activity::class.java.getDeclaredMethod("onCreate", Bundle::class.java)
+            XposedBridge.hookMethod(oCMe, warnToastHooker)
         }
     }
 

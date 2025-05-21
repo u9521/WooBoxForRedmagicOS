@@ -3,7 +3,6 @@ package com.u9521.wooboxforredmagicos.hook.app.launcher
 import android.annotation.SuppressLint
 import android.content.Context
 import com.u9521.wooboxforredmagicos.util.hasEnable
-import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -18,7 +17,6 @@ object ForceSupportResizeActivity : HookRegister() {
         val aSRHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 super.beforeHookedMethod(param)
-                Log.i("force set ActivitySupportResize true")
                 param!!.result = true
             }
         }

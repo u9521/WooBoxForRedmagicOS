@@ -12,8 +12,7 @@ object RMzvoiceUninstalDialog : HookRegister() {
     override fun init() = hasEnable("launcher_rm_zvoice_uninstall_dialog") {
         val pkgEnableMe =
             getDefaultCL().loadClass("android.content.pm.LauncherApps").getDeclaredMethod(
-                "isPackageEnabled", String::class.java,
-                UserHandle::class.java
+                "isPackageEnabled", String::class.java, UserHandle::class.java
             )
         val zvInstallHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
@@ -24,7 +23,7 @@ object RMzvoiceUninstalDialog : HookRegister() {
                 }
             }
         }
-        XposedBridge.hookMethod(pkgEnableMe,zvInstallHooker)
+        XposedBridge.hookMethod(pkgEnableMe, zvInstallHooker)
     }
 
 

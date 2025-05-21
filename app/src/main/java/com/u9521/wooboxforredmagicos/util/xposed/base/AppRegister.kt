@@ -27,7 +27,7 @@ abstract class AppRegister : IXposedHookLoadPackage {
                 it.dexKitBridge = dexKitBridge
                 it.init()
                 it.isInit = true
-                Log.px("I", "Inited hook: ${it.javaClass.name}", logInRelease = true)
+                Log.px("I", "Hook inited: ${it.javaClass.name}", logInRelease = true)
             }.onFailure { Log.ex("Failed init hook: ${it.javaClass.name}", it, true) }
         }
         if (loadDexkit) {
