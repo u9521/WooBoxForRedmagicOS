@@ -1,34 +1,51 @@
 package com.u9521.wooboxforredmagicos.hook.app.packageinstaller
 
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.Log
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
+import android.annotation.SuppressLint
 import com.u9521.wooboxforredmagicos.util.hasEnable
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object HidePurifySwitch : HookRegister() {
+    @SuppressLint("PrivateApi")
     override fun init() = hasEnable("hide_purify_switch") {
         val uICookToolClzz =
-            ClassUtils.loadClass("com.android.packageinstaller.PackageInstallerActivity\$UICookTool")
+            getDefaultClassLoader().loadClass("com.android.packageinstaller.PackageInstallerActivity\$UICookTool")
         val packageInstallerActivityclzz =
-            ClassUtils.loadClass("com.android.packageinstaller.PackageInstallerActivity")
-        MethodFinder.fromClass(packageInstallerActivityclzz)
-            .filterByName("getCookUI").filterByReturnType(uICookToolClzz).first()
-            .createAfterHook {
-                Log.i("[packageinstaller]: trying to HidePurifySwitch")
-                val uICookToolOBJ = it.result
-                uICookToolOBJ.objectHelper().setObject("cleanBgColor", true)
-                uICookToolOBJ.objectHelper().setObject("hidePureModeSwitchLayout", true)
-                uICookToolOBJ.objectHelper().setObject("hideWarningLayout", true)
-                uICookToolOBJ.objectHelper().setObject("hideWarningLayout", true)
-                uICookToolOBJ.objectHelper().setObject("needIsolate", false)
-                uICookToolOBJ.objectHelper().setObject("showRiskCheckbox", false)
-                uICookToolOBJ.objectHelper().setObject("showSwlimitLearnMore", false)
-                uICookToolOBJ.objectHelper().setObject("warningTitle", "彩蛋")
-                uICookToolOBJ.objectHelper().setObject("warningUnknownText", "这是一条提醒")
-                it.result = uICookToolOBJ
+            getDefaultClassLoader().loadClass("com.android.packageinstaller.PackageInstallerActivity")
+        val getCookUIMe = packageInstallerActivityclzz.getDeclaredMethod(
+            "getCookUI",
+            //dangerlevel 0:unknown 1:Secure .. 3:high Risk
+            Int::class.javaPrimitiveType,
+            //defraudlevel0
+            Int::class.javaPrimitiveType,
+            //defraudlevel1 ICP备案信息，1没有，2违规
+            Int::class.javaPrimitiveType,
+            //puremode
+            Boolean::class.javaPrimitiveType,
+            //virusName
+            String::class.java
+        )
+        val cookUIHooker = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                Log.i("trying to remove PurifySwitch")
+                val uICookToolOBJ = uICookToolClzz.cast(param!!.result)
+                uICookToolClzz.getDeclaredField("cleanBgColor").setBoolean(uICookToolOBJ, true)
+                uICookToolClzz.getDeclaredField("hidePureModeSwitchLayout")
+                    .setBoolean(uICookToolOBJ, true)
+                uICookToolClzz.getDeclaredField("hideWarningLayout").setBoolean(uICookToolOBJ, true)
+                uICookToolClzz.getDeclaredField("needIsolate").setBoolean(uICookToolOBJ, false)
+                uICookToolClzz.getDeclaredField("showRiskCheckbox").setBoolean(uICookToolOBJ, false)
+                uICookToolClzz.getDeclaredField("showSwlimitLearnMore")
+                    .setBoolean(uICookToolOBJ, false)
+                uICookToolClzz.getDeclaredField("warningTitle").set(uICookToolOBJ, "彩蛋")
+                uICookToolClzz.getDeclaredField("warningUnknownText")
+                    .set(uICookToolOBJ, "这是一条提醒")
+                param.result = uICookToolOBJ
             }
+        }
+        XposedBridge.hookMethod(getCookUIMe, cookUIHooker)
     }
 }

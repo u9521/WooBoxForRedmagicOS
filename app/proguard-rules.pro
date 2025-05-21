@@ -33,6 +33,8 @@
     public static void check*(...);
     public static void throw*(...);
 }
+# 保留指定hook包下的所有类不被优化，但允许混淆
+-keep,allowobfuscation class com.u9521.wooboxforredmagicos.hook.app.** { *; }
 
 -allowaccessmodification
 -overloadaggressively

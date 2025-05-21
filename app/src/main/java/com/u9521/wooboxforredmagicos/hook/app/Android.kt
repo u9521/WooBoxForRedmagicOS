@@ -10,7 +10,6 @@ import com.u9521.wooboxforredmagicos.hook.app.android.SyetemServerLogBlocker
 import com.u9521.wooboxforredmagicos.hook.app.android.VolumeStepHook
 import com.u9521.wooboxforredmagicos.hook.app.android.WLANServerHooker
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object Android : AppRegister() {
@@ -20,7 +19,6 @@ object Android : AppRegister() {
     override val loadDexkit: Boolean = false
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        XposedBridge.log("WooBox: 成功 Hook " + javaClass.simpleName)
 
         DisableFlagSecure().handleLoadPackage(lpparam) //允许截图
         autoInitHooks(

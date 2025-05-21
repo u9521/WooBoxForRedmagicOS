@@ -3,7 +3,6 @@ package com.u9521.wooboxforredmagicos.hook
 import android.app.Activity
 import android.widget.Toast
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.hook.app.Android
@@ -39,8 +38,7 @@ class XposedEntry : EasyXposedInit() {
         if (prefs.getBoolean("main_switch", true)) {
             super.handleLoadPackage(lpparam)
         }
-        Log.i("hooked " + lpparam!!.packageName)
-        if (!matchPackagename(registeredApp, lpparam.packageName)) {
+        if (!matchPackagename(registeredApp, lpparam!!.packageName)) {
             MethodFinder.fromClass(Activity::class.java).filterByName("onCreate").first()
                 .createBeforeHook {
                     Toast.makeText(

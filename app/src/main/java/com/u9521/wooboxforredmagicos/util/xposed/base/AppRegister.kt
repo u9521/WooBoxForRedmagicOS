@@ -1,6 +1,6 @@
 package com.u9521.wooboxforredmagicos.util.xposed.base
 
-import com.github.kyuubiran.ezxhelper.Log
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import org.luckypray.dexkit.DexKitBridge
@@ -14,8 +14,7 @@ abstract class AppRegister : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {}
     private var dexKitBridge: DexKitBridge? = null
     protected fun autoInitHooks(
-        lpparam: XC_LoadPackage.LoadPackageParam,
-        vararg hook: HookRegister
+        lpparam: XC_LoadPackage.LoadPackageParam, vararg hook: HookRegister
     ) {
         if (loadDexkit) {
             System.loadLibrary("dexkit")
@@ -28,10 +27,8 @@ abstract class AppRegister : IXposedHookLoadPackage {
                 it.dexKitBridge = dexKitBridge
                 it.init()
                 it.isInit = true
-                Log.i("Inited hook: ${it.javaClass.simpleName}")
-            }.fold(
-                onSuccess = {},
-                onFailure = { Log.ix(it, "Failed init hook: ${it.javaClass.simpleName}") })
+                Log.px("I", "Inited hook: ${it.javaClass.name}", logInRelease = true)
+            }.onFailure { Log.ex("Failed init hook: ${it.javaClass.name}", it, true) }
         }
         if (loadDexkit) {
             dexKitBridge!!.close()

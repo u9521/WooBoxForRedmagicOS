@@ -23,7 +23,6 @@ object UsbInstallNoVerify : HookRegister() {
     }
 
     override fun init() = hasEnable("usb_install_switch_skip_verify") {
-        Log.i("hook start")
         MethodFinder.fromClass(adbinstallPCclazz).filterByName("handlePreferenceTreeClick")
             .filterByReturnType(Boolean::class.java).first()
             .createBeforeHook {

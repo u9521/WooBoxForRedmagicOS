@@ -1,15 +1,13 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.qs
 
+import android.app.AndroidAppHelper
 import android.content.res.Configuration
 import android.view.ViewGroup
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object QSCustom : HookRegister() {
     override fun init() = hasEnable("qs_custom_switch") {
@@ -21,67 +19,91 @@ object QSCustom : HookRegister() {
         val mColumnsLandscapeEditor = XSPUtils.getInt("qs_custom_columns_landscape_editor", 6)
 
         val mfvTileLayoutAdaptClazz =
-            ClassUtils.loadClass("com.zte.adapt.mifavor.qs.MfvTileLayoutAdapt")
+            getDefaultClassLoader().loadClass("com.zte.adapt.mifavor.qs.MfvTileLayoutAdapt")
         val mfvTileLayoutClazz =
-            ClassUtils.loadClass("com.zte.mifavor.qs.MfvTileLayout")
+            getDefaultClassLoader().loadClass("com.zte.mifavor.qs.MfvTileLayout")
         //fix animation
         // hook com.zte.mifavor.qs.MfvQSAnimator updateViews will cause race condition
-        MethodFinder.fromClass("com.zte.utils.QsDimenUtils\$Companion")
-            .filterByName("getTileColumns").first().createBeforeHook {
-                val orientation = EzXHelper.appContext.resources.configuration.orientation
+        val getTileColumnsMe =
+            getDefaultClassLoader().loadClass("com.zte.utils.QsDimenUtils\$Companion")
+                .getDeclaredMethod("getTileColumns")
+        val tileColumnsHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                val orientation =
+                    AndroidAppHelper.currentApplication().resources.configuration.orientation
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    it.result = mColumns
+                    param.result = mColumns
                 } else {
-                    it.result = mColumnsLandscape
+                    param.result = mColumnsLandscape
                 }
             }
+        }
+        XposedBridge.hookMethod(getTileColumnsMe, tileColumnsHooker)
         // weird but must handle this, otherwise the tiles will be misaligned
         //editor mode
-        MethodFinder.fromClass("com.zte.feature.qs.layout.QsCustomizerModule")
-            .filterByName("getColumns").first().createBeforeHook {
-                val orientation = EzXHelper.appContext.resources.configuration.orientation
+        val getColumnsMe =
+            getDefaultClassLoader().loadClass("com.zte.feature.qs.layout.QsCustomizerModule")
+                .getDeclaredMethod("getColumns")
+        val editorColumnsHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                super.beforeHookedMethod(param)
+                val orientation =
+                    AndroidAppHelper.currentApplication().resources.configuration.orientation
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    it.result = mColumnsEditor
+                    param.result = mColumnsEditor
                 } else {
-                    it.result = mColumnsLandscapeEditor
+                    param.result = mColumnsLandscapeEditor
                 }
             }
+        }
+        XposedBridge.hookMethod(getColumnsMe, editorColumnsHooker)
 
         //Columns
-        MethodFinder.fromClass(mfvTileLayoutAdaptClazz).filterByName("getTileColumns").first()
-            .createBeforeHook {
-                val orientation = EzXHelper.appContext.resources.configuration.orientation
-                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    it.result = mColumns
-                } else {
-                    it.result = mColumnsLandscape
-                }
-            }
+
+        val gTCME = mfvTileLayoutAdaptClazz.getDeclaredMethod(
+            "getTileColumns",
+            Int::class.javaPrimitiveType
+        )
+        XposedBridge.hookMethod(gTCME, tileColumnsHooker)
         //max rows
-        MethodFinder.fromClass(mfvTileLayoutAdaptClazz).filterByName("getRows").first()
-            .createBeforeHook {
-                val orientation = EzXHelper.appContext.resources.configuration.orientation
+        val getRowsMe =
+            mfvTileLayoutAdaptClazz.getDeclaredMethod("getRows", Int::class.javaPrimitiveType)
+        val rowsHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                super.beforeHookedMethod(param)
+                val orientation =
+                    AndroidAppHelper.currentApplication().resources.configuration.orientation
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    it.result = mRows
+                    param.result = mRows
                 } else {
-                    it.result = mRowsLandscape
+                    param.result = mRowsLandscape
                 }
             }
+        }
+        XposedBridge.hookMethod(getRowsMe, rowsHooker)
         // froce update row
-        MethodFinder.fromClass(mfvTileLayoutClazz).filterByName("updateMaxRows").first()
-            .createAfterHook {
-                val viewGroup = it.thisObject as ViewGroup
+        val updateMaxRowsMe = mfvTileLayoutClazz.getDeclaredMethod(
+            "updateMaxRows",
+            Int::class.javaPrimitiveType,
+            Int::class.javaPrimitiveType
+        )
+        val updateMaxRowsHooker = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                super.afterHookedMethod(param)
+                val viewGroup = param.thisObject as ViewGroup
                 val orientation = viewGroup.context.resources.configuration.orientation
                 val orimRows =
-                    mfvTileLayoutClazz.getDeclaredField("mRows").getInt(it.thisObject)
+                    mfvTileLayoutClazz.getDeclaredField("mRows").getInt(param.thisObject)
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    mfvTileLayoutClazz.getDeclaredField("mRows").setInt(it.thisObject, mRows)
-                    it.result = orimRows != mRows
+                    mfvTileLayoutClazz.getDeclaredField("mRows").setInt(param.thisObject, mRows)
+                    param.result = orimRows != mRows
                 } else {
                     mfvTileLayoutClazz.getDeclaredField("mRows")
-                        .setInt(it.thisObject, mRowsLandscape)
-                    it.result = orimRows != mRowsLandscape
+                        .setInt(param.thisObject, mRowsLandscape)
+                    param.result = orimRows != mRowsLandscape
                 }
             }
+        }
+        XposedBridge.hookMethod(updateMaxRowsMe, updateMaxRowsHooker)
     }
 }

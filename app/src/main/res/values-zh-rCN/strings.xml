@@ -238,4 +238,6 @@
     <string name="align_fan_refreshrate_aosp_tip">要配合原生通知样式使用，不然本来正的会歪掉</string>
     <string name="speed_unit_hide_per_second">隐藏速度单位中的/s</string>
     <string name="status_bar_network_speed_dual_row_digit_len">网速的最大小数位数</string>
+    <string name="debug_log">打印模块调试日志</string>
+    <string name="debug_log_tips">会打印更详细的模块运行日志，反馈时请开启次开关再抓取日志，默认在debug版本打开，重启作用域才会生效</string>
 </resources>
