@@ -7,7 +7,8 @@ import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object Launcher : AppRegister() {
-    override val packageName: List<String> = listOf("com.zte.mifavor.launcher")
+    override val packageName: List<String> =
+        listOf("com.zte.mifavor.launcher", "com.zte.mifavor.launcher.resource")
     override val processName: List<String> = emptyList()
     override val logTag: String = "WooBox-Launcher"
     override val loadDexkit: Boolean = true

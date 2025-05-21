@@ -11,7 +11,7 @@ object UseCtsActivity : HookRegister() {
     @SuppressLint("PrivateApi")
     override fun init() = hasEnable("installer_cts_mode") {
         val callerNameMe =
-            getDefaultClassLoader().loadClass("com.android.packageinstaller.InstallStart")
+            getDefaultCL().loadClass("com.android.packageinstaller.InstallStart")
                 .getDeclaredMethod("getCallingPackageNameForUid", Int::class.javaPrimitiveType)
         val ctsInstallHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {

@@ -36,7 +36,7 @@ object AllowThirdpartyLauncher : HookRegister() {
             }
         }
         val roleChangeMe =
-            getDefaultClassLoader().loadClass("com.android.permissioncontroller.role.ui.DefaultAppChildFragment")
+            getDefaultCL().loadClass("com.android.permissioncontroller.role.ui.DefaultAppChildFragment")
                 .getDeclaredMethod("onRoleChanged", List::class.java)
 
         XposedBridge.hookMethod(roleChangeMe, roleChangedHooker)
@@ -65,6 +65,6 @@ object AllowThirdpartyLauncher : HookRegister() {
                 usingStrings(listOf("android.", ".cts."), StringMatchType.Equals)
             }
         }.singleOrNull() ?: error("utils->isctsMethod not find")
-        return methodData.getMethodInstance(getDefaultClassLoader())
+        return methodData.getMethodInstance(getDefaultCL())
     }
 }

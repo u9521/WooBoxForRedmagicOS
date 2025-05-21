@@ -1,58 +1,72 @@
 package com.u9521.wooboxforredmagicos.hook.app.settings
 
+import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.content.Context
 import android.text.TextUtils
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.Log
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.hasEnable
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
+
 
 object UsbInstallNoVerify : HookRegister() {
-    private val adbinstallPCclazz =
-        ClassUtils.loadClass("com.zte.settings.development.EnableAdbInstallPreferenceController")
-    private val APCclzz =
-        ClassUtils.loadClass("com.android.settingslib.core.AbstractPreferenceController")
-    private const val ADBinstallSet = "adb_install_enabled"
-    private fun systemPutInt(contentResolver: Any, int: Int) {
-        Log.i("$contentResolver $ADBinstallSet $int")
-        val settingSysclazz = ClassUtils.loadClass("android.provider.Settings\$System")
-        MethodFinder.fromClass(settingSysclazz).filterByName("putInt").filterByParamCount(3)
-            .first().invoke(null, contentResolver, ADBinstallSet, int)
+    private val adbInstallSet = "adb_install_enabled"
+    private fun setAdbInstall(cr: ContentResolver, int: Int) {
+        val putIntMe =
+            getDefaultCL().loadClass("android.provider.Settings\$System").getDeclaredMethod(
+                "putInt",
+                ContentResolver::class.java,
+                String::class.java,
+                Int::class.javaPrimitiveType
+            )
+        putIntMe.invoke(null, cr, adbInstallSet, int)
+        Log.i("set adbInstall: ContentResolver:$cr settingString:$adbInstallSet int:$int")
     }
 
+    @SuppressLint("PrivateApi")
     override fun init() = hasEnable("usb_install_switch_skip_verify") {
-        MethodFinder.fromClass(adbinstallPCclazz).filterByName("handlePreferenceTreeClick")
-            .filterByReturnType(Boolean::class.java).first()
-            .createBeforeHook {
-                val adbinstallkey =
-                    it.thisObject.objectHelper().invokeMethodBestMatch("getPreferenceKey")
-                val preKey = it.args[0].objectHelper().invokeMethodBestMatch("getKey") as String
-                if (!TextUtils.equals(
-                        preKey,
-                        adbinstallkey.toString()
-                    )
-                ) {
-                    it.result = false
-                    return@createBeforeHook
+        val adbIPrefClazz =
+            getDefaultCL().loadClass("com.zte.settings.development.EnableAdbInstallPreferenceController")
+        val aPrefClazz =
+            getDefaultCL().loadClass("com.android.settingslib.core.AbstractPreferenceController")
+        val preferClazz = getDefaultCL().loadClass("androidx.preference.Preference")
+        val twoStatePrefer = getDefaultCL().loadClass("androidx.preference.TwoStatePreference")
+        val prefTMe = adbIPrefClazz.getDeclaredMethod("handlePreferenceTreeClick", preferClazz)
+        val prefTreeHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
+                val adbIPrefsKey = adbIPrefClazz.getDeclaredMethod("getPreferenceKey")
+                    .invoke(param!!.thisObject) as String
+                val clickedKey =
+                    preferClazz.getDeclaredMethod("getKey").invoke(param.args[0]) as String
+                if (!TextUtils.equals(clickedKey, adbIPrefsKey)) {
+                    // 点的不是USB安装
+                    param.result = false
+                    return
                 }
-                val adbiSP = it.thisObject.objectHelper().getObjectOrNull("mEnableAdbInstall")
-                val adbiCR = APCclzz.getDeclaredField("mContext").apply { isAccessible = true }
-                    .get(it.thisObject)!!
-                    .objectHelper()
-                    .invokeMethodBestMatch("getContentResolver")!!
-                if (adbiSP!!.objectHelper().invokeMethodBestMatch("isChecked") as Boolean) {
-                    systemPutInt(adbiCR, 1)
-                    it.result = true
-                    return@createBeforeHook
+                // switchPreference
+                val adbIswP = adbIPrefClazz.getDeclaredField("mEnableAdbInstall")
+                    .apply { isAccessible = true }.get(param.thisObject)
+                val contentResolver =
+                    (aPrefClazz.getDeclaredField("mContext").apply { isAccessible = true }
+                        .get(param.thisObject) as Context).contentResolver
+
+                if (twoStatePrefer.getDeclaredMethod("isChecked").invoke(adbIswP) as Boolean) {
+                    // 打开ADB安装
+                    setAdbInstall(contentResolver, 1)
+                    param.result = true
+                    return
                 } else {
-                    adbiSP.objectHelper()
-                        .invokeMethodBestMatch("setChecked", params = arrayOf(false))
-                    systemPutInt(adbiCR, 0)
-                    it.result = true
-                    return@createBeforeHook
+                    setAdbInstall(contentResolver, 0)
+                    twoStatePrefer.getDeclaredMethod("setChecked", Boolean::class.javaPrimitiveType)
+                        .invoke(adbIswP, false)
+                    param.result = true
+                    return
                 }
             }
+        }
+        XposedBridge.hookMethod(prefTMe, prefTreeHooker)
     }
 }

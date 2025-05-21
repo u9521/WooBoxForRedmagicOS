@@ -25,14 +25,14 @@ object ScopeSystemSettings : MyFragment() {
                 SwitchV("usb_install_switch_skip_verify")
             )
             TextSummaryWithSwitch(
-                TextSummaryV(textId = R.string.setting_Froce_Display_ZvioceSwitch),
-                SwitchV("setting_Froce_Display_ZvioceSwitch")
+                TextSummaryV(textId = R.string.setting_force_show_va_switch),
+                SwitchV("setting_force_show_va_switch")
             )
             TextSummaryWithSwitch(
                 TextSummaryV(
-                    textId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch,
-                    tipsId = R.string.setting_Froce_Display_WakeupGoogleAssistSwitch_tips
-                ), SwitchV("setting_Froce_Display_WakeupGoogleAssistSwitch")
+                    textId = R.string.setting_force_show_ga_shortcut_switch,
+                    tipsId = R.string.setting_force_show_ga_shortcut_switch_tips
+                ), SwitchV("setting_force_show_ga_shortcut_switch")
             )
             Line()
             TitleText(textId = R.string.Fun_options)
@@ -40,13 +40,13 @@ object ScopeSystemSettings : MyFragment() {
                 this,
                 mactivity!!,
                 SwitchGroupConfig(
-                    "setting_Fun_override_maxyear_switch",
-                    R.string.setting_Fun_override_maxyear_switch,
-                    listOf(SubItemConfig.Arrow(R.string.setting_Fun_override_maxyear) {
+                    "setting_fun_override_maxyear_sw",
+                    R.string.setting_fun_override_maxyear_sw,
+                    listOf(SubItemConfig.Arrow(R.string.setting_fun_override_maxyear) {
                         InputDialogBuilder(
                             this, mactivity!!, InputDialogConfig(
-                                R.string.setting_Fun_override_maxyear,
-                                R.string.setting_Fun_override_maxyear_tips,
+                                R.string.setting_fun_override_maxyear,
+                                R.string.setting_fun_override_maxyear_tips,
                                 "fun_override_max_year",
                                 2099,
                                 PrefsTypeAdapter.INT,

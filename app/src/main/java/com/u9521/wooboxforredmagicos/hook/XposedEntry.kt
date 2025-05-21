@@ -43,7 +43,7 @@ class XposedEntry : EasyXposedInit() {
                 .createBeforeHook {
                     Toast.makeText(
                         it.thisObject as Activity,
-                        "注意:Woobox注入了非推荐应用",
+                        "注意:Woobox注入了非推荐应用:(${lpparam.packageName})",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

@@ -71,6 +71,6 @@ object BlockUpdate : HookRegister() {
                 )
             }
         }.singleOrNull()
-        return methoddata?.getMethodInstance(getDefaultClassLoader())
+        return methoddata?.getMethodInstance(getDefaultCL())
     }
 }

@@ -19,13 +19,13 @@ object QSCustom : HookRegister() {
         val mColumnsLandscapeEditor = XSPUtils.getInt("qs_custom_columns_landscape_editor", 6)
 
         val mfvTileLayoutAdaptClazz =
-            getDefaultClassLoader().loadClass("com.zte.adapt.mifavor.qs.MfvTileLayoutAdapt")
+            getDefaultCL().loadClass("com.zte.adapt.mifavor.qs.MfvTileLayoutAdapt")
         val mfvTileLayoutClazz =
-            getDefaultClassLoader().loadClass("com.zte.mifavor.qs.MfvTileLayout")
+            getDefaultCL().loadClass("com.zte.mifavor.qs.MfvTileLayout")
         //fix animation
         // hook com.zte.mifavor.qs.MfvQSAnimator updateViews will cause race condition
         val getTileColumnsMe =
-            getDefaultClassLoader().loadClass("com.zte.utils.QsDimenUtils\$Companion")
+            getDefaultCL().loadClass("com.zte.utils.QsDimenUtils\$Companion")
                 .getDeclaredMethod("getTileColumns")
         val tileColumnsHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
@@ -42,7 +42,7 @@ object QSCustom : HookRegister() {
         // weird but must handle this, otherwise the tiles will be misaligned
         //editor mode
         val getColumnsMe =
-            getDefaultClassLoader().loadClass("com.zte.feature.qs.layout.QsCustomizerModule")
+            getDefaultCL().loadClass("com.zte.feature.qs.layout.QsCustomizerModule")
                 .getDeclaredMethod("getColumns")
         val editorColumnsHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {

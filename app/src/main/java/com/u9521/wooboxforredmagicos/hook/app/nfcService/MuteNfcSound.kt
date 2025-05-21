@@ -11,7 +11,7 @@ object MuteNfcSound : HookRegister() {
     @SuppressLint("PrivateApi")
     override fun init() = hasEnable("mute_nfc_sound") {
         val pSMe =
-            getDefaultClassLoader().loadClass("com.android.nfc.NfcService").getDeclaredMethod(
+            getDefaultCL().loadClass("com.android.nfc.NfcService").getDeclaredMethod(
                 "playSound",
                 Int::class.javaPrimitiveType
             )

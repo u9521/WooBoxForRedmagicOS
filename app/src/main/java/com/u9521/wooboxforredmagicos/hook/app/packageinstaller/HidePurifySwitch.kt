@@ -11,9 +11,9 @@ object HidePurifySwitch : HookRegister() {
     @SuppressLint("PrivateApi")
     override fun init() = hasEnable("hide_purify_switch") {
         val uICookToolClzz =
-            getDefaultClassLoader().loadClass("com.android.packageinstaller.PackageInstallerActivity\$UICookTool")
+            getDefaultCL().loadClass("com.android.packageinstaller.PackageInstallerActivity\$UICookTool")
         val packageInstallerActivityclzz =
-            getDefaultClassLoader().loadClass("com.android.packageinstaller.PackageInstallerActivity")
+            getDefaultCL().loadClass("com.android.packageinstaller.PackageInstallerActivity")
         val getCookUIMe = packageInstallerActivityclzz.getDeclaredMethod(
             "getCookUI",
             //dangerlevel 0:unknown 1:Secure .. 3:high Risk

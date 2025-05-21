@@ -13,16 +13,16 @@ object SkipApkScan : HookRegister() {
         //skip scan
         // ZTE_FEATURE_ODM_VERTU
         val sIClazz =
-            getDefaultClassLoader().loadClass("android.content.pm.PackageInstaller\$SessionInfo")
+            getDefaultCL().loadClass("android.content.pm.PackageInstaller\$SessionInfo")
         val scanMe =
-            getDefaultClassLoader().loadClass("com.android.packageinstaller.InstallStaging\$StagingAsyncTask")
+            getDefaultCL().loadClass("com.android.packageinstaller.InstallStaging\$StagingAsyncTask")
                 .getDeclaredMethod("onPostExecute", sIClazz)
         val scanHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 super.beforeHookedMethod(param)
                 Log.i("trying to pass apk scan")
                 val vertuClazz =
-                    getDefaultClassLoader().loadClass("com.android.packageinstaller.PackageUtil")
+                    getDefaultCL().loadClass("com.android.packageinstaller.PackageUtil")
                 vertuClazz.getDeclaredField("ZTE_FEATURE_ODM_VERTU").apply { isAccessible = true }
                     .setBoolean(null, true)
             }

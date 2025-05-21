@@ -12,7 +12,7 @@ object HideStoreHint : HookRegister() {
     @SuppressLint("PrivateApi")
     override fun init() = hasEnable("installer_hide_store_hint") {
         val pIActivityClzz =
-            getDefaultClassLoader().loadClass("com.android.packageinstaller.PackageInstallerActivity")
+            getDefaultCL().loadClass("com.android.packageinstaller.PackageInstallerActivity")
         val mMarketContainer = pIActivityClzz.getDeclaredField("mMarketContainer").apply {
             isAccessible = true
         }

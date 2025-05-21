@@ -1,24 +1,30 @@
 package com.u9521.wooboxforredmagicos.hook.app.launcher
 
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
+import android.os.UserHandle
 import com.u9521.wooboxforredmagicos.util.hasEnable
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object RMzvoiceUninstalDialog : HookRegister() {
-    private val uHandle = ClassUtils.loadClass("android.os.UserHandle")
     private const val ZviocePackageName = "com.zte.halo.app"
     override fun init() = hasEnable("launcher_rm_zvoice_uninstall_dialog") {
-        MethodFinder.fromClass("android.content.pm.LauncherApps").filterByName("isPackageEnabled")
-            .filterByParamTypes(
-                String::class.java,
-                uHandle
-            ).first().createBeforeHook {
-                if (it.args[0].equals(ZviocePackageName)) {
-                    it.result = true
+        val pkgEnableMe =
+            getDefaultCL().loadClass("android.content.pm.LauncherApps").getDeclaredMethod(
+                "isPackageEnabled", String::class.java,
+                UserHandle::class.java
+            )
+        val zvInstallHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
+                if (param!!.args[0].equals(ZviocePackageName)) {
+                    param.result = true
+                    Log.i("mocked: $ZviocePackageName is Enabled")
                 }
             }
+        }
+        XposedBridge.hookMethod(pkgEnableMe,zvInstallHooker)
     }
 
 

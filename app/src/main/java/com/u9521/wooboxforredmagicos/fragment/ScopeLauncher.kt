@@ -21,15 +21,15 @@ object ScopeLauncher:MyFragment() {
             )
             TextSummaryWithSwitch(
                 TextSummaryV(
-                    textId = R.string.launcher_Force_Support_ResizeActivity,
-                    tipsId = R.string.launcher_Force_Support_ResizeActivity_tips
-                ), SwitchV("launcher_Force_Support_ResizeActivity")
+                    textId = R.string.launcher_force_support_resize_activity,
+                    tipsId = R.string.launcher_force_support_resize_activity_tips
+                ), SwitchV("launcher_force_support_resize_activity")
             )
             TextSummaryWithSwitch(
                 TextSummaryV(
-                    textId = R.string.launcher_Force_Show_Blacklist_apps,
-                    tipsId = R.string.launcher_Force_Show_Blacklist_apps_tips
-                ), SwitchV("launcher_Force_Show_Blacklist_apps")
+                    textId = R.string.launcher_force_show_blacklist_apps,
+                    tipsId = R.string.launcher_force_show_blacklist_apps_tips
+                ), SwitchV("launcher_force_show_blacklist_apps")
             )
         }
 }

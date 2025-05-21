@@ -158,7 +158,7 @@ object MockDeviceInfo : HookRegister() {
                 }
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findImei(dexKitBridge: DexKitBridge): List<Method> {
@@ -174,7 +174,7 @@ object MockDeviceInfo : HookRegister() {
         }
         val methodsList = mutableListOf<Method>()
         for (mData in m) {
-            methodsList.add(mData.getMethodInstance(getDefaultClassLoader()))
+            methodsList.add(mData.getMethodInstance(getDefaultCL()))
         }
         return methodsList
     }
@@ -193,7 +193,7 @@ object MockDeviceInfo : HookRegister() {
                 }
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findSignandVername(dexKitBridge: DexKitBridge): Method? {
@@ -211,7 +211,7 @@ object MockDeviceInfo : HookRegister() {
                 }
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findBuildFP(dexKitBridge: DexKitBridge): Method? {
@@ -224,7 +224,7 @@ object MockDeviceInfo : HookRegister() {
                 addUsingString("ro.build.fingerprint", StringMatchType.Equals)
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findSystemBuildVer(dexKitBridge: DexKitBridge): Method? {
@@ -241,7 +241,7 @@ object MockDeviceInfo : HookRegister() {
                 addUsingString("apps.setting.product.release", StringMatchType.Equals)
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findInnerVer(dexKitBridge: DexKitBridge): Method? {
@@ -261,7 +261,7 @@ object MockDeviceInfo : HookRegister() {
                 )
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findVariantId(dexKitBridge: DexKitBridge): Method? {
@@ -281,7 +281,7 @@ object MockDeviceInfo : HookRegister() {
                 )
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 
     fun findManu(dexKitBridge: DexKitBridge): Method? {
@@ -294,6 +294,6 @@ object MockDeviceInfo : HookRegister() {
                 usingStrings(listOf("NUBIA", "ZTE"), StringMatchType.Equals)
             }
         }.singleOrNull()
-        return m?.getMethodInstance(getDefaultClassLoader())
+        return m?.getMethodInstance(getDefaultCL())
     }
 }
