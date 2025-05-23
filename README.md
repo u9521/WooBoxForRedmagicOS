@@ -12,6 +12,7 @@
 
 ---
 
+本分支用于迁移到新的XposedApi，待新Api稳定后再开发
 
 ### 模块说明
 
@@ -54,8 +55,6 @@
 [LuckyPray/DexKit](https://github.com/LuckyPray/DexKit)
 ##### GNU Lesser General Public License v2.1
 [577fkj/blockmiui](https://github.com/577fkj/blockmiui)  
-##### Apache License 2.0
-[KyuubiRan/EzXHelper](https://github.com/KyuubiRan/EzXHelper)  
 
 ---
 

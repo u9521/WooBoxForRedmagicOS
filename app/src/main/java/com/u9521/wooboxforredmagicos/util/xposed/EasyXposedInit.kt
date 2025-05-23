@@ -1,6 +1,5 @@
 package com.u9521.wooboxforredmagicos.util.xposed
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
@@ -21,9 +20,6 @@ abstract class EasyXposedInit : IXposedHookLoadPackage, IXposedHookZygoteInit {
             if ((lpparam.packageName in app.packageName) && (lpparam.processName in app.processName || app.processName.isEmpty())) {
                 Log.logTag = app.logTag
                 Log.isDebug = XSPUtils.getBoolean("debug_log", BuildConfig.DEBUG)
-                EzXHelper.initHandleLoadPackage(lpparam)
-                EzXHelper.setLogTag(app.logTag)
-                EzXHelper.setToastTag(app.logTag)
                 Log.px(
                     "I", "start Hook: " + lpparam.packageName, logInRelease = true
                 )
@@ -37,6 +33,5 @@ abstract class EasyXposedInit : IXposedHookLoadPackage, IXposedHookZygoteInit {
         }
     }
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam?) {
-        EzXHelper.initZygote(startupParam!!)
     }
 }

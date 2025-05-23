@@ -2,12 +2,9 @@ package com.u9521.wooboxforredmagicos.hook.app
 
 import com.u9521.wooboxforredmagicos.hook.app.systemui.features.AOSPSingleHandModeAdjust
 import com.u9521.wooboxforredmagicos.hook.app.systemui.features.GestureStartDefaultDigitalAssist
-import com.u9521.wooboxforredmagicos.hook.app.systemui.features.NoVibrateForvolKeyLongpress
+import com.u9521.wooboxforredmagicos.hook.app.systemui.features.NoVibrateVolKeyLongPress
 import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.AllowAdjustVolume
 import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.KSBFontRestore
-import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveDevModeIsOn
-import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveFinishedCharging
-import com.u9521.wooboxforredmagicos.hook.app.systemui.notification.RemoveUSBDebugging
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSClockShowSecond
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSCustom
 import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderFontRestore
@@ -55,14 +52,14 @@ object SystemUI : AppRegister() {
             FanRRIconAlign,//原生通知图标和通知样式后风扇刷新图标对齐
             SBFontRestore,//时钟字体恢复
 
-            //通知类
-            RemoveUSBDebugging, //移除USB调试已开启通知
-            RemoveFinishedCharging, //移除已充满通知
-            RemoveDevModeIsOn, //移除开发者模式已开启通知
+            //通知类，废弃
+//            RemoveUSBDebugging, //移除USB调试已开启通知
+//            RemoveFinishedCharging, //移除已充满通知
+//            RemoveDevModeIsOn, //移除开发者模式已开启通知
 
             //特性
             GestureStartDefaultDigitalAssist,//手势打开默认数字助理
-            NoVibrateForvolKeyLongpress,//禁用长按调音量振动
+            NoVibrateVolKeyLongPress,//禁用长按调音量振动
             AOSPSingleHandModeAdjust,//单手模式允许下拉通知栏
 
             //锁屏界面

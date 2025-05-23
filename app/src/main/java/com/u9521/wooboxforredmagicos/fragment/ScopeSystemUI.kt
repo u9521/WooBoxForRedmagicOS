@@ -6,13 +6,7 @@ import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import cn.fkj233.ui.activity.view.TextV
 import com.u9521.wooboxforredmagicos.R
-import com.u9521.wooboxforredmagicos.compose.InputDialogBuilder
-import com.u9521.wooboxforredmagicos.compose.InputDialogConfig
-import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
-import com.u9521.wooboxforredmagicos.compose.PrefsTypeAdapter
-import com.u9521.wooboxforredmagicos.compose.SubItemConfig
-import com.u9521.wooboxforredmagicos.compose.SwitchGroupBuilder
-import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
+import com.u9521.wooboxforredmagicos.compose.*
 
 object ScopeSystemUI : MyFragment() {
     override val regKey: String = "scope_systemui"
@@ -139,19 +133,9 @@ object ScopeSystemUI : MyFragment() {
                         R.string.show_battery_meter_tips
                     ),
                     SubItemConfig.Switch(
-                        "show_battery_level_inside",
-                        R.string.show_battery_level_inside,
-                        R.string.show_battery_level_inside_tips,
-
-                        ),
-                    SubItemConfig.Switch(
-                        "show_battery_level_outside",
-                        R.string.show_battery_level_outside,
-                        R.string.show_battery_level_outside_tips
-                    ),
-                    SubItemConfig.Switch(
                         "show_charge_indicator_inside",
-                        R.string.show_charge_indicator_inside
+                        R.string.show_charge_indicator_inside,
+                        textTipsResId = R.string.show_charge_indicator_inside_tips
                     ),
                     SubItemConfig.Switch(
                         "show_charge_indicator_outside",
@@ -281,12 +265,12 @@ object ScopeSystemUI : MyFragment() {
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.qs_shortcut_redir_calendar,
-            ), SwitchV("qs_header_shortcut_redir_calendar")
+            ), SwitchV("qs_header_shortcut_redirect_calendar")
         )
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.qs_shortcut_redir_search,
-            ), SwitchV("qs_header_shortcut_redir_search")
+            ), SwitchV("qs_header_shortcut_redirect_search")
         )
         TextSummaryWithSwitch(
             TextSummaryV(

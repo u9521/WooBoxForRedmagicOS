@@ -1,12 +1,10 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 
+import android.content.pm.ApplicationInfo
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import cn.fkj233.ui.activity.dp2px
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
@@ -17,11 +15,11 @@ object AOSPNotify : HookRegister() {
     override fun init() {
         val iconSize = XSPUtils.getInt("aosp_icon_size_dp", 16)
         hasEnable("use_aosp_notify") {
-            val adaptClazz = ClassUtils.loadClass("com.zte.base.Adapt")
+            val adaptClazz = getDefaultCL().loadClass("com.zte.base.Adapt")
+
             val adaptHooker: XC_MethodHook = object : XC_MethodHook() {
                 val enableAdapt = adaptClazz.getDeclaredField("ZTE_STYLE")
 
-                @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     enableAdapt.setBoolean(param.thisObject, false)
                 }
@@ -31,52 +29,75 @@ object AOSPNotify : HookRegister() {
                 }
             }
             val notificationBGClazz =
-                ClassUtils.loadClass("com.zte.feature.notification.module.NotificationBackground")
+                getDefaultCL().loadClass("com.zte.feature.notification.module.NotificationBackground")
             // Force all app use system icon
-            MethodFinder.fromClass("com.zte.feature.notification.NotificationUtil")
-                .filterByName("shouldShowAppIcon").first().createBeforeHook {
-                    it.result = false
-                }
-            // clean app icon background;fix sometime icon with background
-            MethodFinder.fromClass("com.zte.feature.notification.NotificationUtil")
-                .filterByName("getAppIconBackgroundDrawable").first().createBeforeHook {
-                    it.result = null
-                }
+            val notificationUtilClazz =
+                getDefaultCL().loadClass("com.zte.feature.notification.NotificationUtil")
 
-            MethodFinder.fromClass(notificationBGClazz).filterByName("adjustNotificationIcon")
-                .first().createBeforeHook {
-                    val view = it.args[0] as View
+            val showAppIconMe = notificationUtilClazz.getDeclaredMethod(
+                "shouldShowAppIcon", ApplicationInfo::class.java
+            )
+
+            val getAppBGMe = notificationUtilClazz.getDeclaredMethod(
+                "getAppIconBackgroundDrawable",
+                String::class.java,
+                Boolean::class.javaPrimitiveType
+            )
+
+            val showAppIconHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    param!!.result = false
+                }
+            }
+            // clean app icon background;fix sometime icon with background
+            val getAppBGMeHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    param!!.result = null
+                }
+            }
+            XposedBridge.hookMethod(showAppIconMe, showAppIconHooker)
+            XposedBridge.hookMethod(getAppBGMe, getAppBGMeHooker)
+            val adjIconMe =
+                notificationBGClazz.getDeclaredMethod("adjustNotificationIcon", View::class.java)
+            val notificationIconHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    val view = param!!.args[0] as View
                     val iconSizePx = dp2px(view.context, iconSize.toFloat())
                     val lp = FrameLayout.LayoutParams(iconSizePx, iconSizePx)
                     lp.gravity = Gravity.CENTER_HORIZONTAL
                     view.layoutParams = lp
-                    it.result = null
-//                    Log.wx("WTF: this method shouldnot be called, stacktrace bellow")
-//                    DebugUtils.printStackTrace()
+                    param.result = null
                 }
+            }
+            XposedBridge.hookMethod(adjIconMe, notificationIconHooker)
+
             val nICAdapt =
-                ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationIconContainerAdapt")
+                getDefaultCL().loadClass("com.zte.adapt.mifavor.notification.NotificationIconContainerAdapt")
             val nIACAdapt =
-                ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationIconAreaControllerAdapt")
+                getDefaultCL().loadClass("com.zte.adapt.mifavor.notification.NotificationIconAreaControllerAdapt")
             val nHVWAdapt =
-                ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationHeaderViewWrapperAdapt")
+                getDefaultCL().loadClass("com.zte.adapt.mifavor.notification.NotificationHeaderViewWrapperAdapt")
             val nTVWAdapt =
-                ClassUtils.loadClass("com.zte.adapt.mifavor.notification.NotificationTemplateViewWrapperAdapt")
+                getDefaultCL().loadClass("com.zte.adapt.mifavor.notification.NotificationTemplateViewWrapperAdapt")
             val eNRAdapt =
-                ClassUtils.loadClass("com.zte.adapt.mifavor.notification.ExpandableNotificationRowAdapt")
-            MethodFinder.fromClass(nHVWAdapt).onEach {
+                getDefaultCL().loadClass("com.zte.adapt.mifavor.notification.ExpandableNotificationRowAdapt")
+
+            nHVWAdapt.declaredMethods.onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(nICAdapt).onEach {
+            nICAdapt.declaredMethods.onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(nTVWAdapt).onEach {
+            nTVWAdapt.declaredMethods.onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(eNRAdapt).onEach {
+            eNRAdapt.declaredMethods.onEach {
                 XposedBridge.hookMethod(it, adaptHooker)
             }
-            MethodFinder.fromClass(nIACAdapt).onEach { it ->
+            nIACAdapt.declaredMethods.onEach {
                 if (it.name == "adjustNotificationIcon") {
                     return@onEach
                 }
