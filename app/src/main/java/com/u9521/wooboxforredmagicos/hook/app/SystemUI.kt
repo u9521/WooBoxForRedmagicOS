@@ -3,23 +3,11 @@ package com.u9521.wooboxforredmagicos.hook.app
 import com.u9521.wooboxforredmagicos.hook.app.systemui.features.AOSPSingleHandModeAdjust
 import com.u9521.wooboxforredmagicos.hook.app.systemui.features.GestureStartDefaultDigitalAssist
 import com.u9521.wooboxforredmagicos.hook.app.systemui.features.NoVibrateVolKeyLongPress
+import com.u9521.wooboxforredmagicos.hook.app.systemui.features.UnHideClipBoardOverlay
 import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.AllowAdjustVolume
 import com.u9521.wooboxforredmagicos.hook.app.systemui.lockscreen.KSBFontRestore
-import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSClockShowSecond
-import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSCustom
-import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderFontRestore
-import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderShortcut
-import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.QSHeaderShowControl
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.AOSPNotify
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.BTiconUseGlobalacts
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.BatteryIconAdjuster
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.FanRRIconAlign
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideMobileActivityIcon
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideVpnIcon
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.HideWifiActivityIcon
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.NetworkSpeedAdjuster
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.SBFontRestore
-import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.StatusBarDoubleTapToSleep
+import com.u9521.wooboxforredmagicos.hook.app.systemui.qs.*
+import com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar.*
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -61,6 +49,7 @@ object SystemUI : AppRegister() {
             GestureStartDefaultDigitalAssist,//手势打开默认数字助理
             NoVibrateVolKeyLongPress,//禁用长按调音量振动
             AOSPSingleHandModeAdjust,//单手模式允许下拉通知栏
+            UnHideClipBoardOverlay,//显示原生剪切版浮窗
 
             //锁屏界面
             AllowAdjustVolume,//锁屏允许调整音量

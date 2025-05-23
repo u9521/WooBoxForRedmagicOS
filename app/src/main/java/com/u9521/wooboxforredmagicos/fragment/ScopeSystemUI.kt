@@ -227,6 +227,11 @@ object ScopeSystemUI : MyFragment() {
                 tipsId = R.string.no_vibrate_volKey_Long_press_tips
             ), SwitchV("no_vibrate_volKey_Long_press")
         )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.unhide_clipboard_overlay,
+            ), SwitchV("unhide_clipboard_overlay")
+        )
         SwitchGroupBuilder(
             this, mactivity!!,
             SwitchGroupConfig(
