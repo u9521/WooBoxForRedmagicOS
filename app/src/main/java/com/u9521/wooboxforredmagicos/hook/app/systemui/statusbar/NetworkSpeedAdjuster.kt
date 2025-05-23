@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.TextView
 import cn.fkj233.ui.activity.dp2px
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import org.luckypray.dexkit.DexKitBridge
+import java.lang.reflect.Method
 import java.text.DecimalFormat
 import kotlin.math.log10
 import kotlin.math.min
@@ -40,15 +36,20 @@ object NetworkSpeedAdjuster : HookRegister() {
 
     override fun init() {
         hasEnable("status_bar_dual_row_network_speed") {
-            MethodFinder.fromClass("com.zte.feature.speed.StatusBarNetSpeedMFV")
-                .filterByName("init").first().createAfterHook {
-                    val mSpeedText = it.thisObject.javaClass.getDeclaredField("mSpeedText")
-                        .get(it.thisObject) as TextView
-                    val mSpeedUnit = it.thisObject.javaClass.getDeclaredField("mSpeedUnit")
-                        .get(it.thisObject) as TextView
+            val netSpeedInflate =
+                getDefaultCL().loadClass("com.zte.feature.speed.StatusBarNetSpeedMFV")
+                    .getDeclaredMethod("init")
+
+            val dualLineNetSpeedHooker = object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam?) {
+                    super.afterHookedMethod(param)
+                    val mSpeedText = param!!.thisObject.javaClass.getDeclaredField("mSpeedText")
+                        .get(param.thisObject) as TextView
+                    val mSpeedUnit = param.thisObject.javaClass.getDeclaredField("mSpeedUnit")
+                        .get(param.thisObject) as TextView
                     val mSpeedViewGroup =
-                        it.thisObject.javaClass.getDeclaredField("mSpeedViewGroup")
-                            .get(it.thisObject) as ViewGroup
+                        param.thisObject.javaClass.getDeclaredField("mSpeedViewGroup")
+                            .get(param.thisObject) as ViewGroup
                     val widthPx = if (viewDualWidth > 38) LayoutParams.WRAP_CONTENT else dp2px(
                         mSpeedViewGroup.context, viewDualWidth.toFloat()
                     )
@@ -67,24 +68,30 @@ object NetworkSpeedAdjuster : HookRegister() {
                     mSpeedText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, viewDualSize.toFloat())
                     mSpeedUnit.setTextSize(TypedValue.COMPLEX_UNIT_DIP, viewDualSize.toFloat())
                 }
+            }
+            XposedBridge.hookMethod(netSpeedInflate, dualLineNetSpeedHooker)
             // update method
             val speedState =
-                ClassUtils.loadClass("com.zte.feature.speed.StatusBarNetSpeedPolicy\$NetSpeedState")
+                getDefaultCL().loadClass("com.zte.feature.speed.StatusBarNetSpeedPolicy\$NetSpeedState")
             val stateSpeedText = speedState.getDeclaredField("speedText")
             val stateSpeedUnit = speedState.getDeclaredField("speedUnit")
             val stateVisible = speedState.getDeclaredField("visible")
             // hide on low speed and set text
-            MethodFinder.fromClass("com.zte.feature.speed.StatusBarNetSpeedPolicy")
-                .filterByName("updateNetSpeedDisplay").first().createBeforeHook {
+
+            val netSpeedUpdate =
+                getDefaultCL().loadClass("com.zte.feature.speed.StatusBarNetSpeedPolicy")
+                    .getDeclaredMethod("updateNetSpeedDisplay", speedState)
+
+            val netSpeedUpdateHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
                     val curTimestamp = SystemClock.elapsedRealtime()
                     //太快不更
-                    if (curTimestamp - mLastDownTimeStamp < speedRefreshDelayMs ||
-                        curTimestamp - mLastUPTimeStamp < speedRefreshDelayMs
-                    ) {
-                        it.result = null
-                        return@createBeforeHook
+                    if (curTimestamp - mLastDownTimeStamp < speedRefreshDelayMs || curTimestamp - mLastUPTimeStamp < speedRefreshDelayMs) {
+                        param!!.result = null
+                        return
                     }
-                    val curNetState = speedState.cast(it.args[0])
+                    val curNetState = speedState.cast(param!!.args[0])
                     updateUpSpeed()
                     updateDownSpeed()
                     stateSpeedText.set(curNetState, formatSpeed(mLastUpSpeed))
@@ -95,42 +102,56 @@ object NetworkSpeedAdjuster : HookRegister() {
                         stateVisible.setBoolean(curNetState, true)
                     }
                 }
+            }
+            XposedBridge.hookMethod(netSpeedUpdate, netSpeedUpdateHooker)
+
             //bypass original method,speedup a liiiiiiiiittle
-            MethodFinder.fromClass("com.zte.feature.speed.SpeedControllerImpl")
-                .filterByName("updateNetSpeed").first().createBeforeHook {
-                    it.thisObject.javaClass.getDeclaredField("mLevel")
-                        .setLong(it.thisObject, 114514L)
-                    it.result = null
+            val updateSpeedVal =
+                getDefaultCL().loadClass("com.zte.feature.speed.SpeedControllerImpl")
+                    .getDeclaredMethod("updateNetSpeed")
+            val speedValHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    param!!.thisObject.javaClass.getDeclaredField("mLevel")
+                        .setLong(param.thisObject, 114514L)
+                    param.result = null
                 }
+            }
+            XposedBridge.hookMethod(updateSpeedVal, speedValHooker)
+
         }
         hasEnable("status_bar_network_speed_refresh_speed") {
-            val delayMethod =
-                MethodFinder.fromClass("android.os.Handler").filterByName("postDelayed")
-                    .filterByParamTypes(Runnable::class.java, Long::class.javaPrimitiveType).first()
-            var netRunnerClazzName: String = findNetRunnerClazz(dexKitBridge!!)
-            val netRunnerClazz = ClassUtils.loadClass(netRunnerClazzName)
-            val runMethod = MethodFinder.fromClass(netRunnerClazz).filterByName("run").first()
+            val delayMethod = getDefaultCL().loadClass("android.os.Handler").getDeclaredMethod(
+                "postDelayed", Runnable::class.java, Long::class.javaPrimitiveType
+            )
+
+            val runMethod = findNetRunnerClazz(dexKitBridge!!)
             val delayHooker = object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam?) {
                     if (param == null) {
                         return
                     }
                     val runnable = param.args[0] as Runnable
-                    if (!runnable.javaClass.name.equals(netRunnerClazz.name)) {
+                    if (!runnable.javaClass.name.equals(runMethod.declaringClass.name)) {
                         return
                     }
                     param.args[1] = speedRefreshDelayMs
                 }
             }
-            runMethod.createHook {
-                var hooker: XC_MethodHook.Unhook? = null
-                before {
+            val startTimerHooker = object : XC_MethodHook() {
+                var hooker: Unhook? = null
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
                     hooker = XposedBridge.hookMethod(delayMethod, delayHooker)
                 }
-                after {
+
+                override fun afterHookedMethod(param: MethodHookParam?) {
+                    super.afterHookedMethod(param)
+//                    Log.i("hook net speed update time finished, release postDelayed hooker")
                     hooker!!.unhook()
                 }
             }
+            XposedBridge.hookMethod(runMethod, startTimerHooker)
         }
     }
 
@@ -201,8 +222,8 @@ object NetworkSpeedAdjuster : HookRegister() {
         }
     }
 
-    private fun findNetRunnerClazz(bridge: DexKitBridge): String {
-        val classData = bridge.findClass {
+    private fun findNetRunnerClazz(bridge: DexKitBridge): Method {
+        val methodData = bridge.findClass {
             searchPackages("com.zte.feature.speed")
             matcher {
                 interfaces {
@@ -215,7 +236,12 @@ object NetworkSpeedAdjuster : HookRegister() {
                     }
                 }
             }
-        }.singleOrNull() ?: error("NetRunnerClazz not find")
-        return classData.name
+        }.findMethod {
+            matcher {
+                name = "run"
+                usingNumbers(0xbb8L)
+            }
+        }.singleOrNull() ?: error("NetRunnerMethod not find")
+        return methodData.getMethodInstance(getDefaultCL())
     }
 }

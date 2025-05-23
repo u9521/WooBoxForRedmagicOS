@@ -5,20 +5,22 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.widget.RelativeLayout
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.Log
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.hasEnable
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 
 object QSHeaderShortcut : HookRegister() {
     override fun init() {
-        val cCHVClazz = ClassUtils.loadClass("com.zte.controlcenter.widget.CCHeaderView")
-        val sAMethod =
-            MethodFinder.fromClass(cCHVClazz).filterByName("postStartActivityDismissingKeyguard")
-                .first()
+        val ccHeaderClazz = getDefaultCL().loadClass("com.zte.controlcenter.widget.CCHeaderView")
+        val startActivityMe =
+            ccHeaderClazz.getDeclaredMethod(
+                "postStartActivityDismissingKeyguard",
+                Intent::class.java
+            )
+
         // they not bind clock yet
 //        hasEnable("qs_header_shortcut_redir_clock") {
 //            MethodFinder.fromClass(CCHVClazz)
@@ -27,37 +29,45 @@ object QSHeaderShortcut : HookRegister() {
 //                    it.result = null
 //                }
 //        }
-        hasEnable("qs_header_shortcut_redir_calendar") {
-            MethodFinder.fromClass(cCHVClazz)
-                .filterByName("handleClickDate").first().createBeforeHook {
-                    sAMethod.invoke(
-                        it.thisObject,
+        hasEnable("qs_header_shortcut_redirect_calendar") {
+            val clickDateMe = ccHeaderClazz.getDeclaredMethod("handleClickDate")
+            val clickDateHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    startActivityMe.invoke(
+                        param!!.thisObject,
                         Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time"))
                     )
-                    it.result = null
+                    param.result = null
                 }
+            }
+            XposedBridge.hookMethod(clickDateMe, clickDateHooker)
         }
-        hasEnable("qs_header_shortcut_redir_search") {
-            MethodFinder.fromClass(cCHVClazz)
-                .filterByName("handleClickSearch").first().createBeforeHook {
+        hasEnable("qs_header_shortcut_redirect_search") {
+            val clickSearchMe = ccHeaderClazz.getDeclaredMethod("handleClickSearch")
+            val clickSearchHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://"))
                     val resolveInfo: ResolveInfo? =
-                        (it.thisObject as RelativeLayout).context.packageManager.resolveActivity(
+                        (param!!.thisObject as RelativeLayout).context.packageManager.resolveActivity(
                             intent,
                             PackageManager.MATCH_DEFAULT_ONLY
                         )
                     if (resolveInfo != null) {
                         val packageName = resolveInfo.activityInfo.packageName
                         val className = resolveInfo.activityInfo.name
-                        sAMethod.invoke(
-                            it.thisObject,
+                        startActivityMe.invoke(
+                            param.thisObject,
                             Intent().setClassName(packageName, className)
                         )
                     } else {
-                        Log.ex("DefaultBrowser No default browser found")
+                        Log.ex("No default browser was found!!", logInRelease = true)
                     }
-                    it.result = null
+                    param.result = null
                 }
+            }
+            XposedBridge.hookMethod(clickSearchMe, clickSearchHooker)
         }
     }
 }

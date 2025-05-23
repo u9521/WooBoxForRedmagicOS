@@ -4,146 +4,126 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object BatteryIconAdjuster : HookRegister() {
     override fun init() {
         //充满也显示充电图标
         hasEnable("show_charge_indicator_on_power_plugin") {
-            val chargeIndicator = ClassUtils.loadClass("com.zte.mifavor.views.ChargeIndicator")
-            MethodFinder.fromClass(chargeIndicator).filterByName("onBatteryLevelChanged").first()
-                .createBeforeHook {
-                    //int batteryLevel, boolean isplugIn, boolean isCharging, boolean isWirelessCharging, int oemFastChargeType 1-> fast 7->superfast
+            //int batteryLevel, boolean isplugIn, boolean isCharging, boolean isWirelessCharging,
+            // int oemFastChargeType 1-> fast 7->superfast
+            val bLevelChange =
+                getDefaultCL().loadClass("com.zte.mifavor.views.ChargeIndicator").getDeclaredMethod(
+                    "onBatteryLevelChanged",
+                    Int::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType
+                )
+            val bLevelChangeHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
                     // let isplugin instead of ischarging
-                    it.args[2] = it.args[1]
+                    param!!.args[2] = param.args[1]
                 }
+            }
+            XposedBridge.hookMethod(bLevelChange, bLevelChangeHooker)
         }
         //隐藏电量百分号
         hasEnable("hide_battery_percentage_icon") {
-            val mFVBVLayout = ClassUtils.loadClass("com.zte.mifavor.views.MFVBatteryViewLayout")
-            MethodFinder.fromClass(mFVBVLayout).filterByName("updateBatteryLevelText").first()
-                .createBeforeHook {
+            val bVLayout = getDefaultCL().loadClass("com.zte.mifavor.views.MFVBatteryViewLayout")
+            val updateLevel = bVLayout.getDeclaredMethod("updateBatteryLevelText")
+            val updateLevelHooker = object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
                     val mCurrentUsedBatteryLevelView =
-                        it.thisObject.javaClass.getDeclaredField("mCurrentUsedBatteryLevelView")
-                            .get(it.thisObject) as TextView
-                    val mBateryLevel = it.thisObject.javaClass.getDeclaredField("mBateryLevel")
-                        .getInt(it.thisObject)
-                    mCurrentUsedBatteryLevelView.text = mBateryLevel.toString()
-                    it.result = null
+                        bVLayout.getDeclaredField("mCurrentUsedBatteryLevelView")
+                            .get(param!!.thisObject) as TextView
+                    //typo? LOL
+                    val mBatteryLevel =
+                        bVLayout.getDeclaredField("mBateryLevel").getInt(param.thisObject)
+
+                    mCurrentUsedBatteryLevelView.text = mBatteryLevel.toString()
+                    param.result = null
                 }
+            }
+            XposedBridge.hookMethod(updateLevel, updateLevelHooker)
         }
         //电池图标调节
         hasEnable("battery_icon_fine_tune") {
-            val bVLayout = ClassUtils.loadClass("com.zte.mifavor.views.MFVBatteryViewLayout")
-            val chargeIndicator = ClassUtils.loadClass("com.zte.mifavor.views.ChargeIndicator")
+            val bVLayout = getDefaultCL().loadClass("com.zte.mifavor.views.MFVBatteryViewLayout")
+            val chargeIndicator = getDefaultCL().loadClass("com.zte.mifavor.views.ChargeIndicator")
             val showMeter = XSPUtils.getBoolean("show_battery_meter", false)
-            val showLevelInside = XSPUtils.getBoolean("show_battery_level_inside", false)
-            val showLevelOutside = XSPUtils.getBoolean("show_battery_level_outside", false)
             val showIndicatorInside = XSPUtils.getBoolean("show_charge_indicator_inside", false)
             val showIndicatorOutside = XSPUtils.getBoolean("show_charge_indicator_outside", false)
             //先设置可见性
-            MethodFinder.fromClass(bVLayout).filterByName("updateBatteryLayout")
-                .filterByParamTypes(Int::class.javaPrimitiveType, Boolean::class.javaPrimitiveType)
-                .first()
-                .createAfterHook {
+            val upBatteryL = bVLayout.getDeclaredMethod(
+                "updateBatteryLayout",
+                Int::class.javaPrimitiveType,
+                Boolean::class.javaPrimitiveType
+            )
+            val batteryVisibilityHooker = object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam?) {
+                    super.afterHookedMethod(param)
                     val mBatteryContainer = bVLayout.getDeclaredField("mBatteryContainer")
-                        .get(it.thisObject) as FrameLayout
-                    val mBatteryLevelInsideView =
-                        bVLayout.getDeclaredField("mBatteryLevelInsideView")
-                            .get(it.thisObject) as TextView
-                    val mBatteryLevelOutsideView =
-                        bVLayout.getDeclaredField("mBatteryLevelOutsideView")
-                            .get(it.thisObject) as TextView
+                        .get(param!!.thisObject) as FrameLayout
                     val mInsideChargeView = bVLayout.getDeclaredField("mInsideChargeView")
-                        .get(it.thisObject) as ImageView
+                        .get(param.thisObject) as ImageView
                     val mOutsideChargeView = bVLayout.getDeclaredField("mOutsideChargeView")
-                        .get(it.thisObject) as ImageView
+                        .get(param.thisObject) as ImageView
+
+                    val mCurrentChargeView = bVLayout.getDeclaredField("mCurrentChargeView")
+
                     mBatteryContainer.visibility = if (showMeter) View.VISIBLE else View.GONE
-                    mBatteryLevelInsideView.visibility =
-                        if (showLevelInside) View.VISIBLE else View.GONE
-                    mBatteryLevelOutsideView.visibility =
-                        if (showLevelOutside) View.VISIBLE else View.GONE
+
                     mInsideChargeView.visibility =
                         if (showIndicatorInside) View.VISIBLE else View.GONE
+
                     mOutsideChargeView.visibility =
-                        if (showIndicatorOutside) View.VISIBLE else View.GONE
+                        if (showIndicatorOutside && !showIndicatorInside) View.VISIBLE else View.GONE
+
                     //充电图标可见性
                     chargeIndicator.getDeclaredMethod(
-                        "updateVisibility",
-                        Boolean::class.javaPrimitiveType
+                        "updateVisibility", Boolean::class.javaPrimitiveType
                     ).invoke(mInsideChargeView, showIndicatorInside)
                     chargeIndicator.getDeclaredMethod(
-                        "updateVisibility",
-                        Boolean::class.javaPrimitiveType
-                    ).invoke(mOutsideChargeView, showIndicatorOutside)
+                        "updateVisibility", Boolean::class.javaPrimitiveType
+                    ).invoke(mOutsideChargeView, showIndicatorOutside && !showIndicatorInside)
+
+                    if (showIndicatorInside) {
+                        mCurrentChargeView.set(param.thisObject, mInsideChargeView)
+                    } else if (showIndicatorOutside) {
+                        mCurrentChargeView.set(param.thisObject, mOutsideChargeView)
+                    }
                 }
-            //电量百分比更新
-            if (showLevelInside) {
-                MethodFinder.fromClass(bVLayout).filterByName("updateBatteryLevel").first()
-                    .createBeforeHook {
-                        val mBatteryLevelInsideView =
-                            bVLayout.getDeclaredField("mBatteryLevelInsideView")
-                                .get(it.thisObject) as TextView
-                        bVLayout.getDeclaredField("mCurrentUsedBatteryLevelView")
-                            .set(it.thisObject, mBatteryLevelInsideView)
-                    }
-                //颜色更新
-                MethodFinder.fromClass(bVLayout).filterByName("updateBatteryLevelColor").first()
-                    .createBeforeHook {
-                        val mBatteryLevelInsideView =
-                            bVLayout.getDeclaredField("mBatteryLevelInsideView")
-                                .get(it.thisObject) as TextView
-                        bVLayout.getDeclaredField("mCurrentUsedBatteryLevelView")
-                            .set(it.thisObject, mBatteryLevelInsideView)
-                    }
+            }
+            XposedBridge.hookMethod(upBatteryL, batteryVisibilityHooker)
 
-            }
-            if (showLevelOutside) {
-                MethodFinder.fromClass(bVLayout).filterByName("updateBatteryLevel").first()
-                    .createBeforeHook {
-                        val mBatteryLevelOutsideView =
-                            bVLayout.getDeclaredField("mBatteryLevelOutsideView")
-                                .get(it.thisObject) as TextView
-                        bVLayout.getDeclaredField("mCurrentUsedBatteryLevelView")
-                            .set(it.thisObject, mBatteryLevelOutsideView)
-                    }
-                MethodFinder.fromClass(bVLayout).filterByName("updateBatteryLevelColor").first()
-                    .createBeforeHook {
-                        val mBatteryLevelOutsideView =
-                            bVLayout.getDeclaredField("mBatteryLevelOutsideView")
-                                .get(it.thisObject) as TextView
-                        bVLayout.getDeclaredField("mCurrentUsedBatteryLevelView")
-                            .set(it.thisObject, mBatteryLevelOutsideView)
-                    }
-            }
             //充电图标
-            if (showIndicatorInside) {
-                MethodFinder.fromClass(bVLayout).filterByName("updateChargeViewColor").first()
-                    .createBeforeHook {
-                        val mInsideChargeView =
-                            bVLayout.getDeclaredField("mInsideChargeView")
-                                .get(it.thisObject) as View
-                        bVLayout.getDeclaredField("mCurrentChargeView")
-                            .set(it.thisObject, mInsideChargeView)
-                    }
-            }
-            if (showIndicatorOutside) {
-                MethodFinder.fromClass(bVLayout).filterByName("updateChargeViewColor").first()
-                    .createBeforeHook {
-                        val mOutsideChargeView =
-                            bVLayout.getDeclaredField("mOutsideChargeView")
-                                .get(it.thisObject) as View
-                        bVLayout.getDeclaredField("mCurrentChargeView")
-                            .set(it.thisObject, mOutsideChargeView)
-                    }
-            }
+            val updateChargeViewColor = bVLayout.getDeclaredMethod("updateChargeViewColor")
 
+            data class ChargeIndicatorColorHooker(val isInside: Boolean) : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    val currView = if (isInside)
+                        bVLayout.getDeclaredField("mInsideChargeView")
+                            .get(param!!.thisObject) as View
+                    else bVLayout.getDeclaredField("mOutsideChargeView")
+                        .get(param!!.thisObject) as View
+                    bVLayout.getDeclaredField("mCurrentChargeView")
+                        .set(param.thisObject, currView)
+                }
+            }
+            if (showIndicatorInside) {
+                XposedBridge.hookMethod(updateChargeViewColor, ChargeIndicatorColorHooker(true))
+            } else if (showIndicatorOutside) {
+                XposedBridge.hookMethod(updateChargeViewColor, ChargeIndicatorColorHooker(false))
+            }
         }
     }
 }

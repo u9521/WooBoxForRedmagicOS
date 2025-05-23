@@ -1,35 +1,34 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.statusbar
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
-
 import com.u9521.wooboxforredmagicos.util.hasEnable
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import kotlin.math.abs
 
 object StatusBarDoubleTapToSleep : HookRegister() {
 
+    @SuppressLint("PrivateApi")
     override fun init() = hasEnable("status_bar_double_tap_to_sleep") {
-        MethodFinder.fromClass("com.android.systemui.statusbar.phone.PhoneStatusBarView")
-            .filterByName("onFinishInflate").first().createBeforeHook {
-                val view = it.thisObject as ViewGroup
-                XposedHelpers.setAdditionalInstanceField(view, "currentTouchTime", 0L)
-                XposedHelpers.setAdditionalInstanceField(view, "currentTouchX", 0f)
-                XposedHelpers.setAdditionalInstanceField(view, "currentTouchY", 0f)
+        val onFinishInflateMe =
+            getDefaultCL().loadClass("com.android.systemui.statusbar.phone.PhoneStatusBarView")
+                .getDeclaredMethod("onFinishInflate")
+        val dbClickHooker = object : XC_MethodHook() {
+            var currentTouchTime = 0L
+            var currentTouchX = 0f
+            var currentTouchY = 0f
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                val view = param!!.thisObject as ViewGroup
                 view.setOnTouchListener(OnTouchListener { v, event ->
                     if (event.action != MotionEvent.ACTION_DOWN) return@OnTouchListener false
-                    var currentTouchTime =
-                        XposedHelpers.getAdditionalInstanceField(view, "currentTouchTime") as Long
-                    var currentTouchX =
-                        XposedHelpers.getAdditionalInstanceField(view, "currentTouchX") as Float
-                    var currentTouchY =
-                        XposedHelpers.getAdditionalInstanceField(view, "currentTouchY") as Float
                     val lastTouchTime = currentTouchTime
                     val lastTouchX = currentTouchX
                     val lastTouchY = currentTouchY
@@ -49,16 +48,11 @@ object StatusBarDoubleTapToSleep : HookRegister() {
                         currentTouchX = 0f
                         currentTouchY = 0f
                     }
-                    XposedHelpers.setAdditionalInstanceField(
-                        view,
-                        "currentTouchTime",
-                        currentTouchTime
-                    )
-                    XposedHelpers.setAdditionalInstanceField(view, "currentTouchX", currentTouchX)
-                    XposedHelpers.setAdditionalInstanceField(view, "currentTouchY", currentTouchY)
                     v.performClick()
                     false
                 })
             }
+        }
+        XposedBridge.hookMethod(onFinishInflateMe, dbClickHooker)
     }
 }

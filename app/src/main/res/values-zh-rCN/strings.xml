@@ -148,7 +148,7 @@
     <string name="show_charge_indicator_outside">在电池外部显示充电图标</string>
     <string name="show_battery_meter_tips">关闭后在电池内显示的内容失效</string>
     <string name="show_battery_level_outside_tips">如果不显示%，请去设置开启电池百分比外显功能，如果颜色不更新，检查设置中是否关闭电池图标显示</string>
-    <string name="show_battery_level_inside_tips">很遗憾，显示内外电量百分比只能二选一，同时选外百分比优先</string>
+    <string name="show_battery_level_inside_tips">内部外部只能二选一，同时选内部优先，如果不显示，请</string>
     <string name="aosp_singlehandmode_adjust">AOSP单手模式调节</string>
     <string name="aosp_singlehandmode_offest">单手模式偏移像素，正数向上，负数向下</string>
     <string name="input_int">输一个整数</string>
@@ -240,4 +240,5 @@
     <string name="status_bar_network_speed_dual_row_digit_len">网速的最大小数位数</string>
     <string name="debug_log">打印模块调试日志</string>
     <string name="debug_log_tips">会打印更详细的模块运行日志，反馈时请开启次开关再抓取日志，默认在debug版本打开，重启作用域才会生效</string>
+    <string name="show_charge_indicator_inside_tips">图标显示在内部与外部二选一，同时选择内部优先，如果要调整电量百分比的位置，请去系统设置，状态栏图标处调节</string>
 </resources>

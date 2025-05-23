@@ -1,25 +1,36 @@
 package com.u9521.wooboxforredmagicos.hook.app.systemui.qs
 
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
 import com.u9521.wooboxforredmagicos.util.XSPUtils
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 
 object QSHeaderShowControl : HookRegister() {
     override fun init() {
         val showCarrier = XSPUtils.getBoolean("qs_show_carrier", false)
         val showSearch = XSPUtils.getBoolean("qs_show_search", false)
 
-        val cCHVClazz = ClassUtils.loadClass("com.zte.controlcenter.widget.CCHeaderView")
-        MethodFinder.fromClass(cCHVClazz).filterByName("shouldQsCarrierVisible").first()
-            .createBeforeHook {
-            it.result= showCarrier
+        val ccHeaderClazz = getDefaultCL().loadClass("com.zte.controlcenter.widget.CCHeaderView")
+
+        val showCarrierHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
+                param!!.result = showCarrier
             }
-        MethodFinder.fromClass(cCHVClazz).filterByName("showSearchButton").first()
-            .createAfterHook {
-                it.result= showSearch
+        }
+
+        val showSearchHooker = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                super.beforeHookedMethod(param)
+                param!!.result = showSearch
             }
+        }
+        val showCarrierMe = ccHeaderClazz.getDeclaredMethod("shouldQsCarrierVisible")
+
+        val showSearchMe = ccHeaderClazz.getDeclaredMethod("showSearchButton")
+
+        XposedBridge.hookMethod(showCarrierMe, showCarrierHooker)
+
+        XposedBridge.hookMethod(showSearchMe, showSearchHooker)
     }
 }

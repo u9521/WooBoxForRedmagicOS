@@ -154,7 +154,6 @@ dependencies {
     implementation("androidx.annotation:annotation-jvm:1.9.1")
     //API
     compileOnly("de.robv.android.xposed:api:82")
-    implementation("com.github.kyuubiran:EzXHelper:2.2.1")
     implementation("org.luckypray:dexkit:2.0.3")
     //UI
     implementation(project(":blockmiui"))
