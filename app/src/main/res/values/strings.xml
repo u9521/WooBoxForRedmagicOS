@@ -289,4 +289,8 @@
     <string name="unhide_clipboard_overlay">恢复显示安卓原生剪切版浮窗</string>
     <string name="hide_mtp_category_browse">隐藏MTP中分类浏览</string>
     <string name="hide_mtp_category_browse_tips">连接电脑时，不再显示分类浏览</string>
+    <string name="mtp_service">MTP服务</string>
+    <string name="rename_mtp_storage_root_name">重命名MTP存储设备名</string>
+    <string name="rename_mtp_storage_root_name_tips">不是设备名，是路径浏览的名字，只对路径浏览有用</string>
+    <string name="mtp_storage_root_name">修改设备名</string>
 </resources>

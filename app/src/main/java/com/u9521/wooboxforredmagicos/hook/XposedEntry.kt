@@ -4,14 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import com.u9521.wooboxforredmagicos.BuildConfig
-import com.u9521.wooboxforredmagicos.hook.app.Android
-import com.u9521.wooboxforredmagicos.hook.app.Launcher
-import com.u9521.wooboxforredmagicos.hook.app.NfcService
-import com.u9521.wooboxforredmagicos.hook.app.PackageInstaller
-import com.u9521.wooboxforredmagicos.hook.app.PermissionController
-import com.u9521.wooboxforredmagicos.hook.app.Settings
-import com.u9521.wooboxforredmagicos.hook.app.SystemUI
-import com.u9521.wooboxforredmagicos.hook.app.SystemUpdater
+import com.u9521.wooboxforredmagicos.hook.app.*
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
@@ -27,6 +20,7 @@ class XposedEntry : EasyXposedInit() {
     override val registeredApp: List<AppRegister> = listOf(
         Android, //Android
         Launcher, //桌面
+        MtpFileBrowser,//mtp文件浏览
         NfcService,//NFC服务
         PackageInstaller,//应用包安装程序
         PermissionController, //权限控制器

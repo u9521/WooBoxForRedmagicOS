@@ -5,13 +5,7 @@ import cn.fkj233.ui.activity.data.InitView
 import cn.fkj233.ui.activity.view.SwitchV
 import cn.fkj233.ui.activity.view.TextSummaryV
 import com.u9521.wooboxforredmagicos.R
-import com.u9521.wooboxforredmagicos.compose.InputDialogBuilder
-import com.u9521.wooboxforredmagicos.compose.InputDialogConfig
-import com.u9521.wooboxforredmagicos.compose.LsposedInactiveTip
-import com.u9521.wooboxforredmagicos.compose.PrefsTypeAdapter
-import com.u9521.wooboxforredmagicos.compose.SubItemConfig
-import com.u9521.wooboxforredmagicos.compose.SwitchGroupBuilder
-import com.u9521.wooboxforredmagicos.compose.SwitchGroupConfig
+import com.u9521.wooboxforredmagicos.compose.*
 
 object ScopeAndroid : MyFragment() {
     override val regKey: String = "scope_android"
@@ -227,14 +221,6 @@ object ScopeAndroid : MyFragment() {
                 })
         ).build()
 
-        Line()
-        TitleText(textId = R.string.debug_option)
-        TextSummaryWithSwitch(
-            TextSummaryV(
-                textId = R.string.block_system_server_log,
-                tipsId = R.string.block_system_server_log_tips
-            ),
-            SwitchV("block_system_server_log")
-        )
+
     }
 }

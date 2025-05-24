@@ -155,6 +155,8 @@ dependencies {
     //API
     compileOnly("de.robv.android.xposed:api:82")
     implementation("org.luckypray:dexkit:2.0.3")
+//    implementation("com.google.code.gson:gson:2.11.0")
+
     //UI
     implementation(project(":blockmiui"))
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")

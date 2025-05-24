@@ -1,14 +1,6 @@
 package com.u9521.wooboxforredmagicos.hook.app
 
-import com.u9521.wooboxforredmagicos.hook.app.android.AirplaneMode
-import com.u9521.wooboxforredmagicos.hook.app.android.AllowUntrustedTouches
-import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
-import com.u9521.wooboxforredmagicos.hook.app.android.RemoveAlertWindowsNotification
-import com.u9521.wooboxforredmagicos.hook.app.android.RmIntentHijack
-import com.u9521.wooboxforredmagicos.hook.app.android.RmWindowReplyLimits
-import com.u9521.wooboxforredmagicos.hook.app.android.SyetemServerLogBlocker
-import com.u9521.wooboxforredmagicos.hook.app.android.VolumeStepHook
-import com.u9521.wooboxforredmagicos.hook.app.android.WLANServerHooker
+import com.u9521.wooboxforredmagicos.hook.app.android.*
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
