@@ -48,6 +48,14 @@ object ScopeAndroid : MyFragment() {
             ), SwitchV("remove_intent_hijack")
         )
         Line()
+        TitleText(textId = R.string.features)
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.long_power_key_wakeup_assist,
+                tipsId = R.string.long_power_key_wakeup_assist_tips,
+            ), SwitchV("long_power_key_wakeup_assist")
+        )
+        Line()
         //音量阶数
         TitleText(textId = R.string.sound)
         // alarm

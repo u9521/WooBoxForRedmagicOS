@@ -264,4 +264,6 @@
     <string name="rename_mtp_storage_root_name">重命名MTP存储设备名</string>
     <string name="rename_mtp_storage_root_name_tips">不是设备名，是路径浏览的名字，只对路径浏览有用</string>
     <string name="mtp_storage_root_name">修改设备名</string>
+    <string name="long_power_key_wakeup_assist">长按电源键启动默认数字助理</string>
+    <string name="long_power_key_wakeup_assist_tips">需要在设置中开启长按电源键启动语音助手，将默认语音助手替换成默认数字助理</string>
 </resources>

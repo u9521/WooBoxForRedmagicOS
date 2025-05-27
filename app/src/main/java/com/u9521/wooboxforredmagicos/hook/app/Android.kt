@@ -23,6 +23,7 @@ object Android : AppRegister() {
             AllowUntrustedTouches, //允许不受信任的触摸
             RmWindowReplyLimits,//解除小窗限制
             SyetemServerLogBlocker,//屏蔽一些系统日志
+            PowerWakeupAssist,//长按电源键打开默认数字助理
         )
     }
 

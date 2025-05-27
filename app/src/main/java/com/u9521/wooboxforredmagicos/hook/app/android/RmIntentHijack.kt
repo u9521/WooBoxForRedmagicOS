@@ -13,14 +13,14 @@ object RmIntentHijack : HookRegister() {
     override fun init() = hasEnable("remove_intent_hijack") {
         val resolveIHClazz = getDefaultCL().loadClass("com.android.server.pm.ResolveIntentHelper")
         val isCTSMe = resolveIHClazz.getDeclaredMethod("isCtsTesting")
-        val irCTSHooker = object : XC_MethodHook() {
+        val isCTSHooker = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 super.beforeHookedMethod(param)
                 Log.i("ResolveIntentHelper: mock is cts")
                 param!!.result = true
             }
         }
-        XposedBridge.hookMethod(isCTSMe, irCTSHooker)
+        XposedBridge.hookMethod(isCTSMe, isCTSHooker)
 
         Deoptimizer.deoptimizeMethod(resolveIHClazz, "chooseBestActivity")
     }
