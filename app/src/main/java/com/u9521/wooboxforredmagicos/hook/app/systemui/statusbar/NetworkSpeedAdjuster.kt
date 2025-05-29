@@ -132,26 +132,16 @@ object NetworkSpeedAdjuster : HookRegister() {
                         return
                     }
                     val runnable = param.args[0] as Runnable
+                    if (param.args[1] as Long != 0xbb8L){
+                        return
+                    }
                     if (!runnable.javaClass.name.equals(runMethod.declaringClass.name)) {
                         return
                     }
                     param.args[1] = speedRefreshDelayMs
                 }
             }
-            val startTimerHooker = object : XC_MethodHook() {
-                var hooker: Unhook? = null
-                override fun beforeHookedMethod(param: MethodHookParam?) {
-                    super.beforeHookedMethod(param)
-                    hooker = XposedBridge.hookMethod(delayMethod, delayHooker)
-                }
-
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    super.afterHookedMethod(param)
-//                    Log.i("hook net speed update time finished, release postDelayed hooker")
-                    hooker!!.unhook()
-                }
-            }
-            XposedBridge.hookMethod(runMethod, startTimerHooker)
+            XposedBridge.hookMethod(delayMethod, delayHooker)
         }
     }
 

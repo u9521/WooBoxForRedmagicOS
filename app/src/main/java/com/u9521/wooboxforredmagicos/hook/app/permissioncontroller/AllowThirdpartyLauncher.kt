@@ -1,8 +1,9 @@
 package com.u9521.wooboxforredmagicos.hook.app.permissioncontroller
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.u9521.wooboxforredmagicos.util.hasEnable
-import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.HookRegister
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -15,32 +16,25 @@ object AllowThirdpartyLauncher : HookRegister() {
     override fun init() = hasEnable("allow_thirdparty_launcher") {
 
         val ctsMe = findisctsmethod(dexKitBridge!!)
+        val dACFClazzName = "com.android.permissioncontroller.role.ui.DefaultAppChildFragment"
+        val meName = "onRoleChanged"
         val isCtsHooker = object : XC_MethodHook() {
+            @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 super.beforeHookedMethod(param)
+                val caller = StackWalker.getInstance().walk { frames ->
+                    frames.limit(10).filter { frame ->
+                        frame.className == dACFClazzName && frame.methodName == meName
+                    }.findFirst().orElse(null)
+                }
+                if (caller == null) {
+                    return
+                }
                 param!!.result = true
             }
         }
-        val roleChangedHooker = object : XC_MethodHook() {
-            var hooker: Unhook? = null
-            override fun beforeHookedMethod(param: MethodHookParam?) {
-                super.beforeHookedMethod(param)
-                Log.i("start to mock CTS")
-                hooker = XposedBridge.hookMethod(ctsMe, isCtsHooker)
-            }
 
-            override fun afterHookedMethod(param: MethodHookParam?) {
-                super.afterHookedMethod(param)
-                hooker!!.unhook()
-                Log.i("mock CTS finished, hooker released")
-            }
-        }
-        val roleChangeMe =
-            getDefaultCL().loadClass("com.android.permissioncontroller.role.ui.DefaultAppChildFragment")
-                .getDeclaredMethod("onRoleChanged", List::class.java)
-
-        XposedBridge.hookMethod(roleChangeMe, roleChangedHooker)
-
+        XposedBridge.hookMethod(ctsMe, isCtsHooker)
     }
 
     private fun findisctsmethod(bridge: DexKitBridge): Method {
