@@ -8,6 +8,7 @@
         <item>com.android.settings</item>
         <item>com.android.systemui</item>
         <item>cn.nubia.filebrowser</item>
+        <item>com.zte.cn.doubleapp</item>
         <item>com.zte.mifavor.launcher</item>
         <item>com.zte.zdm</item>
     </string-array>

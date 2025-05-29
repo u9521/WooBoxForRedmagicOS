@@ -58,6 +58,22 @@ object ScopeOther : MyFragment() {
             SwitchV("allow_thirdparty_launcher")
         )
         Line()
+        TitleText(textId = R.string.scope_double_app)
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.rm_double_low_memory_limit,
+                tipsId = R.string.rm_double_low_memory_limit_tips
+            ),
+            SwitchV("rm_double_low_memory_limit")
+        )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.double_any_app,
+                tipsId = R.string.double_any_app_tips
+            ),
+            SwitchV("double_any_app")
+        )
+        Line()
         TitleText(textId = R.string.debug_option)
         TextSummaryWithSwitch(
             TextSummaryV(textId = R.string.debug_log, tipsId = R.string.debug_log_tips),

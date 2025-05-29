@@ -227,4 +227,9 @@
     <string name="mtp_storage_root_name">修改设备名</string>
     <string name="long_power_key_wakeup_assist">长按电源键启动默认数字助理</string>
     <string name="long_power_key_wakeup_assist_tips">需要在设置中开启长按电源键启动语音助手，将默认语音助手替换成默认数字助理，没有默认数字助理自动回落到关机界面</string>
+    <string name="scope_double_app">应用双开</string>
+    <string name="rm_double_low_memory_limit">去除低内存设备双开限制</string>
+    <string name="rm_double_low_memory_limit_tips">一些低内存设备只能同时双开两个APP，这个选项可以去除这个限制</string>
+    <string name="double_any_app">允许双开任意应用</string>
+    <string name="double_any_app_tips">任意应用指的是已安装，已启用，能在桌面启动(有CATEGORY_LAUNCHER，和ACTION_MAIN)的APP</string>
 </resources>

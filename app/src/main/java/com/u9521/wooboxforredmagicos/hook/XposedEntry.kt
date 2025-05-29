@@ -19,6 +19,7 @@ class XposedEntry : EasyXposedInit() {
 
     override val registeredApp: List<AppRegister> = listOf(
         Android, //Android
+        DoubleApp, //双开服务
         Launcher, //桌面
         MtpFileBrowser,//mtp文件浏览
         NfcService,//NFC服务
