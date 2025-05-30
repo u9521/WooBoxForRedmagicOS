@@ -35,9 +35,9 @@ object ScopeAndroid : MyFragment() {
         )
         TextSummaryWithSwitch(
             TextSummaryV(
-                textId = R.string.allow_untrusted_touches,
-                tipsId = R.string.allow_untrusted_touches_tips
-            ), SwitchV("allow_untrusted_touches")
+                textId = R.string.block_notification_sound_screen_on,
+                tipsId = R.string.block_notification_sound_screen_on_tips
+            ), SwitchV("block_notification_sound_screen_on")
         )
         Line()
         TitleText(textId = R.string.intent_hijack)
@@ -49,6 +49,12 @@ object ScopeAndroid : MyFragment() {
         )
         Line()
         TitleText(textId = R.string.features)
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.allow_untrusted_touches,
+                tipsId = R.string.allow_untrusted_touches_tips
+            ), SwitchV("allow_untrusted_touches")
+        )
         TextSummaryWithSwitch(
             TextSummaryV(
                 textId = R.string.long_power_key_wakeup_assist,

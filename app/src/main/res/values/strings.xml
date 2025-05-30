@@ -271,4 +271,6 @@
     <string name="rm_double_low_memory_limit_tips">一些低内存设备只能同时双开两个APP，这个选项可以去除这个限制</string>
     <string name="double_any_app">允许双开任意应用</string>
     <string name="double_any_app_tips">任意应用指的是已安装，已启用的APP</string>
+    <string name="block_notification_sound_screen_on">亮屏时屏蔽通知声音和振动</string>
+    <string name="block_notification_sound_screen_on_tips">专为习惯类原生的宝宝制作，不用重启，立刻生效\n锁屏时也会被视为熄屏状态\n记得为重要的通知打开<b>在屏幕上弹出</b>哦</string>
 </resources>

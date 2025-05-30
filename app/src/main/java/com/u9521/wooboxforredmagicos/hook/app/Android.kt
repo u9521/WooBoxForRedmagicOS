@@ -16,6 +16,7 @@ object Android : AppRegister() {
         autoInitHooks(
             lpparam,
             AirplaneMode,//飞行模式设置
+            BlockScreenOnNotificationSound,//屏蔽亮屏通知声音和振动
             WLANServerHooker,//WLAN服务，国家码，mac地址
             RemoveAlertWindowsNotification, //上层显示通知
             RmIntentHijack,//去除安装器劫持
