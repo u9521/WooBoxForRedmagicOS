@@ -1,12 +1,12 @@
 <div align="center">
-   <img width="160" src="https://raw.githubusercontent.com/u9521/WooBoxForRedmagicOS/main/doc/ic_launcher.png" alt="logo">
+   <img width="160" src="./doc/img/ic_launcher.png" alt="logo">
    <h1>WooBox For RedmagicOS</h1>
    <p>
-       <b><a href="https://github.com/u9521/WooBoxForRedmagicOS/blob/main/README_EN.md">English</a>  丨 简体中文</b>
+       <b><a href="./doc/README_EN.md">English</a> | 简体中文</b>
    </p>
-   <a href="https://github.com//u9521/WooBoxForRedmagicOS/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/u9521/WooBoxForRedmagicOS"></a>
+   <a href="https://github.com/u9521/WooBoxForRedmagicOS/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/u9521/WooBoxForRedmagicOS"></a>
    <a href="https://github.com/u9521/WooBoxForRedmagicOS/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/u9521/WooBoxForRedmagicOS"></a>
-   <a href="https://github.com/u9521/WooBoxForRedmagicOS/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/u9521/WooBoxForRedmagicOS"></a>
+   <a href="./LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/u9521/WooBoxForRedmagicOS"></a>
    <p>一个基于 RedmagicOS 9(Android 14)适配的系统拓展Xposed模块</p>
 </div>
 
@@ -24,7 +24,7 @@
 ---
 
 ### 模块截图 ~~（传家宝截图，以后再更新）~~
-![截图](https://raw.githubusercontent.com/u9521/WooBoxForRedmagicOS/main/doc/cn.jpg)  
+![截图](./doc/img/cn.jpg)  
 
 ---
 
@@ -39,6 +39,7 @@
 ---
 
 ### 第三方开源引用
+
 ##### GNU General Public License v3.0
 [qqlittleice/MiuiHome](https://github.com/qqlittleice/MiuiHome)
 
@@ -49,13 +50,18 @@
 [LSPosed/DisableFlagSecure](https://github.com/LSPosed/DisableFlagSecure)
 
 ##### GNU General Public License v2.0
+
 ~~[LSPosed/CorePatch](https://github.com/LSPosed/CorePatch)~~(不再集成，有需要点击链接下载)
 ##### GNU Lesser General Public License v3.0
+
 [LuckyPray/DexKit](https://github.com/LuckyPray/DexKit)
+
 ##### GNU Lesser General Public License v2.1
+
 [577fkj/blockmiui](https://github.com/577fkj/blockmiui)  
 
 ---
 
 ### License
-[GNU General Public License v3.0](https://github.com/u9521/WooBoxForRedmagicOS/blob/main/LICENSE)
+
+[GNU General Public License v3.0](./LICENSE)
