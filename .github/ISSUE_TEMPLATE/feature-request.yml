@@ -1,0 +1,30 @@
+name: 新功能请求
+description: 来点建议
+labels: [enhancement]
+title: "[Feature Request] 简单描述下你想要的需求"
+body:
+  - type: checkboxes
+    id: checkNoDuplicate
+    attributes:
+      label: 无类似的功能请求
+      options:
+        - label: 我检查过没有在issue中找到类似的Feature Request(包括被closed的FQ)
+          required: true
+  - type: textarea
+    attributes:
+      label: 你的请求是否与某个问题相关？
+      placeholder: 如果是请描述一下该问题，如果问题在issue中存在，请附上相关链接
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 描述一下你想要的解决方案
+      placeholder: 请清晰准确描述新功能的预期行为，可以附上图片用来辅助说明
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 补充信息
+      placeholder: 其他你还想补充的东西
+    validations:
+      required: false

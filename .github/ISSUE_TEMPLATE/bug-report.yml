@@ -1,0 +1,80 @@
+name: 反馈 Bug
+description: 反馈错误或异常行为。
+labels: [bug]
+title: "[Bug] 在这里简单描述下你遇到的bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你给这个项目汇报BUG
+        为了使我们更好地帮助你，请您务必提供以下信息。
+  - type: textarea
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 预期行为
+      placeholder: 正常情况下你期望发生什么
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 实际行为
+      placeholder: 实际上发生了什么
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Xposed 版本
+      description: 请给出具体版本号如(官方版v1.9.2-7024，JingMatrix版v1.10.1-7115等)，不然 issue 会被关闭。
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Android 版本
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 系统版本
+      description: |
+        使用下面命令获取:
+        adb shell 'echo "$(getprop ro.build.display.id)_$(getprop ro.build.sw_internal_version)"'
+        结果应该类似于: RedMagicOS9.5.25_GEN_CN_NX769SV1.5.0B25
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 手机型号
+      description: 如NX769J
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 模块版本
+      description: 以release中的tag为准，如V1.0.5
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 问题发生或复现时的大致时间
+      description: 用来确定日志的大致范围，如02-10 09:47:09
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 日志+(可选)截图
+      description: |
+        请先确保手机log.tag正常设置，推荐使用[这个模块](https://github.com/u9521/MagiskModule_ztephone_enable_logd)，如果你不明白什么是log.tag，直接刷模块，不然没有日志。
+        请从Lsposed管理器中关闭**禁用详细日志**选项，检查模块中**打印模块调试日志选项**是否开启。
+        如未开启，请手动开启后重启对应作用域再复现一下问题
+        问题复现完毕后打开Lsposed管理器，切到日志选项卡，点击右上角保存图标，上传日志压缩包
+      placeholder: 点击文本框底栏上传日志压缩包，禁止上传到其它网站或使用外链提供日志。如果可以的话也可以在这里附上截图
+    validations:
+      required: true
