@@ -8,8 +8,8 @@ object DebugUtils {
     fun logStackTrace() {
         // 获取当前线程的堆栈跟踪
         val t = Throwable("Woobox StackTrace")
-        XposedBridge.log("Woobox Stacktrace Start")
+        Log.px("D", "Woobox Stacktrace Start", logInRelease = true)
         XposedBridge.log(t)
-        XposedBridge.log("Woobox Stacktrace End")
+        Log.px("D", "Woobox Stacktrace End", logInRelease = true)
     }
 }

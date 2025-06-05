@@ -234,4 +234,6 @@
     <string name="double_any_app_tips">任意应用指的是已安装，已启用，能在桌面启动(有CATEGORY_LAUNCHER，和ACTION_MAIN)的APP</string>
     <string name="block_notification_sound_screen_on">亮屏时屏蔽通知声音和振动</string>
     <string name="block_notification_sound_screen_on_tips">专为习惯类原生的宝宝制作，不用重启，立刻生效\n锁屏时也会被视为熄屏状态\n记得为重要的通知打开<b>在屏幕上弹出</b>哦</string>
+    <string name="block_telemetry_service">阻止启动遥测服务</string>
+    <string name="block_telemetry_service_tips">阻止系统唤醒遥测服务即com.zte.analytics。需要手动禁用analytics应用使用\n只阻止system_server启动和绑定服务，其他系统应用任然会尝试绑定</string>
 </resources>

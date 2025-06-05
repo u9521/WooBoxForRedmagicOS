@@ -61,6 +61,12 @@ object ScopeAndroid : MyFragment() {
                 tipsId = R.string.long_power_key_wakeup_assist_tips,
             ), SwitchV("long_power_key_wakeup_assist")
         )
+        TextSummaryWithSwitch(
+            TextSummaryV(
+                textId = R.string.block_telemetry_service,
+                tipsId = R.string.block_telemetry_service_tips,
+            ), SwitchV("block_telemetry_service")
+        )
         Line()
         //音量阶数
         TitleText(textId = R.string.sound)
