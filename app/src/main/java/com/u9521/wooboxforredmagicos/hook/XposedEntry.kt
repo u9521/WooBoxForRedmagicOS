@@ -1,17 +1,13 @@
 package com.u9521.wooboxforredmagicos.hook
 
-import android.app.Activity
-import android.os.Bundle
-import android.widget.Toast
 import com.u9521.wooboxforredmagicos.BuildConfig
 import com.u9521.wooboxforredmagicos.hook.app.*
 import com.u9521.wooboxforredmagicos.hook.app.android.DisableFlagSecure
 import com.u9521.wooboxforredmagicos.util.xposed.EasyXposedInit
+import com.u9521.wooboxforredmagicos.util.xposed.Log
 import com.u9521.wooboxforredmagicos.util.xposed.base.AppRegister
 import de.robv.android.xposed.IXposedHookZygoteInit
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class XposedEntry : EasyXposedInit() {
@@ -34,19 +30,21 @@ class XposedEntry : EasyXposedInit() {
         if (prefs.getBoolean("main_switch", true)) {
             super.handleLoadPackage(lpparam)
         }
-        val warnToastHooker = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam?) {
-                super.afterHookedMethod(param)
-                Toast.makeText(
-                    param!!.thisObject as Activity,
-                    "Woobox注入了非推荐应用:(${lpparam!!.packageName})",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+//        val warnToastHooker = object : XC_MethodHook() {
+//            override fun afterHookedMethod(param: MethodHookParam?) {
+//                super.afterHookedMethod(param)
+//                Toast.makeText(
+//                    param!!.thisObject as Activity,
+//                    "Woobox注入了非推荐应用:(${lpparam!!.packageName})",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
         if (!matchPackagename(registeredApp, lpparam!!.packageName)) {
-            val oCMe = Activity::class.java.getDeclaredMethod("onCreate", Bundle::class.java)
-            XposedBridge.hookMethod(oCMe, warnToastHooker)
+//            val oCMe = Activity::class.java.getDeclaredMethod("onCreate", Bundle::class.java)
+//            XposedBridge.hookMethod(oCMe, warnToastHooker)
+            Log.logTag = "Woobox"
+            Log.wx("Woobox注入了非推荐应用:(${lpparam.packageName})", logInRelease = true)
         }
     }
 

@@ -167,7 +167,7 @@
     <string name="pin_ap_bssid_tips">需要在VPN热点中开启随机化MAC地址，热点打不开多半是设备拒绝这个地址（一般第一个字节要是偶数），修改后重启热点生效</string>
     <string name="remove_intent_hijack">去除意图劫持</string>
     <string name="intent_hijack">意图劫持</string>
-    <string name="remove_intent_hijack_tips">去除安装应用强制跳转官方安装器并还原原生分享界面</string>
+    <string name="remove_intent_hijack_tips">去除安装应用强制跳转官方安装器并还原原生分享界面\n<b>不推荐双开用户使用</b></string>
     <string name="scope_system_update">系统更新</string>
     <string name="system_update_mock_info">伪装设备信息</string>
     <string name="system_update_block_update">阻止更新</string>
